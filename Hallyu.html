@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lịch Sử Hallyu - Làn Sóng Hàn Quốc</title>
+  <style>
+    :root {
+      --primary: #e91e63;
+      --dark: #111;
+      --light: #f5f5f5;
+      --gray: #333;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+      color: white;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    h1, h2 {
+      text-align: center;
+      color: var(--primary);
+      text-shadow: 0 2px 10px rgba(233,30,99,0.6);
+    }
+    h1 { font-size: 3rem; margin-bottom: 10px; }
+    .intro { text-align: center; font-size: 1.2rem; max-width: 800px; margin: 0 auto 40px; }
+    
+    .era {
+      background: rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 30px;
+      margin: 40px 0;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .era h2 {
+      margin-top: 0;
+      border-bottom: 3px solid var(--primary);
+      padding-bottom: 10px;
+    }
+    
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin: 25px 0;
+    }
+    .gallery img {
+      width: 100%;
+      max-width: 320px;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .gallery img:hover {
+      transform: scale(1.08);
+      box-shadow: 0 15px 30px rgba(233,30,99,0.5);
+    }
+    
+    .highlight {
+      background: rgba(233,30,99,0.2);
+      border-left: 5px solid var(--primary);
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 8px;
+    }
+    
+    footer {
+      text-align: center;
+      padding: 30px 0;
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+    
+    @media (max-width: 768px) {
+      h1 { font-size: 2.4rem; }
+      .gallery img { max-width: 280px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Lịch Sử Hallyu<br>Làn Sóng Hàn Quốc</h1>
+    <p class="intro">
+      Văn hóa đại chúng Hàn Quốc (Hallyu) đã trở thành một trong những hiện tượng văn hóa toàn cầu quan trọng nhất thế kỷ 21, ảnh hưởng đến âm nhạc, phim ảnh, thời trang, ẩm thực và du lịch khắp thế giới. Dưới đây là hành trình đầy cảm xúc qua các mốc son quan trọng!
+    </p>
+
+    <div class="era">
+      <h2>Những năm 1990: Nền tảng của K-pop hiện đại & Khởi đầu Hallyu</h2>
+      <p>1992: Nhóm <strong>Seo Taiji and Boys</strong> ra mắt với bài hát "I Know", mang phong cách hip-hop, rock và dance đột phá – được coi là cội nguồn của K-pop hiện đại.</p>
+      
+      <div class="gallery">
+        <img src="https://static.wikia.nocookie.net/kpop/images/c/c3/Seo_Taiji_and_Boys_group_photo.png/revision/latest?cb=20190820055151" alt="Seo Taiji and Boys group photo">
+        <img src="https://www.billboard.com/wp-content/uploads/media/seo_taiji_kpop_650-430.jpg?w=650" alt="Seo Taiji and Boys early">
+        <img src="https://www.kcrush.com/wp-content/uploads/2017/08/Picture1.png" alt="Seo Taiji and Boys iconic">
+      </div>
+
+      <p>Cuối thập niên 1990: Sự ra đời của các nhóm idol đầu tiên như <strong>H.O.T.</strong> (1996), S.E.S, Fin.K.L... đánh dấu kỷ nguyên "idol system".</p>
+      <div class="gallery">
+        <img src="https://0.soompi.io/wp-content/uploads/2018/02/10145730/h.o.t2.jpg" alt="H.O.T. classic group photo">
+        <img src="https://lh3.googleusercontent.com/3b7gjm5HCt9XJLlpWXmcA9VaVlebV8Ipjb595hXdLHmHVkPB2_96sB1rNqdElRVNivMkNUoMikSzFj9cmFhnzeVlOvis-2gC=nu-e365-rj-q80-w925" alt="H.O.T. legendary">
+      </div>
+
+      <p class="highlight">1997–1999: K-drama "What is Love" và "Star in My Heart" gây sốt ở Trung Quốc → Thuật ngữ <strong>Hallyu</strong> được báo chí Trung Quốc sử dụng lần đầu (1999).</p>
+    </div>
+
+    <div class="era">
+      <h2>Những năm 2000: Hallyu lan tỏa mạnh mẽ ở châu Á</h2>
+      <p>2002: K-drama <strong>Winter Sonata</strong> (Bản tình ca mùa đông) trở thành hiện tượng ở Nhật Bản và châu Á, biến Bae Yong-joon thành "Yonsama".</p>
+      <div class="gallery">
+        <img src="https://newsimg.koreatimes.co.kr/2024/10/07/9557c2e4-777b-4e01-96a7-06943a129018.jpg?w=728" alt="Winter Sonata poster">
+        <img src="https://www.kdramalove.com/wintersonatabanner.jpg" alt="Winter Sonata classic">
+      </div>
+      <p>Chính phủ Hàn Quốc đầu tư mạnh vào ngành công nghiệp văn hóa sau khủng hoảng tài chính 1997.</p>
+    </div>
+
+    <div class="era">
+      <h2>Những năm 2010: Bùng nổ toàn cầu</h2>
+      <p>2012: <strong>PSY - Gangnam Style</strong> trở thành video đầu tiên đạt 1 tỷ lượt xem trên YouTube, đưa K-pop đến công chúng phương Tây.</p>
+      <div class="gallery">
+        <img src="https://aaww.org/wp-content/uploads/2012/08/psy-stable-e1345748094430.jpg" alt="PSY Gangnam Style horse dance">
+        <img src="https://www.rollingstone.com/wp-content/uploads/2018/06/rs-156406-20120914-gangnam-style-624x420-1347641681.jpg?w=624&h=420&crop=1" alt="PSY iconic moment">
+        <img src="https://www.today.com/media2.s-nbcnews.com/i/streams/2012/September/120914/544871-tdy-120914-gangnam-13.jpg" alt="PSY horse dance">
+      </div>
+
+      <p>2013–2017: <strong>BTS</strong> debut (2013) và bùng nổ từ 2017, trở thành nhóm K-pop đầu tiên chinh phục thị trường Mỹ bền vững.</p>
+      <div class="gallery">
+        <img src="https://preview.redd.it/what-do-you-think-are-the-real-reasons-bts-are-losing-hype-v0-yxavsbi5mfwf1.png?width=640&crop=smart&auto=webp&s=972c5e25490fd9af6e1a7a697057cb89e715c9f8" alt="BTS peak era">
+      </div>
+    </div>
+
+    <div class="era">
+      <h2>2019–nay: Đỉnh cao toàn cầu và đa dạng hóa</h2>
+      <p>2019: Phim <strong>Parasite</strong> (Ký sinh trùng) của Bong Joon-ho thắng 4 giải Oscar, lần đầu tiên cho phim không nói tiếng Anh.</p>
+      <div class="gallery">
+        <img src="https://i.insider.com/5e41bd053ac0c9796932bd2d?width=1200&format=jpeg" alt="Bong Joon-ho Oscar moment">
+        <img src="https://i.ytimg.com/vi/ekMl5VHBH4I/maxresdefault.jpg" alt="Bong Joon-ho Best Director">
+      </div>
+
+      <p>2021: <strong>Squid Game</strong> (Trò chơi con mực) trở thành series xem nhiều nhất lịch sử Netflix.</p>
+      <div class="gallery">
+        <img src="https://cdn.mos.cms.futurecdn.net/WDBV52ZBsohECa3V9HeKyZ-1920-80.jpg" alt="Squid Game Red Light Green Light">
+        <img src="https://www.lawyersgunsmoneyblog.com/wp-content/uploads/2021/10/Netflix-Squid-Game-poster-1200x633-1.jpeg" alt="Squid Game official poster">
+      </div>
+
+      <p class="highlight">Đến năm 2026, Hallyu vẫn tiếp tục phát triển mạnh mẽ với các thế hệ idol mới và nội dung chất lượng cao!</p>
+    </div>
+
+    <footer>
+      <p>Khám phá Hallyu – Niềm tự hào văn hóa Hàn Quốc trên toàn cầu 🌊🇰🇷</p>
+      <p>Bạn thấy mốc nào thú vị nhất? Hãy chia sẻ nhé!</p>
+    </footer>
+  </div>
+
+</body>
+</html>
