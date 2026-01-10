@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đặc tính sinh học & nông học cây xoài</title>
+
+<style>
+:root{
+  --bg:#0f172a;
+  --card:#111827;
+  --green:#22c55e;
+  --yellow:#facc15;
+  --orange:#fb923c;
+  --blue:#38bdf8;
+  --red:#fb7185;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background:linear-gradient(135deg,#020617,#0f172a);
+  color:var(--text);
+}
+
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:24px;
+}
+
+header{
+  text-align:center;
+  margin-bottom:32px;
+}
+
+header h1{
+  font-size:2.2rem;
+  color:var(--yellow);
+}
+
+header p{
+  color:var(--muted);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+}
+
+.card{
+  background:linear-gradient(180deg,var(--card),#020617);
+  border-radius:18px;
+  padding:20px;
+  box-shadow:0 20px 40px rgba(0,0,0,.4);
+  transition:.3s;
+}
+
+.card:hover{
+  transform:translateY(-6px);
+}
+
+.card h2{
+  margin-top:0;
+  font-size:1.2rem;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.tag{
+  padding:4px 10px;
+  border-radius:999px;
+  font-size:.75rem;
+  font-weight:600;
+  color:#000;
+}
+
+.green{background:var(--green)}
+.yellow{background:var(--yellow)}
+.orange{background:var(--orange)}
+.blue{background:var(--blue)}
+.red{background:var(--red)}
+
+ul{
+  padding-left:18px;
+  margin:12px 0 0;
+}
+
+li{
+  margin-bottom:8px;
+  line-height:1.5;
+}
+
+.highlight{
+  color:var(--green);
+  font-weight:600;
+}
+
+.footer{
+  margin-top:40px;
+  text-align:center;
+  font-size:.85rem;
+  color:var(--muted);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+  <h1>🌳 Cây Xoài</h1>
+  <p>Đặc tính sinh học & nông học nổi bật</p>
+</header>
+
+<div class="grid">
+
+  <div class="card">
+    <h2>🌳 Đặc điểm chung <span class="tag green">Sinh học</span></h2>
+    <ul>
+      <li><b>Tên khoa học:</b> Mangifera indica</li>
+      <li><b>Họ:</b> Anacardiaceae</li>
+      <li><b>Tuổi thọ:</b> 20–50 năm hoặc hơn</li>
+      <li><b>Chiều cao:</b> 10–30 m (có thể thấp hơn nếu cắt tỉa)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>🍃 Sinh trưởng <span class="tag blue">Cấu trúc</span></h2>
+    <ul>
+      <li><b>Rễ cọc:</b> Ăn sâu 3–6 m, chịu hạn tốt</li>
+      <li><b>Rễ ngang:</b> Lan rộng, hút dinh dưỡng mạnh</li>
+      <li><b>Thân:</b> Gỗ cứng, tán lớn</li>
+      <li><b>Lá:</b> Non đỏ đồng → già xanh đậm</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>🌼 Ra hoa – kết trái <span class="tag yellow">Sinh sản</span></h2>
+    <ul>
+      <li><b>Hoa:</b> Chùm nhỏ, trắng ngà/vàng nhạt</li>
+      <li>Có hoa đực & hoa lưỡng tính</li>
+      <li><b>Thời điểm:</b> Cuối mùa khô – đầu mùa mưa</li>
+      <li><b>Đậu quả:</b> Thấp (&lt;5%)</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>🥭 Đặc tính quả <span class="tag orange">Dinh dưỡng</span></h2>
+    <ul>
+      <li>Hình dạng đa dạng: tròn, bầu, thuôn</li>
+      <li>Vỏ xanh, vàng hoặc đỏ tùy giống</li>
+      <li>Thịt vàng cam, ngọt hoặc chua ngọt</li>
+      <li class="highlight">Giàu vitamin A, C & chất chống oxy hóa</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>🌱 Sinh thái phù hợp <span class="tag green">Môi trường</span></h2>
+    <ul>
+      <li>Nhiệt độ lý tưởng: 24–30°C</li>
+      <li>Lượng mưa: 1.000–2.000 mm/năm</li>
+      <li>Đất tơi xốp, thoát nước tốt</li>
+      <li>pH thích hợp: 5,5 – 7,5</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>🛡️ Sâu bệnh <span class="tag red">Bảo vệ</span></h2>
+    <ul>
+      <li>Bệnh thán thư</li>
+      <li>Sâu đục thân, ruồi đục quả</li>
+      <li class="highlight">Khả năng thích nghi cao, chịu hạn tốt</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>✅ Ưu điểm</h2>
+    <ul>
+      <li>Dễ trồng, ít công chăm sóc</li>
+      <li>Tuổi thọ cao</li>
+      <li>Giá trị kinh tế lớn</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>⚠️ Hạn chế</h2>
+    <ul>
+      <li>Cho quả chậm (3–5 năm)</li>
+      <li>Tỷ lệ đậu trái thấp</li>
+      <li>Nhạy cảm với mưa lúc ra hoa</li>
+    </ul>
+  </div>
+
+</div>
+
+<div class="footer">
+  🌱 UI/UX Nông nghiệp • Thiết kế trực quan • Responsive
+</div>
+
+</div>
+
+</body>
+</html>
