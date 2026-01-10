@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>So sánh Bệnh Gout và Ung thư</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacOSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            padding: 28px;
+            margin-bottom: 30px;
+        }
+        h1, h2 {
+            color: #c0392b;
+            text-align: center;
+            margin-bottom: 1.2em;
+        }
+        h1 {
+            font-size: 2.1rem;
+            margin-top: 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.8em 0;
+            font-size: 0.98rem;
+        }
+        th, td {
+            padding: 14px 16px;
+            border: 1px solid #e0e0e0;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background-color: #e74c3c;
+            color: white;
+            font-weight: 600;
+        }
+        tr:nth-child(even) {
+            background-color: #fdfdfd;
+        }
+        tr:hover {
+            background-color: #fff5f5;
+        }
+        .highlight {
+            background-color: #fff1f0;
+            font-weight: 500;
+        }
+        .summary {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #c0392b;
+            margin: 2em 0;
+            font-style: italic;
+        }
+        .note {
+            background-color: #e8f4f8;
+            padding: 16px 20px;
+            border-radius: 8px;
+            margin: 1.5em 0;
+            border-left: 5px solid #3498db;
+        }
+        .emoji {
+            font-size: 1.4em;
+            margin-right: 8px;
+        }
+        .footer {
+            text-align: center;
+            color: #555;
+            margin-top: 2.5em;
+            font-size: 0.95rem;
+        }
+        @media (max-width: 768px) {
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+            th, td {
+                padding: 12px;
+            }
+            thead tr {
+                display: none;
+            }
+            tr {
+                margin-bottom: 18px;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            td {
+                border: none;
+                border-bottom: 1px solid #eee;
+                position: relative;
+                padding-left: 50%;
+            }
+            td:before {
+                position: absolute;
+                top: 12px;
+                left: 16px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                font-weight: bold;
+                color: #c0392b;
+            }
+            td:nth-of-type(1):before { content: "Tiêu chí"; }
+            td:nth-of-type(2):before { content: "Bệnh Gout"; }
+            td:nth-of-type(3):before { content: "Ung thư (Cancer)"; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>So sánh Bệnh Gout và Ung thư</h1>
+    
+    <p style="text-align:center; font-size:1.1rem; color:#555; margin-bottom:2.5em;">
+        Hai bệnh hoàn toàn khác nhau về bản chất, nguyên nhân, triệu chứng, cách tiến triển và cách điều trị
+    </p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Tiêu chí</th>
+                <th>Bệnh Gout</th>
+                <th>Ung thư (Cancer)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Bản chất bệnh</td>
+                <td>Bệnh rối loạn chuyển hóa (viêm khớp do tinh thể)</td>
+                <td>Nhóm bệnh ác tính do tế bào phát triển mất kiểm soát</td>
+            </tr>
+            <tr>
+                <td>Nguyên nhân chính</td>
+                <td>Tăng acid uric máu → lắng đọng tinh thể urat ở khớp</td>
+                <td>Đột biến gen, yếu tố môi trường, di truyền, virus, lối sống...</td>
+            </tr>
+            <tr>
+                <td>Vị trí ảnh hưởng chính</td>
+                <td>Chủ yếu các khớp (ngón chân cái, mắt cá, đầu gối, khuỷu tay...)</td>
+                <td>Có thể xuất hiện ở bất kỳ cơ quan nào (phổi, gan, vú, đại tràng, máu, da...)</td>
+            </tr>
+            <tr>
+                <td>Triệu chứng điển hình</td>
+                <td>
+                    • Đau dữ dội đột ngột (thường ban đêm)<br>
+                    • Sưng đỏ nóng khớp<br>
+                    • Cơn cấp tính 3–14 ngày rồi hết<br>
+                    • Có thể tái phát
+                </td>
+                <td>
+                    • Rất đa dạng tùy loại ung thư<br>
+                    • Thường mệt mỏi kéo dài, sụt cân, đau âm ỉ, khối u, chảy máu bất thường, ho ra máu, vàng da...
+                </td>
+            </tr>
+            <tr>
+                <td>Tính chất</td>
+                <td>Bệnh mạn tính nhưng có thể kiểm soát tốt nếu điều trị đúng</td>
+                <td>Thường tiến triển nặng dần, có thể di căn và đe dọa tính mạng nếu không điều trị sớm</td>
+            </tr>
+            <tr>
+                <td>Tiên lượng</td>
+                <td>Không nguy hiểm đến tính mạng nếu kiểm soát tốt, chủ yếu ảnh hưởng chất lượng sống</td>
+                <td>Tùy giai đoạn, có thể chữa khỏi hoàn toàn nếu phát hiện sớm, hoặc nguy kịch nếu muộn</td>
+            </tr>
+            <tr>
+                <td>Biến chứng chính</td>
+                <td>
+                    • Hạt tophi (cục u dưới da)<br>
+                    • Phá hủy khớp<br>
+                    • Sỏi thận, suy thận
+                </td>
+                <td>
+                    • Di căn xa<br>
+                    • Suy kiệt<br>
+                    • Tử vong
+                </td>
+            </tr>
+            <tr>
+                <td>Điều trị</td>
+                <td>
+                    • Thuốc giảm đau, chống viêm cấp tính (colchicine, NSAID, corticoid)<br>
+                    • Thuốc hạ acid uric lâu dài (allopurinol, febuxostat)<br>
+                    • Ăn kiêng (hạn chế thịt đỏ, hải sản, rượu bia)
+                </td>
+                <td>
+                    • Phẫu thuật<br>
+                    • Hóa trị<br>
+                    • Xạ trị<br>
+                    • Liệu pháp miễn dịch<br>
+                    • Liệu pháp nhắm trúng đích...
+                </td>
+            </tr>
+            <tr class="highlight">
+                <td>Mối liên hệ giữa hai bệnh</td>
+                <td colspan="2">
+                    Người bị gout có nguy cơ mắc một số loại ung thư cao hơn (đặc biệt ung thư tuyến tiền liệt, bàng quang, thận, tiêu hóa, phổi) do acid uric cao kéo dài, hội chứng chuyển hóa, béo phì...<br><br>
+                    Nhưng gout <strong>không phải là ung thư</strong> và ngược lại.<br><br>
+                    Ung thư (đặc biệt ung thư máu, lympho) đôi khi gây tăng acid uric thứ phát → có thể khởi phát cơn gout
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="summary">
+        <strong>Tóm lại dễ nhớ:</strong><br><br>
+        <span class="emoji">🦶</span> <strong>Gout</strong> = "Bệnh của người giàu xưa" → đau khớp cấp tính dữ dội do acid uric cao, <strong>không phải ung thư</strong>, có thể sống chung cả đời nếu kiểm soát tốt.<br><br>
+        <span class="emoji">🧬</span> <strong>Ung thư</strong> = Bệnh ác tính tế bào → có thể đe dọa tính mạng, cần phát hiện và điều trị <strong>càng sớm càng tốt</strong>.
+    </div>
+
+    <div class="note">
+        <strong>Lời khuyên:</strong><br><br>
+        Nếu bạn đang <strong>đau khớp đột ngột dữ dội</strong> (đặc biệt ngón chân cái) → rất có thể là <strong>gout</strong>, hãy đi khám đo acid uric và siêu âm khớp sớm.<br><br>
+        Còn nếu có các dấu hiệu bất thường kéo dài như <strong>sụt cân không rõ lý do</strong>, mệt mỏi triền miên, khối u nổi lên, ho ra máu... thì cần đi khám <strong>sàng lọc ung thư</strong> ngay.
+    </div>
+
+    <p style="text-align:center; margin-top:2.5em; font-size:1.1rem;">
+        Bạn đang lo lắng về triệu chứng cụ thể nào thì nói thêm để mình giải thích chi tiết hơn nhé!<br>
+        Chúc bạn khỏe mạnh! ❤️
+    </p>
+</div>
+
+<div class="footer">
+    Thông tin tham khảo – Không thay thế tư vấn y khoa chuyên nghiệp
+</div>
+
+</body>
+</html>
