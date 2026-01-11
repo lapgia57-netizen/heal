@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cơ cấu Phòng Ban - Unity Việt Nam</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .org-chart {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .level {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .department-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            min-width: 280px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .department-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--dept-color-1), var(--dept-color-2));
+        }
+
+        .department-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .dept-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--dept-color-1), var(--dept-color-2));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            margin-bottom: 15px;
+        }
+
+        .dept-title {
+            font-size: 1.4em;
+            color: #1e293b;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .dept-desc {
+            color: #64748b;
+            font-size: 0.95em;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .dept-functions {
+            list-style: none;
+            padding: 0;
+        }
+
+        .dept-functions li {
+            padding: 6px 0;
+            color: #475569;
+            font-size: 0.9em;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .dept-functions li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--dept-color-1);
+            font-weight: bold;
+        }
+
+        .ceo-card {
+            --dept-color-1: #dc2626;
+            --dept-color-2: #f59e0b;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .dept-leadership {
+            --dept-color-1: #3b82f6;
+            --dept-color-2: #06b6d4;
+        }
+
+        .dept-operations {
+            --dept-color-1: #10b981;
+            --dept-color-2: #84cc16;
+        }
+
+        .dept-support {
+            --dept-color-1: #8b5cf6;
+            --dept-color-2: #d946ef;
+        }
+
+        .dept-technical {
+            --dept-color-1: #f59e0b;
+            --dept-color-2: #f97316;
+        }
+
+        .dept-business {
+            --dept-color-1: #06b6d4;
+            --dept-color-2: #3b82f6;
+        }
+
+        .connector {
+            width: 2px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.5);
+            margin: 0 auto;
+        }
+
+        .level-label {
+            text-align: center;
+            color: white;
+            font-size: 1.1em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .department-card {
+                min-width: 100%;
+            }
+
+            .level {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>CƠ CẤU TỔ CHỨC</h1>
+            <p>Công ty TNHH Unity Việt Nam</p>
+        </div>
+
+        <div class="org-chart">
+            <!-- CEO Level -->
+            <div>
+                <div class="level-label">Ban Lãnh Đạo</div>
+                <div class="level">
+                    <div class="department-card ceo-card">
+                        <div class="dept-icon">👑</div>
+                        <h3 class="dept-title">Ban Giám Đốc</h3>
+                        <p class="dept-desc">Đại diện: Đào Thị Tuyết Nga - Điều hành và quản lý toàn bộ hoạt động công ty</p>
+                        <ul class="dept-functions">
+                            <li>Định hướng chiến lược phát triển</li>
+                            <li>Quyết định đầu tư lớn</li>
+                            <li>Quản lý quan hệ đối tác</li>
+                            <li>Giám sát toàn bộ hoạt động</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- Management Level -->
+            <div>
+                <div class="level-label">Cấp Quản Lý</div>
+                <div class="level">
+                    <div class="department-card dept-leadership">
+                        <div class="dept-icon">📊</div>
+                        <h3 class="dept-title">Phòng Hành Chính - Nhân Sự</h3>
+                        <p class="dept-desc">Quản lý nguồn nhân lực và hành chính nội bộ</p>
+                        <ul class="dept-functions">
+                            <li>Tuyển dụng & đào tạo</li>
+                            <li>Quản lý hồ sơ nhân viên</li>
+                            <li>Chính sách phúc lợi</li>
+                            <li>Văn phòng & hành chính</li>
+                        </ul>
+                    </div>
+
+                    <div class="department-card dept-leadership">
+                        <div class="dept-icon">💰</div>
+                        <h3 class="dept-title">Phòng Kế Toán - Tài Chính</h3>
+                        <p class="dept-desc">Quản lý tài chính, kế toán và thuế</p>
+                        <ul class="dept-functions">
+                            <li>Kế toán tổng hợp</li>
+                            <li>Quản lý ngân quỹ</li>
+                            <li>Báo cáo tài chính</li>
+                            <li>Quyết toán thuế</li>
+                        </ul>
+                    </div>
+
+                    <div class="department-card dept-leadership">
+                        <div class="dept-icon">📈</div>
+                        <h3 class="dept-title">Phòng Kế Hoạch</h3>
+                        <p class="dept-desc">Lập kế hoạch và phân tích kinh doanh</p>
+                        <ul class="dept-functions">
+                            <li>Lập kế hoạch kinh doanh</li>
+                            <li>Phân tích thị trường</li>
+                            <li>Đánh giá hiệu quả</li>
+                            <li>Báo cáo định kỳ</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- Operations Level -->
+            <div>
+                <div class="level-label">Phòng Ban Vận Hành</div>
+                <div class="level">
+                    <div class="department-card dept-operations">
+                        <div class="dept-icon">🛡️</div>
+                        <h3 class="dept-title">Phòng Dịch Vụ Bảo Vệ</h3>
+                        <p class="dept-desc">Ngành nghề kinh doanh chính của công ty</p>
+                        <ul class="dept-functions">
+                            <li>Quản lý đội ngũ bảo vệ</li>
+                            <li>Lập lịch trực ca</li>
+                            <li>Đào tạo nghiệp vụ</li>
+                            <li>Giám sát chất lượng dịch vụ</li>
+                        </ul>
+                    </div>
+
+                    <div class="department-card dept-business">
+                        <div class="dept-icon">🤝</div>
+                        <h3 class="dept-title">Phòng Kinh Doanh</h3>
+                        <p class="dept-desc">Phát triển khách hàng và thị trường</p>
+                        <ul class="dept-functions">
+                            <li>Tìm kiếm khách hàng mới</li>
+                            <li>Chăm sóc khách hàng</li>
+                            <li>Đàm phán hợp đồng</li>
+                            <li>Phát triển thương hiệu</li>
+                        </ul>
+                    </div>
+
+                    <div class="department-card dept-technical">
+                        <div class="dept-icon">🏭</div>
+                        <h3 class="dept-title">Phòng Sản Xuất - Kỹ Thuật</h3>
+                        <p class="dept-desc">Quản lý sản xuất và kỹ thuật</p>
+                        <ul class="dept-functions">
+                            <li>Quản lý sản xuất dệt may</li>
+                            <li>Kiểm soát chất lượng</li>
+                            <li>Bảo trì máy móc</li>
+                            <li>Cải tiến quy trình</li>
+                        </ul>
+                    </div>
+
+                    <div class="department-card dept-technical">
+                        <div class="dept-icon">💻</div>
+                        <h3 class="dept-title">Phòng Công Nghệ Thông Tin</h3>
+                        <p class="dept-desc">Hỗ trợ công nghệ và hệ thống</p>
+                        <ul class="dept-functions">
+                            <li>Quản trị hệ thống</li>
+                            <li>Phát triển phần mềm</li>
+                            <li>Bảo mật thông tin</li>
+                            <li>Hỗ trợ kỹ thuật</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="connector"></div>
+
+            <!-- Support Level -->
+            <div>
+                <div class="level-label">Phòng Ban Hỗ Trợ</div>
+                <div class="level">
+                    <div class="department-card dept-support">
+                        <div class="dept-icon">📦</div>
+                        <h3 class="dept-title">Phòng Mua Hàng - Kho Vận</h3>
+                        <p class="dept-desc">Quản lý chuỗi cung ứng và kho bãi</p>
+                        <ul class="dept-functions">
+                            <li>Mua sắm nguyên vật liệu</li>
+                            <li>Quản lý nhà cung cấp</li>
+                            <li>Quản lý kho hàng</li>
+                            <li>Vận chuyển logistics</li>
+                        </ul>
+                    </div>
+
+                    <div class="department-card dept-support">
+                        <div class="dept-icon">⚖️</div>
+                        <h3 class="dept-title">Phòng Pháp Chế</h3>
+                        <p class="dept-desc">Tư vấn pháp lý và tuân thủ</p>
+                        <ul class="dept-functions">
+                            <li>Tư vấn pháp lý</li>
+                            <li>Soạn thảo hợp đồng</li>
+                            <li>Giải quyết tranh chấp</li>
+                            <li>Tuân thủ quy định</li>
+                        </ul>
+                    </div>
+
+                    <div class="department-card dept-support">
+                        <div class="dept-icon">🎯</div>
+                        <h3 class="dept-title">Phòng Marketing</h3>
+                        <p class="dept-desc">Truyền thông và tiếp thị</p>
+                        <ul class="dept-functions">
+                            <li>Chiến lược marketing</li>
+                            <li>Quảng cáo truyền thông</li>
+                            <li>Quản lý thương hiệu</li>
+                            <li>Marketing online</li>
+                        </ul>
+                    </div>
+
+                    <div class="department-card dept-support">
+                        <div class="dept-icon">🔧</div>
+                        <h3 class="dept-title">Phòng Dịch Vụ Tổng Hợp</h3>
+                        <p class="dept-desc">Hỗ trợ cơ sở vật chất và dịch vụ</p>
+                        <ul class="dept-functions">
+                            <li>Bảo trì cơ sở vật chất</li>
+                            <li>Quản lý xe cộ</li>
+                            <li>Dịch vụ vệ sinh</li>
+                            <li>An toàn lao động</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
