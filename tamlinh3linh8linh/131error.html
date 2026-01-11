@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Median.co - Tổng quan & Đánh giá bảo mật</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: #f9fafb;
+    }
+    h1, h2, h3 {
+      color: #1a1a1a;
+    }
+    h1 {
+      border-bottom: 4px solid #0066cc;
+      padding-bottom: 14px;
+      margin-bottom: 40px;
+      font-size: 2.4rem;
+    }
+    h2 {
+      color: #004080;
+      margin: 48px 0 20px;
+      border-left: 6px solid #0066cc;
+      padding-left: 14px;
+      font-size: 1.8rem;
+    }
+    .section {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+      margin-bottom: 36px;
+    }
+    ul, ol {
+      padding-left: 26px;
+    }
+    li {
+      margin-bottom: 12px;
+    }
+    strong {
+      color: #004080;
+    }
+    .highlight {
+      background: #e6f3ff;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-weight: 500;
+    }
+    .conclusion {
+      background: #e8f5e9;
+      border-left: 6px solid #2e7d32;
+      padding: 28px;
+      margin: 48px 0;
+      border-radius: 10px;
+      font-size: 1.05rem;
+    }
+    code {
+      background: #f0f0f0;
+      padding: 3px 7px;
+      border-radius: 5px;
+      font-family: 'Courier New', Courier, monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Median.co (trước đây là GoNative.io) – Đánh giá toàn diện</h1>
+
+  <div class="section">
+    <h2>Median.co là gì?</h2>
+    <p>Median.co (trước đây là GoNative.io) là một nền tảng phát triển ứng dụng di động webview hàng đầu, giúp chuyển đổi website thành ứng dụng native iOS và Android mà không cần viết code native (Swift/Objective-C cho iOS, Java/Kotlin cho Android).</p>
+  </div>
+
+  <div class="section">
+    <h2>Có mã độc (malware/adware/virus) gì không?</h2>
+    <ul>
+      <li>Không có bằng chứng nào cho thấy median.co chứa mã độc, malware, virus hay adware trong quá trình build app hoặc trong các APK/IPA được tạo ra.</li>
+      <li>Không có báo cáo đáng tin cậy nào trên Reddit, VirusTotal, các diễn đàn bảo mật hay review về việc app build từ Median chứa malware.</li>
+      <li>Các kết quả tìm kiếm về "median.co malware" chủ yếu trả về thông tin chung về adware/malware, không liên quan trực tiếp đến Median.co.</li>
+      <li>Nền tảng này được tin dùng bởi các công ty lớn (Whole Foods, Unilever, Honeywell, McKesson, AON...) và hỗ trợ các tiêu chuẩn bảo mật enterprise nghiêm ngặt, tuân thủ compliance, SLA nội bộ.</li>
+      <li>Tỷ lệ duyệt App Store/Google Play rất cao (~98%), và họ cung cấp update liên tục để tương thích iOS/Android mới nhất.</li>
+      <li>APK build từ Median chỉ là webview wrapper (hiển thị website của bạn bên trong native shell), nên nếu website của bạn sạch thì app cũng sạch. Không có dấu hiệu họ chèn code độc hại.</li>
+      <li><strong>Lưu ý:</strong> Một số trường hợp Google Play Protect có thể cảnh báo khi cài APK từ nguồn ngoài (do version code cũ hoặc signature), nhưng đây là <span class="highlight">false positive</span> phổ biến, không phải malware thật. Bạn chỉ cần rebuild app (Median tự động tăng version code) là hết.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>Logic và cơ chế hoạt động</h2>
+    <p>Median hoạt động theo mô hình <strong>Hybrid WebView + Native Wrapper</strong> nâng cao:</p>
+    <ul>
+      <li>Bạn nhập URL website → Median App Studio (trình duyệt) tự động build app trong vài phút.</li>
+      <li>App là native shell (iOS/Android) nhưng nội dung chính là WebView (hiển thị website của bạn như một trang web full-screen).</li>
+      <li>Median JavaScript Bridge (JS Bridge) cho phép website gọi các hàm native qua JavaScript:</li>
+    </ul>
+    <ul style="padding-left: 50px; margin-top: -8px;">
+      <li>Push notification</li>
+      <li>Truy cập camera, GPS, contacts, Face ID</li>
+      <li>Haptic feedback, in-app purchase, Firebase Analytics, Twilio video call...</li>
+      <li>Tích hợp SDK của bên thứ 3 (OneSignal, Firebase, Branch.io...)</li>
+    </ul>
+    <ul>
+      <li>Update nội dung: Chỉ cần update website → app tự cập nhật ngay lập tức (không cần submit lại store).</li>
+      <li>Build online: Không cần Xcode/Android Studio, mọi thứ làm trên web, preview ngay trên simulator browser hoặc tải về device thật.</li>
+      <li>Publish: Hỗ trợ submit lên App Store/Google Play (có thể tự làm hoặc để team Median làm).</li>
+    </ul>
+    <p><strong>Tóm lại:</strong> Nó giống như Cordova/Ionic nhưng mạnh hơn, dễ dùng hơn, tập trung vào performance và native features mà không cần code native.</p>
+  </div>
+
+  <div class="section">
+    <h2>Ngôn ngữ/framework được sử dụng để xây dựng Median.co</h2>
+    <ul>
+      <li>Core của platform: Dùng native code (Swift/Objective-C cho iOS, Java/Kotlin cho Android) để tạo wrapper và bridge.</li>
+      <li>JavaScript Bridge: Viết bằng JavaScript (có NPM package hỗ trợ React, Vue, Svelte...).</li>
+      <li>Website/App Studio: Dùng React (custom React) cho giao diện web.</li>
+      <li>Hỗ trợ tích hợp với hầu hết framework web hiện đại: React, Vue.js, Angular, Svelte, WordPress, Shopify, Webflow...</li>
+    </ul>
+  </div>
+
+  <div class="conclusion">
+    <h2>Kết luận</h2>
+    <p>Median.co là công cụ an toàn và uy tín để build web-to-app (đặc biệt phù hợp với PWA hoặc web app nặng). Nếu bạn lo về bảo mật thì cứ kiểm tra APK bằng VirusTotal trước khi publish, nhưng gần như không có rủi ro mã độc từ chính Median. Nếu website của bạn có vấn đề thì app mới có vấn đề — không phải lỗi của Median.</p>
+  </div>
+
+</body>
+</html>
