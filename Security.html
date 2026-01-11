@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UNITY VIỆT NAM - Thông tin Doanh nghiệp</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.95;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: #10b981;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .info-card {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.2);
+        }
+
+        .info-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card h3::before {
+            content: '●';
+            font-size: 0.8em;
+        }
+
+        .info-item {
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: #475569;
+            min-width: 140px;
+            flex-shrink: 0;
+        }
+
+        .info-value {
+            color: #1e293b;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #1e293b;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+            display: inline-block;
+        }
+
+        .business-category {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .business-category:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.1);
+        }
+
+        .business-category h4 {
+            color: #764ba2;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+        }
+
+        .business-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .business-list li {
+            padding: 8px 0;
+            padding-left: 25px;
+            position: relative;
+            color: #475569;
+        }
+
+        .business-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .note-box {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .note-box h4 {
+            color: #92400e;
+            margin-bottom: 10px;
+        }
+
+        .note-box p {
+            color: #78350f;
+            margin-bottom: 8px;
+        }
+
+        .footer {
+            background: #f1f5f9;
+            padding: 20px 40px;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .content {
+                padding: 20px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .info-label {
+                min-width: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>CÔNG TY TNHH UNITY VIỆT NAM</h1>
+            <p class="subtitle">UNITY VIET NAM COMPANY LIMITED</p>
+            <span class="status-badge">Đang hoạt động</span>
+        </div>
+
+        <div class="content">
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Thông tin cơ bản</h3>
+                    <div class="info-item">
+                        <span class="info-label">Mã số thuế:</span>
+                        <span class="info-value">0102814946</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Tên viết tắt:</span>
+                        <span class="info-value">UNITY VINA CO., LTD</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Loại hình:</span>
+                        <span class="info-value">Công ty TNHH 2 thành viên trở lên ngoài NN</span>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>Địa chỉ liên hệ</h3>
+                    <div class="info-item">
+                        <span class="info-label">Địa chỉ:</span>
+                        <span class="info-value">Số 79 Nguyễn Hy Quang, Phường Đống Đa, TP Hà Nội</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Điện thoại:</span>
+                        <span class="info-value">0243-681-2222</span>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <h3>Thông tin pháp lý</h3>
+                    <div class="info-item">
+                        <span class="info-label">Người đại diện:</span>
+                        <span class="info-value">Đào Thị Tuyết Nga</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Ngày hoạt động:</span>
+                        <span class="info-value">26/02/2010</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Cơ quan quản lý:</span>
+                        <span class="info-value">Thuế cơ sở 4 thành phố Hà Nội</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Ngành nghề kinh doanh chính</h2>
+                <div class="business-category">
+                    <h4>Hoạt động bảo vệ cá nhân (mã 8010)</h4>
+                    <p style="color: #475569;">Kinh doanh dịch vụ bảo vệ</p>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">Các ngành nghề kinh doanh khác</h2>
+                
+                <div class="business-category">
+                    <h4>🧵 Dệt may & Giày dép</h4>
+                    <ul class="business-list">
+                        <li>Sản xuất sợi, vải dệt, hàng dệt</li>
+                        <li>May trang phục</li>
+                        <li>Sản xuất giày dép, sản phẩm từ da</li>
+                    </ul>
+                </div>
+
+                <div class="business-category">
+                    <h4>💻 Điện tử & Công nghệ</h4>
+                    <ul class="business-list">
+                        <li>Sản xuất linh kiện điện tử, thiết bị truyền thông</li>
+                        <li>Bán buôn/lẻ máy vi tính, thiết bị điện tử</li>
+                        <li>Lập trình máy vi tính, tư vấn công nghệ thông tin</li>
+                        <li>Hoạt động viễn thông, cổng thông tin</li>
+                    </ul>
+                </div>
+
+                <div class="business-category">
+                    <h4>🏗️ Xây dựng</h4>
+                    <ul class="business-list">
+                        <li>Xây dựng công trình dân dụng và công nghiệp</li>
+                        <li>Lắp đặt hệ thống điện, cấp thoát nước, điều hòa</li>
+                        <li>Tư vấn kiến trúc và kỹ thuật</li>
+                    </ul>
+                </div>
+
+                <div class="business-category">
+                    <h4>🛒 Thương mại</h4>
+                    <ul class="business-list">
+                        <li>Bán buôn/lẻ vải, hàng may sẵn, giày dép</li>
+                        <li>Bán buôn máy móc, thiết bị và phụ tùng</li>
+                        <li>Đại lý, môi giới</li>
+                    </ul>
+                </div>
+
+                <div class="business-category">
+                    <h4>🚗 Dịch vụ khác</h4>
+                    <ul class="business-list">
+                        <li>Vận tải hành khách và hàng hóa</li>
+                        <li>Cho thuê xe, máy móc, thiết bị</li>
+                        <li>Dịch vụ du lịch</li>
+                        <li>Giáo dục, đào tạo</li>
+                        <li>Hoạt động tư vấn quản lý, bất động sản</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="note-box">
+                <h4>📌 Ghi chú về người đại diện</h4>
+                <p><strong>Bà Đào Thị Tuyết Nga</strong> còn đại diện cho nhiều doanh nghiệp khác, trong đó có:</p>
+                <ul class="business-list" style="margin-top: 10px;">
+                    <li>Công ty CP Thương mại Dịch vụ Medlin</li>
+                    <li>Công ty TNHH A-Young Việt Nam</li>
+                    <li>Công ty CP Dịch vụ Môi trường Y tế Mesco</li>
+                    <li>Và một số doanh nghiệp khác</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Thông tin được cập nhật lần cuối vào <strong>12/01/2026</strong></p>
+        </div>
+    </div>
+</body>
+</html>
