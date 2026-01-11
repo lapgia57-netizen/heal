@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cơ Cấu Chức Vụ - Công Ty Bảo Vệ</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .hierarchy {
+            display: grid;
+            gap: 30px;
+        }
+
+        .level {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .level:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .level-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .level-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            margin-right: 20px;
+            color: white;
+        }
+
+        .level-1 .level-icon { background: linear-gradient(135deg, #667eea, #764ba2); }
+        .level-2 .level-icon { background: linear-gradient(135deg, #f093fb, #f5576c); }
+        .level-3 .level-icon { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+        .level-4 .level-icon { background: linear-gradient(135deg, #43e97b, #38f9d7); }
+
+        .level-title {
+            flex: 1;
+        }
+
+        .level-title h2 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .level-title .subtitle {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .positions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .position-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .position-card:hover {
+            border-left-width: 8px;
+            transform: translateX(5px);
+        }
+
+        .position-name {
+            font-weight: bold;
+            color: #333;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .position-desc {
+            color: #555;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+
+        .requirements {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .requirements h2 {
+            color: #333;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .requirements h2::before {
+            content: "✓";
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.2em;
+        }
+
+        .req-list {
+            list-style: none;
+        }
+
+        .req-list li {
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #43e97b;
+            transition: all 0.3s ease;
+        }
+
+        .req-list li:hover {
+            background: #e9ecef;
+            transform: translateX(10px);
+        }
+
+        .cta {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-top: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .cta h3 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        .cta p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .positions {
+                grid-template-columns: 1fr;
+            }
+
+            .level-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .level-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ Cơ Cấu Chức Vụ</h1>
+            <p>Hệ thống phân cấp trong Công ty Bảo vệ</p>
+        </div>
+
+        <div class="hierarchy">
+            <!-- Level 1: Nhân viên cơ bản -->
+            <div class="level level-1">
+                <div class="level-header">
+                    <div class="level-icon">👮</div>
+                    <div class="level-title">
+                        <h2>Nhân Viên Bảo Vệ Cơ Bản</h2>
+                        <span class="subtitle">Vị trí nền tảng</span>
+                    </div>
+                </div>
+                <div class="positions">
+                    <div class="position-card">
+                        <div class="position-name">Bảo Vệ Viên / Nhân Viên Bảo Vệ</div>
+                        <div class="position-desc">Vị trí cơ bản nhất, trực tiếp làm nhiệm vụ bảo vệ tại các địa điểm được phân công</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Level 2: Cấp quản lý -->
+            <div class="level level-2">
+                <div class="level-header">
+                    <div class="level-icon">👔</div>
+                    <div class="level-title">
+                        <h2>Các Cấp Quản Lý</h2>
+                        <span class="subtitle">Quản lý tuyến đầu</span>
+                    </div>
+                </div>
+                <div class="positions">
+                    <div class="position-card">
+                        <div class="position-name">Trưởng Ca / Tổ Trưởng</div>
+                        <div class="position-desc">Quản lý một ca trực hoặc một tổ bảo vệ nhỏ</div>
+                    </div>
+                    <div class="position-card">
+                        <div class="position-name">Đội Trưởng / Trưởng Đội Bảo Vệ</div>
+                        <div class="position-desc">Quản lý một đội bảo vệ tại một khu vực hoặc dự án</div>
+                    </div>
+                    <div class="position-card">
+                        <div class="position-name">Giám Sát Viên</div>
+                        <div class="position-desc">Giám sát hoạt động của nhiều đội bảo vệ</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Level 3: Cấp quản lý cao hơn -->
+            <div class="level level-3">
+                <div class="level-header">
+                    <div class="level-icon">💼</div>
+                    <div class="level-title">
+                        <h2>Cấp Quản Lý Cao Hơn</h2>
+                        <span class="subtitle">Quản lý cấp phòng ban</span>
+                    </div>
+                </div>
+                <div class="positions">
+                    <div class="position-card">
+                        <div class="position-name">Trưởng / Phó Phòng Nghiệp Vụ</div>
+                        <div class="position-desc">Quản lý hoạt động nghiệp vụ bảo vệ</div>
+                    </div>
+                    <div class="position-card">
+                        <div class="position-name">Trưởng / Phó Phòng Nhân Sự</div>
+                        <div class="position-desc">Quản lý công tác nhân sự và tuyển dụng</div>
+                    </div>
+                    <div class="position-card">
+                        <div class="position-name">Trưởng / Phó Phòng Đào Tạo</div>
+                        <div class="position-desc">Quản lý công tác đào tạo và phát triển</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Level 4: Ban lãnh đạo -->
+            <div class="level level-4">
+                <div class="level-header">
+                    <div class="level-icon">⭐</div>
+                    <div class="level-title">
+                        <h2>Ban Lãnh Đạo</h2>
+                        <span class="subtitle">Điều hành công ty</span>
+                    </div>
+                </div>
+                <div class="positions">
+                    <div class="position-card">
+                        <div class="position-name">Giám Đốc / Phó Giám Đốc</div>
+                        <div class="position-desc">Điều hành và quản lý toàn bộ hoạt động của công ty</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Requirements Section -->
+        <div class="requirements">
+            <h2>Yêu Cầu Chung</h2>
+            <ul class="req-list">
+                <li>✓ Có sức khỏe tốt, không có tiền án tiền sự</li>
+                <li>✓ Được đào tạo nghiệp vụ bảo vệ</li>
+                <li>✓ Có chứng chỉ hành nghề bảo vệ (theo quy định pháp luật)</li>
+            </ul>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="cta">
+            <h3>Bạn đang quan tâm đến vị trí nào?</h3>
+            <p>Liên hệ với chúng tôi để biết thêm thông tin chi tiết về các vị trí tuyển dụng</p>
+        </div>
+    </div>
+</body>
+</html>
