@@ -203,6 +203,21 @@
       box-shadow: 0 12px 32px rgba(16,185,129,0.15);
     }
 
+    .titles-panel {
+      background: var(--surface);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 1.6rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-md);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .titles-panel:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(96,165,250,0.15);
+    }
+
     .panel-title {
       font-family: 'DM Sans', sans-serif;
       font-size: 1.32rem;
@@ -212,6 +227,50 @@
       display: flex;
       align-items: center;
       gap: 0.8rem;
+    }
+
+    .titles-title {
+      color: var(--calm-blue);
+    }
+
+    .title-item {
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      color: var(--text);
+      font-size: 0.96rem;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .title-item:hover {
+      color: var(--calm-blue);
+      background: rgba(96,165,250,0.06);
+      border-radius: 8px;
+      padding-left: 0.8rem;
+      padding-right: 0.8rem;
+    }
+
+    .title-item:last-child {
+      border-bottom: none;
+    }
+
+    .title-text {
+      flex: 1;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .title-path {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      margin-top: 0.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
     }
 
     .dot {
@@ -287,8 +346,9 @@
     }
 
     @media (max-width: 480px) {
-      .content, .realtime-panel { padding: 1.4rem; }
+      .content, .realtime-panel, .titles-panel { padding: 1.4rem; }
       .status-bar { padding: 0.8rem 1.4rem; font-size: 0.84rem; }
+      .title-path { max-width: 120px; }
     }
   </style>
 </head>
@@ -337,6 +397,14 @@
         <div id="latest-txs">Đang tải...</div>
       </div>
 
+      <div class="titles-panel">
+        <div class="panel-title">
+          <span class="dot" style="background: var(--calm-blue);"></span>
+          <span class="titles-title">Danh sách Title của Files HTML</span>
+        </div>
+        <div id="html-titles">Đang tải titles...</div>
+      </div>
+
     </div>
   </div>
 
@@ -350,7 +418,7 @@
     const CUSTOM_DOMAIN = "https://lapgia57-netizen.github.io/heal/";
     const RAW_BASE = "https://raw.githubusercontent.com/lapgia57-netizen/heal/main/";
     const API_URL = "https://api.github.com/repos/lapgia57-netizen/heal/git/trees/main?recursive=1";
-    const HIDDEN_FILES = ['index.html', 'LICENSE','haha.html', 'README.md', 'CNAME', 'favicon.ico'];
+    const HIDDEN_FILES = ['LICENSE', 'README.md', 'CNAME', 'favicon.ico']; // Fix: Loại bỏ index.html và haha.html khỏi hidden để include nếu cần
 
     let allFiles = [];
 
@@ -373,12 +441,14 @@
 
         renderTree(allFiles);
         renderRealTimePanels(allFiles);
+        await loadTitles(); // Thêm: Load titles ngay sau khi load data
         updateTime();
 
       } catch (e) {
         treeEl.innerHTML = `<div style="color:#e11d48;padding:3rem 1.5rem;text-align:center;">
           Không thể kết nối đến Heal Chain<br><small>${e.message}</small>
         </div>`;
+        document.getElementById("html-titles").innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-secondary);">Lỗi tải dữ liệu</div>';
       }
     }
 
@@ -399,7 +469,7 @@
           if (!folders[key]) {
             const li = document.createElement("li");
             li.className = "folder closed";
-            li.innerHTML = dir;
+            li.innerHTML = `<span>${dir}</span>`; // Fix: Thêm span để tránh onclick conflict
             li.onclick = (e) => {
               e.stopPropagation();
               li.classList.toggle("closed");
@@ -419,7 +489,7 @@
 
         const li = document.createElement("li");
         li.className = "file";
-        li.innerHTML = name;
+        li.innerHTML = `<span>${name}</span>`; // Fix: Thêm span cho consistency
         li.title = file.path;
         li.onclick = () => openFile(file.path);
         current.appendChild(li);
@@ -433,6 +503,47 @@
         ? CUSTOM_DOMAIN + path
         : RAW_BASE + path;
       window.open(url, '_blank');
+    }
+
+    async function loadTitles() {
+      const titlesContainer = document.getElementById("html-titles");
+      titlesContainer.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-secondary);">Đang tải titles...</div>';
+
+      try {
+        const htmlFiles = allFiles.filter(f => f.path.endsWith('.html') && !f.path.includes('/.github/')); // Filter chỉ file HTML chính
+        const titles = await Promise.allSettled(
+          htmlFiles.map(async (file) => {
+            const res = await fetch(RAW_BASE + file.path);
+            if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+            const htmlContent = await res.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlContent, 'text/html');
+            const title = doc.querySelector('title')?.textContent.trim() || 'Untitled';
+            return { path: file.path, title };
+          })
+        );
+
+        const validTitles = titles
+          .filter(result => result.status === 'fulfilled')
+          .map(result => result.value)
+          .sort((a, b) => a.title.localeCompare(b.title));
+
+        if (validTitles.length === 0) {
+          titlesContainer.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--text-secondary);">Chưa có file HTML nào</div>';
+          return;
+        }
+
+        titlesContainer.innerHTML = validTitles.map(({ title, path }) => `
+          <div class="title-item" onclick="openFile('${path}')">
+            <div>
+              <div class="title-text">${title}</div>
+              <div class="title-path" title="${path}">${path}</div>
+            </div>
+          </div>
+        `).join('');
+      } catch (e) {
+        titlesContainer.innerHTML = `<div style="text-align:center;padding:2rem;color:#e11d48;">Lỗi tải titles: ${e.message}</div>`;
+      }
     }
 
     function getRelativeTime() {
@@ -468,11 +579,19 @@
     loadData();
     setInterval(loadData, 45000); // sync chậm hơn một chút vì chủ đề "chữa lành" không cần quá nhanh
 
-    // Tìm kiếm đơn giản
+    // Tìm kiếm đơn giản - Fix: Bao gồm cả title items
     document.getElementById("search").addEventListener("input", e => {
       const term = e.target.value.toLowerCase().trim();
+      
+      // Tìm kiếm trong tree
       document.querySelectorAll(".tree li").forEach(el => {
         const text = (el.textContent + (el.title || "")).toLowerCase();
+        el.style.display = term ? (text.includes(term) ? "" : "none") : "";
+      });
+
+      // Tìm kiếm trong titles (nếu đã load)
+      document.querySelectorAll(".title-item").forEach(el => {
+        const text = (el.textContent + el.querySelector('.title-path')?.title || "").toLowerCase();
         el.style.display = term ? (text.includes(term) ? "" : "none") : "";
       });
     });
