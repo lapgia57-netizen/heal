@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tool Build App Từ Web - Directory 2026</title>
+  <style>
+    :root {
+      --primary: #6366f1; /* Indigo */
+      --bg: #f8fafc;
+      --card-bg: white;
+      --text: #1e293b;
+      --gray: #64748b;
+    }
+    body { font-family: 'Segoe UI', system-ui, sans-serif; margin:0; background: var(--bg); color: var(--text); }
+    header { background: linear-gradient(135deg, #4f46e5, #7c3aed); color:white; padding: 2rem 1rem; text-align:center; }
+    header h1 { margin:0; font-size: 2rem; }
+    .search-container { max-width: 600px; margin: 1.5rem auto; padding:0 1rem; }
+    #search { width:100%; padding: 1rem; border:1px solid #d1d5db; border-radius: 999px; font-size:1rem; }
+    .filters { display:flex; flex-wrap:wrap; gap:0.5rem; justify-content:center; margin:1rem; }
+    .filter-chip { background:#e2e8f0; padding:0.5rem 1rem; border-radius:999px; cursor:pointer; font-size:0.9rem; }
+    .filter-chip.active { background:var(--primary); color:white; }
+    .container { max-width: 1200px; margin:0 auto; padding:1rem; }
+    .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap:1.5rem; }
+    .card { background:var(--card-bg); border-radius:16px; overflow:hidden; box-shadow:0 4px 20px rgba(0,0,0,0.1); transition: transform 0.2s; }
+    .card:hover { transform: translateY(-8px); }
+    .card-header { background:#f1f5f9; padding:1rem; text-align:center; font-weight:bold; font-size:1.2rem; }
+    .card-body { padding:1.5rem; }
+    .card-body p { margin:0.8rem 0; color:var(--gray); line-height:1.5; }
+    .tag { display:inline-block; background:#e0f2fe; color:#0369a1; padding:0.3rem 0.8rem; border-radius:999px; font-size:0.85rem; margin:0.3rem; }
+    .btn { display:block; margin:1rem auto 0; padding:0.8rem 1.5rem; background:var(--primary); color:white; border:none; border-radius:999px; cursor:pointer; font-weight:bold; text-decoration:none; text-align:center; }
+    .detail { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); justify-content:center; align-items:center; z-index:100; }
+    .detail-content { background:white; max-width:90%; max-height:90%; overflow-y:auto; border-radius:16px; padding:2rem; position:relative; }
+    .close { position:absolute; top:1rem; right:1rem; font-size:2rem; cursor:pointer; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#0f172a; --card-bg:#1e293b; --text:#f1f5f9; }
+      .card-header { background:#334155; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Tool Build App Từ Web 2026</h1>
+    <p>Chuyển web thành app mobile hoặc build no-code/low-code – Danh sách tốt nhất hiện nay</p>
+  </header>
+
+  <div class="search-container">
+    <input type="text" id="search" placeholder="Tìm tool (ví dụ: WordPress, native, AI)...">
+  </div>
+
+  <div class="filters">
+    <div class="filter-chip" data-type="converter">Website-to-App</div>
+    <div class="filter-chip" data-type="no-code">No-Code/Low-Code</div>
+    <div class="filter-chip" data-type="wordpress">WordPress/Woo</div>
+    <div class="filter-chip" data-type="ai">AI Supported</div>
+  </div>
+
+  <div class="container">
+    <div class="grid" id="toolList">
+      <!-- Tools sẽ được render bằng JS -->
+    </div>
+  </div>
+
+  <!-- Detail Modal -->
+  <div class="detail" id="detailModal">
+    <div class="detail-content">
+      <span class="close" onclick="closeDetail()">&times;</span>
+      <div id="detailBody"></div>
+    </div>
+  </div>
+
+  <script>
+    const tools = [
+      { name: "MobiLoud", url: "https://mobiloud.com", type: ["converter", "wordpress"], desc: "Chuyên chuyển website thành native app iOS/Android chất lượng cao. Giữ nguyên nội dung, thêm push, navigation. Phổ biến cho business/e-commerce. Giá từ vài trăm USD/tháng.", pros: "Native thật, hỗ trợ submit store tốt" },
+      { name: "AppMySite", url: "https://appmysite.com", type: ["converter", "wordpress"], desc: "Convert WordPress/WooCommerce thành app native nhanh. Plugin dễ dùng, push notification, monetization. Giá rẻ, phù hợp startup/small business.", pros: "Tích hợp tốt WordPress" },
+      { name: "Median", url: "https://median.co", type: ["converter"], desc: "Tool mạnh convert web sang native, hỗ trợ React/Vue, thêm native features. Phù hợp app phức tạp.", pros: "Hỗ trợ framework đa dạng" },
+      { name: "Adalo", url: "https://adalo.com", type: ["no-code"], desc: "Drag-and-drop build native iOS/Android. Kết nối API web, publish store trực tiếp. Phổ biến cho MVP mobile 2026.", pros: "Native, dễ publish" },
+      { name: "Glide", url: "https://glideapps.com", type: ["no-code"], desc: "Build app từ Google Sheets/Airtable, kết nối dữ liệu web. Chạy PWA/native wrapper, đẹp & nhanh. Free tier tốt.", pros: "Dễ test, mobile-first" },
+      { name: "FlutterFlow", url: "https://flutterflow.io", type: ["no-code"], desc: "Visual builder dựa Flutter, xuất native iOS/Android + web. Code export, tích hợp Firebase/API. Mạnh performance.", pros: "Hiệu suất cao, code export" },
+      { name: "Bubble", url: "https://bubble.io", type: ["no-code"], desc: "Full-stack no-code, build web mạnh, hỗ trợ native mobile packaging. Phù hợp app phức tạp, workflow, database.", pros: "Logic mạnh, full backend" },
+      { name: "Appy Pie", url: "https://appypie.com", type: ["no-code", "ai"], desc: "AI hỗ trợ, website-to-app convert, template nhanh. Dễ cho beginner, nhiều integrations.", pros: "AI generate, đa năng" },
+      { name: "GoodBarber", url: "https://goodbarber.com", type: ["no-code"], desc: "Build app content/e-commerce từ structure web-like. Đẹp, monetization, push. Tốt cho publisher.", pros: "Thiết kế đẹp, monetize tốt" },
+      { name: "Bravo Studio", url: "https://bravostudio.app", type: ["no-code"], desc: "Convert Figma/Adobe XD thành native mobile. Nếu web có design đẹp, export rồi build app.", pros: "Từ design tool trực tiếp" }
+    ];
+
+    function renderTools(filtered = tools) {
+      const list = document.getElementById('toolList');
+      list.innerHTML = '';
+      filtered.forEach(tool => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-header">${tool.name}</div>
+          <div class="card-body">
+            <p>${tool.desc}</p>
+            <div>${tool.pros ? `<span class="tag">Ưu: ${tool.pros}</span>` : ''}</div>
+            <a href="${tool.url}" target="_blank" class="btn">Truy cập website</a>
+            <button class="btn" style="background:#6b7280; margin-top:0.5rem;" onclick="showDetail('${tool.name}')">Xem chi tiết</button>
+          </div>
+        `;
+        list.appendChild(card);
+      });
+    }
+
+    function showDetail(name) {
+      const tool = tools.find(t => t.name === name);
+      if (!tool) return;
+      document.getElementById('detailBody').innerHTML = `
+        <h2>${tool.name}</h2>
+        <p><strong>Loại:</strong> ${tool.type.map(t => t.charAt(0).toUpperCase() + t.slice(1)).join(', ')}</p>
+        <p>${tool.desc}</p>
+        ${tool.pros ? `<p><strong>Ưu điểm nổi bật:</strong> ${tool.pros}</p>` : ''}
+        <a href="${tool.url}" target="_blank" class="btn">Truy cập ngay</a>
+      `;
+      document.getElementById('detailModal').style.display = 'flex';
+    }
+
+    function closeDetail() {
+      document.getElementById('detailModal').style.display = 'none';
+    }
+
+    document.getElementById('search').addEventListener('input', e => {
+      const q = e.target.value.toLowerCase();
+      const filtered = tools.filter(t => t.name.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q));
+      renderTools(filtered);
+    });
+
+    document.querySelectorAll('.filter-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        chip.classList.toggle('active');
+        const activeFilters = Array.from(document.querySelectorAll('.filter-chip.active')).map(c => c.dataset.type);
+        let filtered = tools;
+        if (activeFilters.length > 0) {
+          filtered = tools.filter(t => activeFilters.some(f => t.type.includes(f)));
+        }
+        renderTools(filtered);
+      });
+    });
+
+    renderTools(); // Initial render
+  </script>
+</body>
+</html>
