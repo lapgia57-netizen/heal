@@ -3,228 +3,676 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản lý tem niêm phong</title>
-    <!-- Firebase SDK -->
+    <title>Quản lý tem niêm phong | 封条管理</title>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0f1117;
+            --surface: #1a1d27;
+            --surface2: #21253a;
+            --border: #2e3350;
+            --accent: #4f8ef7;
+            --accent2: #7c5cfc;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --text: #e8eaf6;
+            --text2: #8b92b8;
+            --text3: #555e8a;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Be Vietnam Pro', 'Noto Sans SC', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* ─── LOGIN SCREEN ─── */
+        #loginScreen {
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh;
+            background: radial-gradient(ellipse at 30% 40%, #1a2045 0%, var(--bg) 60%);
+        }
+        .login-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 48px 40px;
+            width: 100%; max-width: 400px;
+            box-shadow: 0 30px 80px rgba(0,0,0,.5);
+            animation: fadeUp .5s ease;
+        }
+        .login-logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .login-logo .icon-wrap {
+            width: 64px; height: 64px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border-radius: 16px;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-size: 28px; color: #fff;
+            margin-bottom: 16px;
+            box-shadow: 0 8px 24px rgba(79,142,247,.35);
+        }
+        .login-logo h1 { font-size: 22px; font-weight: 700; }
+        .login-logo p { font-size: 13px; color: var(--text2); margin-top: 4px; }
+        .lang-tag {
+            display: inline-block;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 3px 12px;
+            font-size: 11px;
+            color: var(--text2);
+            margin-top: 8px;
+            letter-spacing: .5px;
+        }
+        .form-group { margin-bottom: 18px; }
+        .form-group label {
+            display: block; font-size: 12px; font-weight: 600;
+            color: var(--text2); text-transform: uppercase; letter-spacing: .8px;
+            margin-bottom: 8px;
+        }
+        .form-group input {
+            width: 100%;
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 12px 16px;
+            color: var(--text);
+            font-size: 15px;
+            font-family: inherit;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(79,142,247,.15);
+        }
+        .login-error {
+            background: rgba(239,68,68,.12);
+            border: 1px solid rgba(239,68,68,.3);
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 13px; color: #fca5a5;
+            margin-bottom: 16px;
+            display: none;
+        }
+        .btn-primary {
+            width: 100%;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff; border: none; border-radius: 10px;
+            padding: 13px; font-size: 15px; font-weight: 600;
+            font-family: inherit; cursor: pointer;
+            transition: opacity .2s, transform .1s;
+            box-shadow: 0 6px 20px rgba(79,142,247,.3);
+        }
+        .btn-primary:hover { opacity: .9; }
+        .btn-primary:active { transform: scale(.98); }
+
+        /* ─── MAIN APP ─── */
+        #mainApp { display: none; min-height: 100vh; }
+
+        /* Header */
+        .app-header {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 16px 32px;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+        .header-left { display: flex; align-items: center; gap: 14px; }
+        .header-icon {
+            width: 40px; height: 40px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 17px; color: #fff;
+        }
+        .header-title { font-size: 18px; font-weight: 700; }
+        .header-subtitle { font-size: 12px; color: var(--text2); margin-top: 1px; }
+        .header-right { display: flex; align-items: center; gap: 12px; }
+
+        /* Language Toggle */
+        .lang-toggle {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: flex; overflow: hidden;
+        }
+        .lang-toggle button {
+            padding: 7px 14px; font-size: 12px; font-weight: 600;
+            font-family: inherit; border: none; cursor: pointer;
+            color: var(--text2); background: transparent;
+            transition: all .2s;
+        }
+        .lang-toggle button.active {
+            background: var(--accent); color: #fff;
+        }
+
+        /* Admin badge & logout */
+        .admin-badge {
+            display: flex; align-items: center; gap: 7px;
+            background: rgba(79,142,247,.12);
+            border: 1px solid rgba(79,142,247,.3);
+            border-radius: 8px; padding: 7px 14px;
+            font-size: 13px; color: var(--accent);
+        }
+        .btn-logout {
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 8px; padding: 7px 14px;
+            font-size: 13px; color: var(--text2); cursor: pointer;
+            font-family: inherit; transition: all .2s;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .btn-logout:hover { border-color: var(--danger); color: var(--danger); }
+
+        /* Main content */
+        .app-content { max-width: 960px; margin: 0 auto; padding: 32px 24px; }
+
+        /* Stats bar */
+        .stats-row {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 16px; margin-bottom: 28px;
+        }
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px; padding: 20px 22px;
+            display: flex; align-items: center; gap: 14px;
+            animation: fadeUp .4s ease both;
+        }
+        .stat-card:nth-child(2) { animation-delay: .05s; }
+        .stat-card:nth-child(3) { animation-delay: .1s; }
+        .stat-icon {
+            width: 44px; height: 44px; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 18px; flex-shrink: 0;
+        }
+        .stat-icon.blue { background: rgba(79,142,247,.15); color: var(--accent); }
+        .stat-icon.green { background: rgba(34,197,94,.15); color: var(--success); }
+        .stat-icon.gray { background: rgba(139,146,184,.15); color: var(--text2); }
+        .stat-value { font-size: 26px; font-weight: 700; line-height: 1; }
+        .stat-label { font-size: 12px; color: var(--text2); margin-top: 4px; }
+
+        /* Cards */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px; padding: 24px;
+            margin-bottom: 20px;
+            animation: fadeUp .4s ease both;
+        }
+        .card-title {
+            font-size: 14px; font-weight: 600; text-transform: uppercase;
+            letter-spacing: .8px; color: var(--text2);
+            margin-bottom: 18px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .card-title i { color: var(--accent); }
+
+        /* Add tem input */
+        .add-row { display: flex; gap: 12px; }
+        .add-row input {
+            flex: 1;
+            background: var(--surface2); border: 1px solid var(--border);
+            border-radius: 10px; padding: 12px 16px;
+            color: var(--text); font-size: 15px; font-family: inherit;
+            transition: border-color .2s, box-shadow .2s;
+        }
+        .add-row input:focus {
+            outline: none; border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(79,142,247,.15);
+        }
+        .add-row input::placeholder { color: var(--text3); }
+        .btn-add {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            color: #fff; border: none; border-radius: 10px;
+            padding: 12px 22px; font-size: 14px; font-weight: 600;
+            font-family: inherit; cursor: pointer; white-space: nowrap;
+            display: flex; align-items: center; gap: 8px;
+            box-shadow: 0 4px 14px rgba(79,142,247,.3);
+            transition: opacity .2s, transform .1s;
+        }
+        .btn-add:hover { opacity: .9; }
+        .btn-add:active { transform: scale(.97); }
+
+        /* Filter pills */
+        .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
+        .filter-pill {
+            padding: 8px 18px; border-radius: 20px; font-size: 13px; font-weight: 500;
+            font-family: inherit; border: 1px solid var(--border); cursor: pointer;
+            color: var(--text2); background: transparent;
+            transition: all .2s;
+        }
+        .filter-pill.active, .filter-pill:hover {
+            background: var(--accent); border-color: var(--accent);
+            color: #fff; box-shadow: 0 4px 12px rgba(79,142,247,.3);
+        }
+        .filter-pill.active.green, .filter-pill.green:hover {
+            background: var(--success); border-color: var(--success);
+            box-shadow: 0 4px 12px rgba(34,197,94,.3);
+        }
+        .filter-pill.active.gray, .filter-pill.gray:hover {
+            background: var(--text3); border-color: var(--text3);
+        }
+
+        /* Tem list */
+        #temList { display: flex; flex-direction: column; gap: 10px; }
+        .tem-item {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 12px; padding: 16px 18px;
+            display: flex; align-items: center; justify-content: space-between;
+            transition: border-color .2s, background .2s;
+            animation: fadeUp .3s ease both;
+        }
+        .tem-item:hover { border-color: rgba(79,142,247,.35); background: #1e2236; }
+        .tem-item.is-used { border-color: rgba(34,197,94,.2); }
+        .tem-left { display: flex; align-items: center; gap: 14px; }
+        .tem-status-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .tem-status-dot.used { background: var(--success); box-shadow: 0 0 8px rgba(34,197,94,.5); }
+        .tem-status-dot.unused { background: var(--text3); }
+        .tem-number { font-size: 16px; font-weight: 600; }
+        .tem-meta { font-size: 12px; color: var(--text2); margin-top: 3px; }
+        .tem-meta.used-text { color: #4ade80; }
+        .tem-actions { display: flex; gap: 8px; }
+        .btn-action {
+            padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 600;
+            font-family: inherit; border: none; cursor: pointer;
+            display: flex; align-items: center; gap: 6px;
+            transition: opacity .2s, transform .1s;
+        }
+        .btn-action:active { transform: scale(.95); }
+        .btn-action:hover { opacity: .85; }
+        .btn-use { background: rgba(34,197,94,.15); color: #4ade80; }
+        .btn-undo { background: rgba(245,158,11,.15); color: #fbbf24; }
+        .btn-del { background: rgba(239,68,68,.12); color: #f87171; }
+
+        .empty-state {
+            text-align: center; padding: 48px 20px;
+            color: var(--text3); font-size: 15px;
+        }
+        .empty-state i { font-size: 36px; display: block; margin-bottom: 12px; opacity: .5; }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 600px) {
+            .stats-row { grid-template-columns: 1fr; }
+            .app-header { padding: 14px 16px; }
+            .app-content { padding: 20px 14px; }
+            .tem-actions { flex-direction: column; }
+            .header-right { gap: 8px; }
+        }
+    </style>
 </head>
-<body class="bg-gray-100">
-    <div class="container mx-auto px-4 py-8 max-w-4xl">
-        <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">
-            <i class="fas fa-ticket-alt mr-2"></i>Quản lý tem niêm phong
-        </h1>
+<body>
 
-        <!-- Form nhập tem mới -->
-        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-            <h2 class="text-xl font-semibold mb-4 text-gray-700">Thêm tem mới</h2>
-            <div class="flex gap-4">
-                <input type="text" id="temNumber" placeholder="Nhập số tem..." 
-                    class="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                <button onclick="addTem()" 
-                    class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition duration-200 flex items-center gap-2">
-                    <i class="fas fa-plus"></i>Thêm
-                </button>
-            </div>
+<!-- ══════════════════ LOGIN ══════════════════ -->
+<div id="loginScreen">
+    <div class="login-card">
+        <div class="login-logo">
+            <div class="icon-wrap"><i class="fas fa-shield-halved"></i></div>
+            <h1 id="loginTitle">Quản lý tem niêm phong</h1>
+            <p id="loginSubtitle">封条管理系统</p>
+            <span class="lang-tag">Tiếng Việt / 中文</span>
         </div>
-
-        <!-- Bộ lọc -->
-        <div class="bg-white rounded-lg shadow-md p-4 mb-6">
-            <div class="flex gap-4 items-center">
-                <span class="text-gray-600 font-medium">Lọc:</span>
-                <button onclick="filterTems('all')" id="filterAll" 
-                    class="filter-btn px-4 py-2 rounded-lg bg-blue-500 text-white transition duration-200">
-                    Tất cả
-                </button>
-                <button onclick="filterTems('used')" id="filterUsed" 
-                    class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition duration-200">
-                    Đã sử dụng
-                </button>
-                <button onclick="filterTems('unused')" id="filterUnused" 
-                    class="filter-btn px-4 py-2 rounded-lg bg-gray-200 hover:bg-gray-300 transition duration-200">
-                    Chưa sử dụng
-                </button>
-            </div>
+        <div id="loginError" class="login-error"></div>
+        <div class="form-group">
+            <label id="lblUsername">TÊN ĐĂNG NHẬP / 用户名</label>
+            <input type="text" id="loginUser" placeholder="admin" autocomplete="username">
         </div>
-
-        <!-- Danh sách tem -->
-        <div class="bg-white rounded-lg shadow-md p-6">
-            <h2 class="text-xl font-semibold mb-4 text-gray-700">Danh sách tem</h2>
-            <div id="temList" class="space-y-2">
-                <!-- Danh sách sẽ được load ở đây -->
-            </div>
+        <div class="form-group">
+            <label id="lblPassword">MẬT KHẨU / 密码</label>
+            <input type="password" id="loginPass" placeholder="••••••" autocomplete="current-password">
         </div>
+        <button class="btn-primary" onclick="doLogin()" id="btnLogin">
+            <i class="fas fa-right-to-bracket"></i> Đăng nhập / 登录
+        </button>
     </div>
+</div>
 
-    <script>
-        // Cấu hình Firebase
-        const firebaseConfig = {
-            databaseURL: "https://bankvanhungbian-default-rtdb.asia-southeast1.firebasedatabase.app/"
-        };
+<!-- ══════════════════ MAIN APP ══════════════════ -->
+<div id="mainApp">
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-left">
+            <div class="header-icon"><i class="fas fa-ticket-simple"></i></div>
+            <div>
+                <div class="header-title" id="appTitle">Quản lý tem niêm phong</div>
+                <div class="header-subtitle" id="appSubtitle">封条管理系统</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="lang-toggle">
+                <button id="btnVI" class="active" onclick="setLang('vi')">VI</button>
+                <button id="btnZH" onclick="setLang('zh')">中文</button>
+            </div>
+            <div class="admin-badge">
+                <i class="fas fa-user-shield"></i>
+                <span id="adminLabel">Admin</span>
+            </div>
+            <button class="btn-logout" onclick="doLogout()">
+                <i class="fas fa-right-from-bracket"></i>
+                <span id="logoutLabel">Đăng xuất</span>
+            </button>
+        </div>
+    </header>
 
-        // Khởi tạo Firebase
-        firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-        const temRef = database.ref('tems');
+    <!-- Content -->
+    <div class="app-content">
 
-        let currentFilter = 'all';
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon blue"><i class="fas fa-layer-group"></i></div>
+                <div>
+                    <div class="stat-value" id="statTotal">0</div>
+                    <div class="stat-label" id="statTotalLabel">Tổng số tem</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon green"><i class="fas fa-circle-check"></i></div>
+                <div>
+                    <div class="stat-value" id="statUsed">0</div>
+                    <div class="stat-label" id="statUsedLabel">Đã sử dụng</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon gray"><i class="fas fa-circle-dot"></i></div>
+                <div>
+                    <div class="stat-value" id="statUnused">0</div>
+                    <div class="stat-label" id="statUnusedLabel">Chưa sử dụng</div>
+                </div>
+            </div>
+        </div>
 
-        // Hàm thêm tem mới
-        function addTem() {
-            const temNumber = document.getElementById('temNumber').value.trim();
-            
-            if (temNumber === '') {
-                alert('Vui lòng nhập số tem!');
-                return;
-            }
+        <!-- Add new -->
+        <div class="card">
+            <div class="card-title"><i class="fas fa-plus-circle"></i><span id="addTitle">THÊM TEM MỚI</span></div>
+            <div class="add-row">
+                <input type="text" id="temNumber" id="temNumber" placeholder="Nhập số tem..." onkeydown="if(event.key==='Enter')addTem()">
+                <button class="btn-add" onclick="addTem()">
+                    <i class="fas fa-plus"></i><span id="btnAddLabel">Thêm</span>
+                </button>
+            </div>
+        </div>
 
-            // Kiểm tra tem đã tồn tại
-            temRef.orderByChild('number').equalTo(temNumber).once('value', (snapshot) => {
-                if (snapshot.exists()) {
-                    alert('Số tem này đã tồn tại!');
-                    return;
-                }
+        <!-- Filter -->
+        <div class="card" style="padding:18px 24px;">
+            <div class="filter-row">
+                <button class="filter-pill active" id="fAll" onclick="filterTems('all')"><span id="fAllLabel">Tất cả</span></button>
+                <button class="filter-pill green" id="fUsed" onclick="filterTems('used')"><span id="fUsedLabel">Đã sử dụng</span></button>
+                <button class="filter-pill gray" id="fUnused" onclick="filterTems('unused')"><span id="fUnusedLabel">Chưa sử dụng</span></button>
+            </div>
+        </div>
 
-                // Thêm tem mới
-                const newTem = {
-                    number: temNumber,
-                    used: false,
-                    createdAt: new Date().toISOString(),
-                    usedAt: null
-                };
+        <!-- List -->
+        <div class="card">
+            <div class="card-title"><i class="fas fa-list-ul"></i><span id="listTitle">DANH SÁCH TEM</span></div>
+            <div id="temList"></div>
+        </div>
 
-                temRef.push(newTem)
-                    .then(() => {
-                        document.getElementById('temNumber').value = '';
-                        loadTems();
-                    })
-                    .catch(error => {
-                        console.error('Lỗi khi thêm tem:', error);
-                        alert('Có lỗi xảy ra khi thêm tem!');
-                    });
-            });
-        }
+    </div>
+</div>
 
-        // Hàm cập nhật trạng thái sử dụng
-        function toggleUsed(temId, currentStatus) {
-            const updates = {
-                used: !currentStatus,
-                usedAt: !currentStatus ? new Date().toISOString() : null
-            };
+<script>
+// ── Firebase ──────────────────────────────────────────────
+const firebaseConfig = {
+    databaseURL: "https://bankvanhungbian-default-rtdb.asia-southeast1.firebasedatabase.app/"
+};
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+const temRef = database.ref('tems');
 
-            temRef.child(temId).update(updates)
-                .then(() => {
-                    loadTems();
-                })
-                .catch(error => {
-                    console.error('Lỗi khi cập nhật:', error);
-                    alert('Có lỗi xảy ra khi cập nhật!');
-                });
-        }
+// ── Auth ──────────────────────────────────────────────────
+const ADMIN = { username: 'admin', password: 'admin' };
+let loggedIn = false;
 
-        // Hàm xóa tem
-        function deleteTem(temId) {
-            if (confirm('Bạn có chắc muốn xóa tem này?')) {
-                temRef.child(temId).remove()
-                    .then(() => {
-                        loadTems();
-                    })
-                    .catch(error => {
-                        console.error('Lỗi khi xóa:', error);
-                        alert('Có lỗi xảy ra khi xóa!');
-                    });
-            }
-        }
+function doLogin() {
+    const u = document.getElementById('loginUser').value.trim();
+    const p = document.getElementById('loginPass').value;
+    const err = document.getElementById('loginError');
+    if (u === ADMIN.username && p === ADMIN.password) {
+        loggedIn = true;
+        err.style.display = 'none';
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('mainApp').style.display = 'block';
+        loadTems();
+    } else {
+        err.textContent = lang === 'vi'
+            ? 'Tên đăng nhập hoặc mật khẩu không đúng!'
+            : '用户名或密码错误！';
+        err.style.display = 'block';
+    }
+}
+document.getElementById('loginPass').addEventListener('keydown', e => {
+    if (e.key === 'Enter') doLogin();
+});
 
-        // Hàm lọc tem
-        function filterTems(filter) {
-            currentFilter = filter;
-            
-            // Cập nhật style cho các nút filter
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('bg-blue-500', 'text-white');
-                btn.classList.add('bg-gray-200', 'hover:bg-gray-300');
-            });
-            
-            const activeBtn = filter === 'all' ? document.getElementById('filterAll') : 
-                            filter === 'used' ? document.getElementById('filterUsed') : 
-                            document.getElementById('filterUnused');
-            activeBtn.classList.remove('bg-gray-200', 'hover:bg-gray-300');
-            activeBtn.classList.add('bg-blue-500', 'text-white');
-            
-            loadTems();
-        }
+function doLogout() {
+    loggedIn = false;
+    document.getElementById('mainApp').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'flex';
+    document.getElementById('loginUser').value = '';
+    document.getElementById('loginPass').value = '';
+}
 
-        // Hàm load danh sách tem
-        function loadTems() {
-            temRef.orderByChild('createdAt').once('value', (snapshot) => {
-                const tems = [];
-                snapshot.forEach(childSnapshot => {
-                    tems.push({
-                        id: childSnapshot.key,
-                        ...childSnapshot.val()
-                    });
-                });
+// ── Language ──────────────────────────────────────────────
+let lang = 'vi';
+const t = {
+    vi: {
+        loginTitle: 'Quản lý tem niêm phong',
+        loginSubtitle: '封条管理系统',
+        lblUsername: 'TÊN ĐĂNG NHẬP / 用户名',
+        lblPassword: 'MẬT KHẨU / 密码',
+        btnLogin: 'Đăng nhập / 登录',
+        loginPlaceholder: 'Nhập số tem...',
+        appTitle: 'Quản lý tem niêm phong',
+        appSubtitle: '封条管理系统',
+        adminLabel: 'Quản trị viên',
+        logoutLabel: 'Đăng xuất',
+        statTotalLabel: 'Tổng số tem',
+        statUsedLabel: 'Đã sử dụng',
+        statUnusedLabel: 'Chưa sử dụng',
+        addTitle: 'THÊM TEM MỚI',
+        btnAddLabel: 'Thêm',
+        fAllLabel: 'Tất cả',
+        fUsedLabel: 'Đã sử dụng',
+        fUnusedLabel: 'Chưa sử dụng',
+        listTitle: 'DANH SÁCH TEM',
+        usedText: t => `Đã sử dụng: ${new Date(t).toLocaleString('vi-VN')}`,
+        unusedText: 'Chưa sử dụng',
+        btnUse: 'Sử dụng',
+        btnUndo: 'Hoàn tác',
+        btnDel: 'Xóa',
+        emptyMsg: 'Không có tem nào',
+        confirmDel: 'Bạn có chắc muốn xóa tem này?',
+        alertEmpty: 'Vui lòng nhập số tem!',
+        alertExists: 'Số tem này đã tồn tại!',
+        alertAddErr: 'Có lỗi xảy ra khi thêm tem!',
+        alertUpdateErr: 'Có lỗi xảy ra khi cập nhật!',
+        alertDelErr: 'Có lỗi xảy ra khi xóa!'
+    },
+    zh: {
+        loginTitle: '封条管理系统',
+        loginSubtitle: 'Quản lý tem niêm phong',
+        lblUsername: '用户名 / TÊN ĐĂNG NHẬP',
+        lblPassword: '密码 / MẬT KHẨU',
+        btnLogin: '登录 / Đăng nhập',
+        loginPlaceholder: '请输入封条编号...',
+        appTitle: '封条管理系统',
+        appSubtitle: 'Quản lý tem niêm phong',
+        adminLabel: '管理员',
+        logoutLabel: '退出登录',
+        statTotalLabel: '封条总数',
+        statUsedLabel: '已使用',
+        statUnusedLabel: '未使用',
+        addTitle: '添加新封条',
+        btnAddLabel: '添加',
+        fAllLabel: '全部',
+        fUsedLabel: '已使用',
+        fUnusedLabel: '未使用',
+        listTitle: '封条列表',
+        usedText: t => `已使用：${new Date(t).toLocaleString('zh-CN')}`,
+        unusedText: '未使用',
+        btnUse: '标记使用',
+        btnUndo: '撤销',
+        btnDel: '删除',
+        emptyMsg: '暂无封条',
+        confirmDel: '确定要删除此封条吗？',
+        alertEmpty: '请输入封条编号！',
+        alertExists: '该封条编号已存在！',
+        alertAddErr: '添加封条时发生错误！',
+        alertUpdateErr: '更新时发生错误！',
+        alertDelErr: '删除时发生错误！'
+    }
+};
 
-                // Đảo ngược để hiển thị mới nhất lên đầu
-                tems.reverse();
+// Make usedText/unusedText static strings for lookup; functions handled separately
+function T(key, arg) {
+    const v = t[lang][key];
+    if (typeof v === 'function') return v(arg);
+    return v;
+}
 
-                // Lọc theo trạng thái
-                let filteredTems = tems;
-                if (currentFilter === 'used') {
-                    filteredTems = tems.filter(tem => tem.used);
-                } else if (currentFilter === 'unused') {
-                    filteredTems = tems.filter(tem => !tem.used);
-                }
+function setLang(l) {
+    lang = l;
+    document.getElementById('btnVI').classList.toggle('active', l === 'vi');
+    document.getElementById('btnZH').classList.toggle('active', l === 'zh');
+    applyLang();
+    loadTems();
+}
 
-                displayTems(filteredTems);
-            });
-        }
+function applyLang() {
+    const keys = [
+        'loginTitle','loginSubtitle','lblUsername','lblPassword','appTitle','appSubtitle',
+        'adminLabel','logoutLabel','statTotalLabel','statUsedLabel','statUnusedLabel',
+        'addTitle','btnAddLabel','fAllLabel','fUsedLabel','fUnusedLabel','listTitle'
+    ];
+    const map = {
+        loginTitle: 'loginTitle', loginSubtitle: 'loginSubtitle',
+        lblUsername: 'lblUsername', lblPassword: 'lblPassword',
+        appTitle: 'appTitle', appSubtitle: 'appSubtitle',
+        adminLabel: 'adminLabel', logoutLabel: 'logoutLabel',
+        statTotalLabel: 'statTotalLabel', statUsedLabel: 'statUsedLabel', statUnusedLabel: 'statUnusedLabel',
+        addTitle: 'addTitle', btnAddLabel: 'btnAddLabel',
+        fAllLabel: 'fAllLabel', fUsedLabel: 'fUsedLabel', fUnusedLabel: 'fUnusedLabel',
+        listTitle: 'listTitle'
+    };
+    for (const [elId, key] of Object.entries(map)) {
+        const el = document.getElementById(elId);
+        if (el) el.textContent = T(key);
+    }
+    document.getElementById('btnLogin').innerHTML = `<i class="fas fa-right-to-bracket"></i> ${T('btnLogin')}`;
+    document.getElementById('temNumber').placeholder = T('loginPlaceholder');
+}
 
-        // Hàm hiển thị danh sách tem
-        function displayTems(tems) {
-            const temList = document.getElementById('temList');
-            
-            if (tems.length === 0) {
-                temList.innerHTML = '<p class="text-center text-gray-500 py-4">Không có tem nào</p>';
-                return;
-            }
+// ── State ─────────────────────────────────────────────────
+let currentFilter = 'all';
+let allTems = [];
 
-            temList.innerHTML = tems.map(tem => `
-                <div class="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition duration-200 ${tem.used ? 'bg-gray-50' : ''}">
-                    <div class="flex items-center gap-4">
-                        <i class="fas ${tem.used ? 'fa-check-circle text-green-500' : 'fa-circle text-gray-400'}"></i>
-                        <div>
-                            <span class="font-medium text-lg">${tem.number}</span>
-                            <div class="text-sm text-gray-500">
-                                ${tem.used ? 
-                                    `<span class="text-green-600">Đã sử dụng: ${new Date(tem.usedAt).toLocaleString('vi-VN')}</span>` : 
-                                    '<span class="text-gray-500">Chưa sử dụng</span>'}
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex gap-2">
-                        <button onclick="toggleUsed('${tem.id}', ${tem.used})" 
-                            class="px-3 py-1 rounded-lg ${tem.used ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-green-500 hover:bg-green-600'} text-white transition duration-200 text-sm">
-                            <i class="fas ${tem.used ? 'fa-undo' : 'fa-check'} mr-1"></i>
-                            ${tem.used ? 'Hoàn tác' : 'Sử dụng'}
-                        </button>
-                        <button onclick="deleteTem('${tem.id}')" 
-                            class="px-3 py-1 rounded-lg bg-red-500 hover:bg-red-600 text-white transition duration-200 text-sm">
-                            <i class="fas fa-trash mr-1"></i>Xóa
-                        </button>
+// ── Filter ────────────────────────────────────────────────
+function filterTems(f) {
+    currentFilter = f;
+    document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+    const map = { all: 'fAll', used: 'fUsed', unused: 'fUnused' };
+    document.getElementById(map[f]).classList.add('active');
+    renderTems();
+}
+
+// ── Firebase ops ──────────────────────────────────────────
+function addTem() {
+    const input = document.getElementById('temNumber');
+    const num = input.value.trim();
+    if (!num) { alert(T('alertEmpty')); return; }
+    temRef.orderByChild('number').equalTo(num).once('value', snap => {
+        if (snap.exists()) { alert(T('alertExists')); return; }
+        temRef.push({ number: num, used: false, createdAt: new Date().toISOString(), usedAt: null })
+            .then(() => { input.value = ''; loadTems(); })
+            .catch(() => alert(T('alertAddErr')));
+    });
+}
+
+function toggleUsed(id, cur) {
+    temRef.child(id).update({ used: !cur, usedAt: !cur ? new Date().toISOString() : null })
+        .then(() => loadTems())
+        .catch(() => alert(T('alertUpdateErr')));
+}
+
+function deleteTem(id) {
+    if (!confirm(T('confirmDel'))) return;
+    temRef.child(id).remove()
+        .then(() => loadTems())
+        .catch(() => alert(T('alertDelErr')));
+}
+
+function loadTems() {
+    temRef.orderByChild('createdAt').once('value', snap => {
+        allTems = [];
+        snap.forEach(c => allTems.push({ id: c.key, ...c.val() }));
+        allTems.reverse();
+        updateStats();
+        renderTems();
+    });
+}
+
+function updateStats() {
+    const used = allTems.filter(t => t.used).length;
+    document.getElementById('statTotal').textContent = allTems.length;
+    document.getElementById('statUsed').textContent = used;
+    document.getElementById('statUnused').textContent = allTems.length - used;
+}
+
+function renderTems() {
+    let list = allTems;
+    if (currentFilter === 'used') list = allTems.filter(t => t.used);
+    else if (currentFilter === 'unused') list = allTems.filter(t => !t.used);
+
+    const el = document.getElementById('temList');
+    if (!list.length) {
+        el.innerHTML = `<div class="empty-state"><i class="fas fa-ticket-simple"></i>${T('emptyMsg')}</div>`;
+        return;
+    }
+    el.innerHTML = list.map(tem => `
+        <div class="tem-item ${tem.used ? 'is-used' : ''}">
+            <div class="tem-left">
+                <div class="tem-status-dot ${tem.used ? 'used' : 'unused'}"></div>
+                <div>
+                    <div class="tem-number">${tem.number}</div>
+                    <div class="tem-meta ${tem.used ? 'used-text' : ''}">
+                        ${tem.used ? T('usedText', tem.usedAt) : T('unusedText')}
                     </div>
                 </div>
-            `).join('');
-        }
+            </div>
+            <div class="tem-actions">
+                <button class="btn-action ${tem.used ? 'btn-undo' : 'btn-use'}" onclick="toggleUsed('${tem.id}',${tem.used})">
+                    <i class="fas ${tem.used ? 'fa-rotate-left' : 'fa-check'}"></i>
+                    ${tem.used ? T('btnUndo') : T('btnUse')}
+                </button>
+                <button class="btn-action btn-del" onclick="deleteTem('${tem.id}')">
+                    <i class="fas fa-trash-can"></i>${T('btnDel')}
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
 
-        // Load dữ liệu khi trang được tải
-        window.onload = () => {
-            loadTems();
-        };
-    </script>
+window.onload = () => { applyLang(); };
+</script>
 </body>
 </html>
