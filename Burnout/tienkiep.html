@@ -3,226 +3,231 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Quản lý thu chi - Số dư & Lịch sử</title>
+  <title>Quản lý Thu Chi</title>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-database-compat.js"></script>
 
   <style>
     * { box-sizing: border-box; }
-    body { font-family: system-ui, sans-serif; background: #f0f4f8; margin: 0; padding: 20px; color: #333; }
+    body { 
+      font-family: system-ui, -apple-system, sans-serif; 
+      background: #f0f4f8; 
+      margin: 0; 
+      padding: 12px; 
+      color: #333; 
+      line-height: 1.5;
+    }
 
     /* LOGIN */
     #loginOverlay {
       position: fixed; inset: 0;
-      background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #388e3c 100%);
+      background: linear-gradient(135deg, #1b5e20, #2e7d32);
       display: flex; align-items: center; justify-content: center;
       z-index: 9999;
-      transition: opacity 0.4s ease;
     }
-    #loginOverlay.hidden { opacity: 0; pointer-events: none; }
-
     .login-box {
       background: white;
-      padding: 40px 36px;
+      padding: 32px 24px;
       border-radius: 20px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.3);
       width: 100%;
-      max-width: 380px;
+      max-width: 360px;
       text-align: center;
-      animation: slideUp 0.4s ease;
     }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .login-box .logo { font-size: 2.8em; margin-bottom: 8px; }
-    .login-box h2 { color: #2e7d32; margin: 0 0 6px; font-size: 1.4em; }
-    .login-box p  { color: #888; font-size: 0.9em; margin: 0 0 28px; }
+    .logo { font-size: 3.2em; margin-bottom: 10px; }
+    h2 { color: #2e7d32; margin: 0 0 8px; }
 
-    .login-field { margin-bottom: 16px; text-align: left; }
-    .login-field label { display: block; font-weight: 600; font-size: 0.9em; margin-bottom: 6px; color: #555; }
+    .login-field { margin-bottom: 18px; text-align: left; }
+    .login-field label { display: block; margin-bottom: 6px; font-weight: 600; }
     .login-field input {
-      width: 100%; padding: 12px 14px;
-      border: 2px solid #e0e0e0; border-radius: 10px;
-      font-size: 1em; transition: border-color 0.2s;
-      outline: none;
+      width: 100%; padding: 14px; border: 2px solid #ddd; border-radius: 12px; font-size: 1.05em;
     }
-    .login-field input:focus { border-color: #4caf50; }
-
     #loginBtn {
-      width: 100%; padding: 14px;
-      background: linear-gradient(135deg, #2e7d32, #43a047);
-      color: white; border: none; border-radius: 10px;
-      font-size: 1.05em; font-weight: 700; cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-      box-shadow: 0 4px 15px rgba(46,125,50,0.35);
-    }
-    #loginBtn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(46,125,50,0.45); }
-
-    #loginError {
-      margin-top: 14px; color: #d32f2f;
-      font-size: 0.9em; font-weight: 600;
-      min-height: 20px;
+      width: 100%; padding: 16px; font-size: 1.1em; font-weight: bold;
+      background: #2e7d32; color: white; border: none; border-radius: 12px;
     }
 
     /* MAIN APP */
     #app { display: none; }
     #app.visible { display: block; }
 
-    .container { max-width: 720px; margin: 0 auto; background: white; padding: 24px; border-radius: 16px; box-shadow: 0 6px 24px rgba(0,0,0,0.1); }
-    
-    .header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
-    h1 { text-align: center; color: #2e7d32; margin: 0; flex: 1; }
-    
-    #logoutBtn {
-      background: #f44336; color: white; border: none;
-      padding: 8px 14px; border-radius: 8px; font-size: 0.85em;
-      cursor: pointer; font-weight: 600;
+    .container { 
+      max-width: 720px; 
+      margin: 0 auto; 
+      background: white; 
+      border-radius: 16px; 
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      overflow: hidden;
     }
 
-    .user-badge {
-      font-size: 0.8em; color: #888; text-align: right;
-      margin-bottom: 16px; padding-right: 2px;
+    .header-row { 
+      display: flex; align-items: center; justify-content: space-between; 
+      padding: 16px 20px; background: #f8f9fa; 
     }
-    .user-badge span { color: #2e7d32; font-weight: 700; }
+    h1 { margin: 0; font-size: 1.35em; color: #1b5e20; }
 
-    .balance-box { text-align: center; background: linear-gradient(135deg, #4caf50, #66bb6a); color: white; padding: 28px; border-radius: 12px; margin: 20px 0; font-size: 1.6em; }
-    .balance-box small { display: block; font-size: 0.65em; opacity: 0.9; margin-top: 6px; }
+    .balance-box { 
+      text-align: center; 
+      background: linear-gradient(135deg, #4caf50, #66bb6a); 
+      color: white; 
+      padding: 24px 16px; 
+      margin: 0 16px 20px; 
+      border-radius: 16px; 
+    }
+    .balance-box strong { font-size: 1.8em; }
 
-    .url-info { text-align: center; font-size: 0.85em; color: #777; margin-bottom: 20px; word-break: break-all; }
+    .tabs { display: flex; margin: 0 16px 16px; background: #f1f1f1; border-radius: 12px; padding: 4px; }
+    .tab { 
+      flex: 1; padding: 14px; text-align: center; border-radius: 10px; 
+      font-weight: 600; cursor: pointer;
+    }
+    .tab.active { background: #2e7d32; color: white; }
 
-    form { display: grid; gap: 16px; }
-    label { font-weight: 600; display: block; margin-bottom: 6px; }
-    input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-size: 1em; }
-    button.main-btn { background: #2e7d32; color: white; border: none; padding: 14px; border-radius: 8px; font-size: 1.1em; cursor: pointer; width: 100%; }
-    button.main-btn:hover { background: #1b5e20; }
+    form { padding: 0 16px 20px; display: grid; gap: 16px; }
+    label { font-weight: 600; margin-bottom: 6px; display: block; }
+    input, select, textarea { 
+      width: 100%; padding: 14px; border: 1px solid #ccc; 
+      border-radius: 10px; font-size: 1em; 
+    }
 
-    .section { margin: 32px 0; }
-    .item { background: #f9f9f9; padding: 16px; border-radius: 10px; margin-bottom: 12px; border-left: 5px solid #4caf50; }
+    button.main-btn { 
+      padding: 16px; font-size: 1.1em; font-weight: bold; 
+      background: #2e7d32; color: white; border: none; border-radius: 12px; 
+    }
+
+    /* DANH SÁCH */
+    #list { padding: 0 16px 20px; }
+    .filter-tabs {
+      display: flex; gap: 8px; margin-bottom: 16px;
+    }
+    .filter-btn {
+      flex: 1; padding: 10px; border-radius: 8px; border: none;
+      background: #eee; font-weight: 600; cursor: pointer;
+    }
+    .filter-btn.active {
+      background: #2e7d32; color: white;
+    }
+
+    .item { 
+      background: #f9f9f9; 
+      padding: 16px; 
+      border-radius: 12px; 
+      margin-bottom: 12px; 
+      border-left: 6px solid #4caf50;
+      font-size: 1em;
+    }
     .item.thu { border-left-color: #2e7d32; }
     .item.chi { border-left-color: #d32f2f; }
-    .item strong { font-size: 1.15em; }
-    .tabs { display: flex; gap: 10px; margin-bottom: 20px; }
-    .tab { flex: 1; padding: 12px; text-align: center; background: #e0e0e0; border-radius: 8px 8px 0 0; cursor: pointer; font-weight: 600; }
-    .tab.active { background: #4caf50; color: white; }
-    .hidden { display: none; }
-    #loading, #error { text-align: center; padding: 20px; color: #555; font-style: italic; }
-    .time { font-size: 0.85em; color: #555; margin-top: 4px; display: block; }
 
-    /* Phân trang */
-    .pagination {
-      text-align: center;
-      margin: 25px 0;
-      font-size: 0.9em;
+    .item strong { font-size: 1.25em; }
+    .time { font-size: 0.85em; color: #666; margin-top: 6px; }
+    .node-id { 
+      font-size: 0.75em; color: #888; font-family: monospace; 
+      margin-top: 8px; word-break: break-all;
     }
-    .pagination button {
-      margin: 0 4px;
-      padding: 8px 14px;
-      border: 1px solid #ddd;
-      border-radius: 6px;
-      background: white;
-      cursor: pointer;
-    }
-    .pagination button:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
-    .pagination strong {
-      margin: 0 8px;
-      color: #2e7d32;
-    }
+
+    .pagination { text-align: center; margin: 20px 0; }
+    .pagination button { padding: 10px 14px; margin: 0 4px; border-radius: 8px; }
+
+    #loading, #error { text-align: center; padding: 30px; color: #555; }
   </style>
 </head>
 <body>
 
-<!-- LOGIN OVERLAY -->
+<!-- LOGIN -->
 <div id="loginOverlay">
   <div class="login-box">
     <div class="logo">💰</div>
     <h2>Quản lý Thu Chi</h2>
-    <p>Vui lòng đăng nhập để tiếp tục</p>
-
+    <p>Vui lòng đăng nhập</p>
     <div class="login-field">
       <label>Tên đăng nhập</label>
-      <input type="text" id="loginUsername" placeholder="Nhập tên đăng nhập" autocomplete="username" />
+      <input type="text" id="loginUsername" placeholder="Nhập tên đăng nhập" />
     </div>
     <div class="login-field">
       <label>Mật khẩu</label>
-      <input type="password" id="loginPassword" placeholder="Nhập mật khẩu" autocomplete="current-password" />
+      <input type="password" id="loginPassword" placeholder="Nhập mật khẩu" />
     </div>
-
     <button id="loginBtn">Đăng nhập</button>
-    <div id="loginError"></div>
+    <div id="loginError" style="color:red; margin-top:12px; min-height:20px;"></div>
   </div>
 </div>
 
-<!-- MAIN APP -->
+<!-- APP -->
 <div id="app">
   <div class="container">
     <div class="header-row">
-      <h1>Quản lý thu chi hàng ngày</h1>
-      <button id="logoutBtn">🚪 Đăng xuất</button>
+      <h1>📒 Thu Chi Hàng Ngày</h1>
+      <button id="logoutBtn" style="padding:8px 14px; background:#f44336; color:white; border:none; border-radius:8px;">Đăng xuất</button>
     </div>
-    <div class="user-badge">Đăng nhập với: <span id="usernameDisplay"></span></div>
 
-    <div class="url-info">
-      Database: <strong>https://khoanchitrongngay-default-rtdb.asia-southeast1.firebasedatabase.app/</strong>
+    <div style="text-align:center; padding:10px 16px; font-size:0.9em; color:#555;">
+      Đăng nhập: <strong id="usernameDisplay"></strong>
     </div>
 
     <div class="balance-box">
-      Số dư hiện tại: <br>
+      Số dư hiện tại<br>
       <strong id="currentBalance">0 ₫</strong>
-      <small>(Tổng thu − Tổng chi)</small>
     </div>
 
+    <!-- Tab nhập liệu -->
     <div class="tabs">
-      <div class="tab active" data-tab="thu">Ghi khoản THU</div>
-      <div class="tab" data-tab="chi">Ghi khoản CHI</div>
+      <div class="tab active" data-tab="thu">➕ THU</div>
+      <div class="tab" data-tab="chi">➖ CHI</div>
     </div>
 
     <!-- Form THU -->
     <form id="incomeForm" class="section">
       <div><label>Ngày</label><input type="date" id="ngay_thu" required></div>
-      <div><label>Mô tả khoản thu</label><input type="text" id="mo_ta_thu" placeholder="Lương tháng, thưởng..." required></div>
+      <div><label>Mô tả</label><input type="text" id="mo_ta_thu" placeholder="Lương, thưởng..." required></div>
       <div><label>Số tiền (VNĐ)</label><input type="text" id="so_tien_thu" placeholder="1.500.000" required class="money-input"></div>
       <div><label>Danh mục</label>
         <select id="danh_muc_thu" required>
           <option value="">Chọn danh mục</option>
           <option value="Lương">Lương / Thưởng</option>
-          <option value="Trợ cấp">Trợ cấp / Hỗ trợ</option>
-          <option value="Kinh doanh">Kinh doanh / Bán hàng</option>
-          <option value="Đầu tư">Lãi đầu tư</option>
+          <option value="Trợ cấp">Trợ cấp</option>
+          <option value="Kinh doanh">Kinh doanh</option>
+          <option value="Đầu tư">Đầu tư</option>
           <option value="Khác">Khác</option>
         </select>
       </div>
-      <div><label>Ghi chú (tùy chọn)</label><textarea id="ghi_chu_thu" rows="2"></textarea></div>
+      <div><label>Ghi chú</label><textarea id="ghi_chu_thu" rows="2"></textarea></div>
       <button type="submit" class="main-btn">Lưu khoản THU</button>
     </form>
 
     <!-- Form CHI -->
     <form id="expenseForm" class="section hidden">
       <div><label>Ngày</label><input type="date" id="ngay_chi" required></div>
-      <div><label>Mô tả khoản chi</label><input type="text" id="mo_ta_chi" placeholder="Ăn trưa, đổ xăng..." required></div>
+      <div><label>Mô tả</label><input type="text" id="mo_ta_chi" placeholder="Ăn uống, xăng xe..." required></div>
       <div><label>Số tiền (VNĐ)</label><input type="text" id="so_tien_chi" placeholder="65.000" required class="money-input"></div>
       <div><label>Danh mục</label>
         <select id="danh_muc_chi" required>
           <option value="">Chọn danh mục</option>
           <option value="Ăn uống">Ăn uống</option>
-          <option value="Đi lại">Đi lại / Xăng xe</option>
+          <option value="Đi lại">Đi lại / Xăng</option>
           <option value="Mua sắm">Mua sắm</option>
           <option value="Giải trí">Giải trí</option>
           <option value="Khác">Khác</option>
         </select>
       </div>
-      <div><label>Ghi chú (tùy chọn)</label><textarea id="ghi_chu_chi" rows="2"></textarea></div>
+      <div><label>Ghi chú</label><textarea id="ghi_chu_chi" rows="2"></textarea></div>
       <button type="submit" class="main-btn">Lưu khoản CHI</button>
     </form>
 
-    <div id="list" class="section">
-      <h3>Danh sách giao dịch</h3>
-      <div id="loading">Đang tải dữ liệu...</div>
+    <!-- Lịch sử -->
+    <div id="list">
+      <h3 style="padding:0 16px 10px; margin:0;">📋 Lịch sử giao dịch</h3>
+      
+      <!-- Bộ lọc -->
+      <div class="filter-tabs" style="padding:0 16px;">
+        <button class="filter-btn active" data-filter="all">Tất cả</button>
+        <button class="filter-btn" data-filter="thu">Chỉ Thu</button>
+        <button class="filter-btn" data-filter="chi">Chỉ Chi</button>
+      </div>
+
+      <div id="loading">Đang tải...</div>
       <div id="records"></div>
-      <div id="error" style="display:none; color:#d32f2f;"></div>
+      <div id="error" style="display:none; color:red; text-align:center;"></div>
     </div>
   </div>
 </div>
@@ -238,66 +243,38 @@ const loginError = document.getElementById('loginError');
 const logoutBtn = document.getElementById('logoutBtn');
 const usernameDisplay = document.getElementById('usernameDisplay');
 
-function showError(msg) {
-  loginError.textContent = msg;
-  loginError.style.animation = 'none';
-  requestAnimationFrame(() => loginError.style.animation = '');
-}
-
 function doLogin() {
-  const username = document.getElementById('loginUsername').value.trim().toLowerCase();
-  const password = document.getElementById('loginPassword').value;
-
-  if (!username || !password) {
-    showError('Vui lòng nhập đầy đủ thông tin.');
-    return;
-  }
-  if (ACCOUNTS[username] && ACCOUNTS[username] === password) {
-    sessionStorage.setItem('loggedInUser', username);
-    loginOverlay.classList.add('hidden');
-    setTimeout(() => loginOverlay.style.display = 'none', 400);
-    app.classList.add('visible');
-    usernameDisplay.textContent = username;
-    initFirebase();
-  } else {
-    showError('Tên đăng nhập hoặc mật khẩu không đúng!');
-    document.getElementById('loginPassword').value = '';
-  }
-}
-
-loginBtn.addEventListener('click', doLogin);
-document.getElementById('loginPassword').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
-document.getElementById('loginUsername').addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('loginPassword').focus(); });
-
-logoutBtn.addEventListener('click', () => {
-  sessionStorage.removeItem('loggedInUser');
-  loginOverlay.style.display = 'flex';
-  loginOverlay.classList.remove('hidden');
-  app.classList.remove('visible');
-  document.getElementById('loginUsername').value = '';
-  document.getElementById('loginPassword').value = '';
-});
-
-(function checkSession() {
-  const user = sessionStorage.getItem('loggedInUser');
-  if (user && ACCOUNTS[user]) {
+  const user = document.getElementById('loginUsername').value.trim().toLowerCase();
+  const pass = document.getElementById('loginPassword').value;
+  if (ACCOUNTS[user] && ACCOUNTS[user] === pass) {
+    sessionStorage.setItem('loggedInUser', user);
     loginOverlay.style.display = 'none';
     app.classList.add('visible');
     usernameDisplay.textContent = user;
     initFirebase();
+  } else {
+    loginError.textContent = 'Sai tên đăng nhập hoặc mật khẩu!';
   }
-})();
+}
 
-// ====================== FIREBASE ======================
-let firebaseInitialized = false;
+loginBtn.addEventListener('click', doLogin);
+logoutBtn.addEventListener('click', () => location.reload());
+
+// Auto login
+if (sessionStorage.getItem('loggedInUser') === 'captain') {
+  loginOverlay.style.display = 'none';
+  app.classList.add('visible');
+  usernameDisplay.textContent = 'captain';
+  initFirebase();
+}
+
+// ====================== APP ======================
 let allRecords = [];
+let currentFilter = 'all';
 let currentPage = 1;
-const ITEMS_PER_PAGE = 15;
+const ITEMS_PER_PAGE = 12;
 
 function initFirebase() {
-  if (firebaseInitialized) return;
-  firebaseInitialized = true;
-
   const firebaseConfig = { databaseURL: "https://khoanchitrongngay-default-rtdb.asia-southeast1.firebasedatabase.app" };
   firebase.initializeApp(firebaseConfig);
   const db = firebase.database();
@@ -308,7 +285,7 @@ function initFirebase() {
   document.getElementById('ngay_thu').value = today;
   document.getElementById('ngay_chi').value = today;
 
-  // Tab
+  // Tab Thu/Chi
   document.querySelectorAll('.tab').forEach(tab => {
     tab.addEventListener('click', () => {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
@@ -318,161 +295,114 @@ function initFirebase() {
     });
   });
 
-  // Format tiền
-  document.querySelectorAll('.money-input').forEach(input => {
-    input.addEventListener('input', e => {
-      let val = e.target.value.replace(/\D/g, '');
-      e.target.value = val ? Number(val).toLocaleString('vi-VN') : '';
+  // Filter Thu/Chi/All
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.filter;
+      currentPage = 1;
+      renderRecords();
     });
-    input.addEventListener('focus', e => e.target.value = e.target.value.replace(/\./g, ''));
   });
 
-  // Submit THU
+  // Format money
+  document.querySelectorAll('.money-input').forEach(input => {
+    input.addEventListener('input', () => {
+      let v = input.value.replace(/\D/g, '');
+      input.value = v ? Number(v).toLocaleString('vi-VN') : '';
+    });
+  });
+
+  // Submit forms (giữ nguyên logic cũ)
   document.getElementById('incomeForm').addEventListener('submit', e => {
     e.preventDefault();
-    const rawMoney = document.getElementById('so_tien_thu').value.replace(/\./g, '');
-    const data = {
+    const raw = document.getElementById('so_tien_thu').value.replace(/\./g,'');
+    thuRef.push({
       ngay: document.getElementById('ngay_thu').value,
       mo_ta: document.getElementById('mo_ta_thu').value.trim(),
-      so_tien: Number(rawMoney),
+      so_tien: Number(raw),
       danh_muc: document.getElementById('danh_muc_thu').value,
       ghi_chu: document.getElementById('ghi_chu_thu').value.trim() || null,
       thoi_gian: firebase.database.ServerValue.TIMESTAMP,
       loai: 'thu'
-    };
-    thuRef.push(data).then(() => {
-      alert('Đã lưu khoản thu!');
-      e.target.reset();
-      document.getElementById('ngay_thu').value = today;
-    }).catch(err => alert('Lỗi: ' + err.message));
+    }).then(() => { alert('✅ Lưu khoản THU thành công!'); e.target.reset(); document.getElementById('ngay_thu').value = today; });
   });
 
-  // Submit CHI
   document.getElementById('expenseForm').addEventListener('submit', e => {
     e.preventDefault();
-    const rawMoney = document.getElementById('so_tien_chi').value.replace(/\./g, '');
-    const data = {
+    const raw = document.getElementById('so_tien_chi').value.replace(/\./g,'');
+    chiRef.push({
       ngay: document.getElementById('ngay_chi').value,
       mo_ta: document.getElementById('mo_ta_chi').value.trim(),
-      so_tien: Number(rawMoney),
+      so_tien: Number(raw),
       danh_muc: document.getElementById('danh_muc_chi').value,
       ghi_chu: document.getElementById('ghi_chu_chi').value.trim() || null,
       thoi_gian: firebase.database.ServerValue.TIMESTAMP,
       loai: 'chi'
-    };
-    chiRef.push(data).then(() => {
-      alert('Đã lưu khoản chi!');
-      e.target.reset();
-      document.getElementById('ngay_chi').value = today;
-    }).catch(err => alert('Lỗi: ' + err.message));
+    }).then(() => { alert('✅ Lưu khoản CHI thành công!'); e.target.reset(); document.getElementById('ngay_chi').value = today; });
   });
 
   function formatDateTime(ts) {
-    if (!ts) return '—';
     const d = new Date(ts);
-    return `${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()} ` +
-           `${d.getHours().toString().padStart(2,'0')}:${d.getMinutes().toString().padStart(2,'0')}`;
+    return `${d.getDate().toString().padStart(2,'0')}/${(d.getMonth()+1).toString().padStart(2,'0')}/${d.getFullYear()}`;
   }
-
-  function renderPagination(totalItems) {
-    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
-    let html = `<div class="pagination">Trang ${currentPage}/${totalPages} &nbsp; `;
-    
-    html += `<button onclick="changePage(${currentPage-1})" ${currentPage===1 ? 'disabled' : ''}>← Trước</button>`;
-    
-    for (let i = 1; i <= totalPages; i++) {
-      if (i === currentPage) html += `<strong>${i}</strong>`;
-      else if (i === 1 || i === totalPages || (i >= currentPage-2 && i <= currentPage+2)) {
-        html += `<button onclick="changePage(${i})">${i}</button>`;
-      }
-    }
-    
-    html += `<button onclick="changePage(${currentPage+1})" ${currentPage===totalPages ? 'disabled' : ''}>Sau →</button>`;
-    html += `</div>`;
-
-    let pagi = document.getElementById('pagination');
-    if (!pagi) {
-      pagi = document.createElement('div');
-      pagi.id = 'pagination';
-      document.getElementById('list').appendChild(pagi);
-    }
-    pagi.innerHTML = html;
-  }
-
-  window.changePage = function(page) {
-    const totalPages = Math.ceil(allRecords.length / ITEMS_PER_PAGE);
-    if (page < 1 || page > totalPages) return;
-    currentPage = page;
-    renderRecords();
-  };
 
   function renderRecords() {
-    const recordsEl = document.getElementById('records');
-    recordsEl.innerHTML = '';
+    const container = document.getElementById('records');
+    container.innerHTML = '';
 
-    const start = (currentPage - 1) * ITEMS_PER_PAGE;
-    const end = start + ITEMS_PER_PAGE;
-    const pageRecords = allRecords.slice(start, end);
+    let filtered = allRecords;
+    if (currentFilter === 'thu') filtered = allRecords.filter(r => r.loai === 'thu');
+    if (currentFilter === 'chi') filtered = allRecords.filter(r => r.loai === 'chi');
 
-    pageRecords.forEach(item => {
+    const start = (currentPage-1)*ITEMS_PER_PAGE;
+    const pageData = filtered.slice(start, start + ITEMS_PER_PAGE);
+
+    pageData.forEach(item => {
       const div = document.createElement('div');
       div.className = `item ${item.loai}`;
-      const sign = item.loai === 'thu' ? '+' : '-';
+      const sign = item.loai === 'thu' ? '+ ' : '- ';
       const color = item.loai === 'thu' ? '#2e7d32' : '#d32f2f';
 
       div.innerHTML = `
-        <strong style="color:${color}">${sign}${Number(item.so_tien).toLocaleString('vi-VN')} ₫</strong>
-        — ${item.mo_ta} <small>(${item.danh_muc || 'Khác'})</small>
-        <span class="time">${formatDateTime(item.thoi_gian)}${item.ghi_chu ? ' • ' + item.ghi_chu : ''}</span>
-        <div style="margin-top:8px; font-size:0.78em; color:#777; font-family:monospace;">
-          ID: <strong>${item.id}</strong>
-        </div>
+        <strong style="color:${color}">${sign}${Number(item.so_tien).toLocaleString('vi-VN')} ₫</strong><br>
+        ${item.mo_ta} <small>(${item.danh_muc || 'Khác'})</small>
+        <div class="time">${formatDateTime(item.thoi_gian)} ${item.ghi_chu ? '• ' + item.ghi_chu : ''}</div>
+        <div class="node-id">ID: ${item.id}</div>
       `;
-      recordsEl.appendChild(div);
+      container.appendChild(div);
     });
 
-    if (pageRecords.length === 0) {
-      recordsEl.innerHTML = '<p style="text-align:center;color:#777">Chưa có giao dịch nào.</p>';
+    if (pageData.length === 0) {
+      container.innerHTML = `<p style="text-align:center; color:#777; padding:30px 0;">Chưa có dữ liệu</p>`;
     }
-
-    renderPagination(allRecords.length);
   }
 
   function updateUI() {
     document.getElementById('loading').style.display = 'block';
     allRecords = [];
 
-    Promise.all([thuRef.once('value'), chiRef.once('value')])
-      .then(([snapThu, snapChi]) => {
-        const thuData = snapThu.val() || {};
-        Object.entries(thuData).forEach(([id, item]) => {
-          allRecords.push({ id, ...item, loai: 'thu' });
-        });
-
-        const chiData = snapChi.val() || {};
-        Object.entries(chiData).forEach(([id, item]) => {
-          allRecords.push({ id, ...item, loai: 'chi' });
-        });
-
-        // Tính số dư
-        const totalThu = allRecords.filter(r => r.loai === 'thu').reduce((s, r) => s + (r.so_tien || 0), 0);
-        const totalChi = allRecords.filter(r => r.loai === 'chi').reduce((s, r) => s + (r.so_tien || 0), 0);
-        const soDu = totalThu - totalChi;
-
-        document.getElementById('currentBalance').textContent = soDu.toLocaleString('vi-VN') + ' ₫';
-        document.getElementById('currentBalance').style.color = soDu >= 0 ? '#fff' : '#ffcdd2';
-
-        allRecords.sort((a, b) => (b.thoi_gian || 0) - (a.thoi_gian || 0));
-
-        currentPage = 1;
-        renderRecords();
-        document.getElementById('loading').style.display = 'none';
-      })
-      .catch(err => {
-        document.getElementById('loading').style.display = 'none';
-        document.getElementById('error').style.display = 'block';
-        document.getElementById('error').textContent = 'Lỗi: ' + err.message;
+    Promise.all([thuRef.once('value'), chiRef.once('value')]).then(([thuSnap, chiSnap]) => {
+      thuSnap.forEach(child => {
+        allRecords.push({ id: child.key, ...child.val(), loai: 'thu' });
       });
+      chiSnap.forEach(child => {
+        allRecords.push({ id: child.key, ...child.val(), loai: 'chi' });
+      });
+
+      // Tính số dư
+      const totalThu = allRecords.filter(r => r.loai === 'thu').reduce((sum, r) => sum + r.so_tien, 0);
+      const totalChi = allRecords.filter(r => r.loai === 'chi').reduce((sum, r) => sum + r.so_tien, 0);
+      const balance = totalThu - totalChi;
+
+      document.getElementById('currentBalance').textContent = balance.toLocaleString('vi-VN') + ' ₫';
+      document.getElementById('currentBalance').style.color = balance >= 0 ? '#fff' : '#ffebee';
+
+      allRecords.sort((a,b) => (b.thoi_gian || 0) - (a.thoi_gian || 0));
+      renderRecords();
+      document.getElementById('loading').style.display = 'none';
+    });
   }
 
   thuRef.on('value', updateUI);
