@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VIP</title>
+  <title>RikVip</title>
   
   <!-- Favicon Icon -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%232563eb%22><path d=%22M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z%22/></svg>">
@@ -14,7 +14,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
-  
+  <!-- EmailJS SDK (Để gửi Mail trực tiếp từ giao diện) -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
   <style>
     body { font-family: 'Inter', sans-serif; }
     pre, code { font-family: 'Fira Code', monospace; }
@@ -29,7 +31,7 @@
         <i class="fa-solid fa-shield-halved"></i>
       </div>
       <h1 class="text-2xl font-bold text-slate-900 mb-2">Cổng Chấm Công Bảo Vệ</h1>
-      <p class="text-slate-500 mb-8 text-sm">Vui lòng đăng nhập bằng tài khoản Google để thực hiện quản lý ca trực 12H.</p>
+      <p class="text-slate-500 mb-8 text-sm">Vui lòng đăng nhập để xem toàn bộ dữ liệu hệ thống và xuất báo cáo qua Email.</p>
       
       <button id="btn-login" class="w-full flex items-center justify-center gap-3 bg-white border border-slate-300 hover:border-slate-400 text-slate-700 font-semibold py-3 px-4 rounded-xl shadow-sm transition duration-200">
         <svg class="w-5 h-5" viewBox="0 0 24 24">
@@ -47,20 +49,20 @@
   <div id="app-screen" class="hidden flex-1 flex flex-col">
     <!-- Header -->
     <header class="bg-white border-b border-slate-200 py-4 px-6 sticky top-0 z-10">
-      <div class="max-w-5xl mx-auto flex justify-between items-center">
+      <div class="max-w-6xl mx-auto flex justify-between items-center">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center text-lg shadow-md shadow-blue-200">
             <i class="fa-solid fa-shield-halved"></i>
           </div>
           <div>
-            <h1 class="font-bold text-slate-900 leading-tight">Security Guard Portal</h1>
-            <p class="text-xs text-slate-500">Chấm công & Thống kê giờ làm</p>
+            <h1 class="font-bold text-slate-900 leading-tight">Security Guard Portal (Quản Lý)</h1>
+            <p class="text-xs text-slate-500">Đọc & Tổng hợp Toàn bộ Dữ liệu Hệ thống</p>
           </div>
         </div>
         
         <div class="flex items-center gap-3">
           <div class="text-right hidden sm:block">
-            <p id="user-name" class="font-medium text-sm text-slate-800">Tên Bảo Vệ</p>
+            <p id="user-name" class="font-medium text-sm text-slate-800">Quản Lý</p>
             <p id="user-email" class="text-xs text-slate-500">email@gmail.com</p>
           </div>
           <img id="user-avatar" src="" alt="Avatar" class="w-10 h-10 rounded-full border-2 border-white shadow-sm">
@@ -72,193 +74,109 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-5xl w-full mx-auto p-4 sm:p-6 flex-1 space-y-6">
+    <main class="max-w-6xl w-full mx-auto p-4 sm:p-6 flex-1 space-y-6">
       
-      <!-- Bảng Tổng hợp Giờ làm & Clock -->
+      <!-- Thống kê tổng hợp toàn bộ hệ thống -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <!-- Live Clock -->
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 text-center relative overflow-hidden flex flex-col justify-center">
           <div class="absolute top-0 left-0 w-full h-1.5 bg-blue-600"></div>
-          <p class="text-[11px] font-semibold text-blue-600 uppercase tracking-wider mb-1">Hệ thống thời gian</p>
+          <p class="text-[11px] font-semibold text-blue-600 uppercase tracking-wider mb-1">Thời gian thực</p>
           <div id="live-clock" class="text-2xl font-extrabold text-slate-950 tracking-tight">00:00:00</div>
           <p id="live-date" class="text-xs text-slate-400 mt-1">Đang đồng bộ...</p>
         </div>
         
-        <!-- Giờ làm hôm nay -->
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex items-center gap-4">
-          <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-calendar-day"></i></div>
+          <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-users"></i></div>
           <div>
-            <p class="text-xs text-slate-400 font-medium">Giờ trực hôm nay</p>
-            <p id="stat-today" class="text-2xl font-bold text-slate-900">0.00 h</p>
+            <p class="text-xs text-slate-400 font-medium">Tổng Nhân Viên</p>
+            <p id="stat-users" class="text-2xl font-bold text-slate-900">0 NVKD</p>
           </div>
         </div>
 
-        <!-- Giờ làm tuần này -->
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex items-center gap-4">
-          <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-calendar-week"></i></div>
+          <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-list-check"></i></div>
           <div>
-            <p class="text-xs text-slate-400 font-medium">Giờ trực tuần này</p>
-            <p id="stat-week" class="text-2xl font-bold text-slate-900">0.00 h</p>
+            <p class="text-xs text-slate-400 font-medium">Tổng Số Ca Trực</p>
+            <p id="stat-records" class="text-2xl font-bold text-slate-900">0 Ca</p>
           </div>
         </div>
 
-        <!-- Giờ làm tháng này -->
         <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex items-center gap-4">
-          <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-calendar-days"></i></div>
+          <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-clock"></i></div>
           <div>
-            <p class="text-xs text-slate-400 font-medium">Giờ trực tháng này</p>
-            <p id="stat-month" class="text-2xl font-bold text-slate-900">0.00 h</p>
+            <p class="text-xs text-slate-400 font-medium">Tổng Giờ Làm Toàn Hệ Thống</p>
+            <p id="stat-hours" class="text-2xl font-bold text-slate-900">0.00 h</p>
           </div>
         </div>
       </div>
 
-      <!-- Khu vực Check-in / Check-out & Chấm thủ công -->
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <!-- CHỌN CA & CHẤM CÔNG NHANH -->
-        <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80 flex flex-col justify-between space-y-6">
-          <div>
-            <h2 class="font-bold text-slate-900 mb-4 flex items-center gap-2">
-              <i class="fa-regular fa-clock text-blue-600"></i> Ca Trực Trực Tuyến
-            </h2>
-            
-            <div class="space-y-3">
-              <label class="relative flex items-center p-3 rounded-xl border-2 border-blue-500 bg-blue-50/40 cursor-pointer transition" id="label-shift-day">
-                <input type="radio" name="shift" value="Ca Ngày (06:00 - 18:00)" checked class="absolute right-4 w-4 h-4 text-blue-600">
-                <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 bg-amber-100 text-amber-600 rounded-lg flex items-center justify-center"><i class="fa-solid fa-sun"></i></div>
-                  <div>
-                    <p class="font-semibold text-sm text-slate-800">Ca Ngày (12H)</p>
-                    <p class="text-xs text-slate-500">06:00 - 18:00</p>
-                  </div>
-                </div>
-              </label>
-
-              <label class="relative flex items-center p-3 rounded-xl border border-slate-200 hover:border-slate-300 cursor-pointer transition" id="label-shift-night">
-                <input type="radio" name="shift" value="Ca Đêm (18:00 - 06:00)" class="absolute right-4 w-4 h-4 text-blue-600">
-                <div class="flex items-center gap-3">
-                  <div class="w-9 h-9 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center"><i class="fa-solid fa-moon"></i></div>
-                  <div>
-                    <p class="font-semibold text-sm text-slate-800">Ca Đêm (12H)</p>
-                    <p class="text-xs text-slate-500">18:00 - 06:00</p>
-                  </div>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          <div class="space-y-3">
-            <div class="grid grid-cols-2 gap-2 text-center text-xs py-2 bg-slate-50 rounded-lg border border-slate-100">
-              <div>
-                <p class="text-slate-400">Giờ vào</p>
-                <p id="live-status-in" class="font-bold text-slate-600">--:--</p>
-              </div>
-              <div class="border-l border-slate-200">
-                <p class="text-slate-400">Giờ ra</p>
-                <p id="live-status-out" class="font-bold text-slate-600">--:--</p>
-              </div>
-            </div>
-            
-            <div class="flex flex-col gap-2">
-              <button id="btn-checkin" class="w-full bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition duration-200 flex items-center justify-center gap-2">
-                <i class="fa-solid fa-right-to-bracket"></i> Bắt đầu Ca (Check-in)
-              </button>
-              <button id="btn-checkout" class="w-full bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed" disabled>
-                <i class="fa-solid fa-right-from-bracket"></i> Kết thúc Ca (Check-out)
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- CHẤM CÔNG THỦ CÔNG (KHI QUÊN CHẤM CÔNG CHÍNH) -->
-        <div class="lg:col-span-2 bg-white rounded-2xl p-6 shadow-sm border border-slate-200/80">
-          <h2 class="font-bold text-slate-900 mb-4 flex items-center gap-2">
-            <i class="fa-solid fa-pen-to-square text-blue-600"></i> Bù Ca / Chấm Công Thủ Công
+      <!-- KHU VỰC GỬI EMAIL BÁO CÁO -->
+      <div class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white rounded-2xl p-6 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h2 class="text-lg font-bold flex items-center gap-2">
+            <i class="fa-solid fa-paper-plane text-blue-300"></i> Gửi Mail Tổng Hợp Báo Cáo Chấm Công
           </h2>
-          
-          <form id="form-manual-attendance" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-semibold text-slate-500 mb-1">Ngày Trực</label>
-              <input type="date" id="manual-date" required class="w-full border border-slate-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-            </div>
-            
-            <div>
-              <label class="block text-xs font-semibold text-slate-500 mb-1">Chọn Ca Trực</label>
-              <select id="manual-shift" required class="w-full border border-slate-200 rounded-xl px-4 py-2.5 bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                <option value="Ca Ngày (06:00 - 18:00)">Ca Ngày (06:00 - 18:00)</option>
-                <option value="Ca Đêm (18:00 - 06:00)">Ca Đêm (18:00 - 06:00)</option>
-              </select>
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-500 mb-1">Giờ Vào Ca</label>
-              <input type="time" id="manual-time-in" required class="w-full border border-slate-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-            </div>
-
-            <div>
-              <label class="block text-xs font-semibold text-slate-500 mb-1">Giờ Ra Ca</label>
-              <input type="time" id="manual-time-out" required class="w-full border border-slate-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-            </div>
-
-            <div class="sm:col-span-2 pt-2">
-              <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition flex items-center justify-center gap-2">
-                <i class="fa-solid fa-plus"></i> Ghi Nhận Ca Trực Thủ Công
-              </button>
-            </div>
-          </form>
+          <p class="text-xs text-blue-200 mt-1">Hệ thống sẽ tổng hợp toàn bộ lịch sử chấm công của tất cả nhân viên và gửi tới Email của bạn.</p>
+        </div>
+        <div class="flex items-center gap-2 w-full md:w-auto">
+          <input type="email" id="email-recipient" placeholder="Nhập email nhận báo cáo..." class="text-slate-800 text-sm px-4 py-2.5 rounded-xl border-0 focus:ring-2 focus:ring-blue-400 focus:outline-none w-full md:w-64">
+          <button id="btn-send-email" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow transition whitespace-nowrap flex items-center gap-2">
+            <i class="fa-solid fa-envelope"></i> Gửi Mail Ngay
+          </button>
         </div>
       </div>
 
-      <!-- BẢNG LỊCH SỬ CHẤM CÔNG (HỖ TRỢ EDIT/DELETE) -->
+      <!-- BẢNG TỔNG HỢP TOÀN BỘ DỮ LIỆU CỦA TẤT CẢ TÀI KHOẢN -->
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
         <div class="p-6 border-b border-slate-100 flex justify-between items-center">
           <h2 class="font-bold text-slate-900 flex items-center gap-2">
-            <i class="fa-solid fa-clock-rotate-left text-blue-600"></i> Quản Lý Lịch Sử Lên Ca
+            <i class="fa-solid fa-table-list text-blue-600"></i> Tất Cả Lịch Sử Chấm Công (Toàn Hệ Thống)
           </h2>
-          <span class="text-xs bg-slate-100 text-slate-600 py-1 px-2.5 rounded-full font-medium" id="history-count">0 ca trực</span>
+          <span class="text-xs bg-blue-50 text-blue-600 py-1 px-3 rounded-full font-bold" id="all-history-count">0 ca</span>
         </div>
         
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
             <thead>
               <tr class="bg-slate-50/50 text-slate-400 text-xs font-semibold uppercase border-b border-slate-100">
+                <th class="py-3 px-6">ID / User UID</th>
                 <th class="py-3 px-6">Ngày Trực</th>
                 <th class="py-3 px-6">Tên Ca</th>
                 <th class="py-3 px-6">Giờ Vào</th>
                 <th class="py-3 px-6">Giờ Ra</th>
-                <th class="py-3 px-6">Tổng Giờ Làm</th>
-                <th class="py-3 px-6 text-center">Thao tác</th>
+                <th class="py-3 px-6">Tổng Giờ</th>
               </tr>
             </thead>
             <tbody id="history-table-body" class="divide-y divide-slate-100 text-sm text-slate-600">
               <tr>
-                <td colspan="6" class="py-8 text-center text-slate-400">Đang tải dữ liệu chấm công...</td>
+                <td colspan="6" class="py-8 text-center text-slate-400">Đang tải toàn bộ dữ liệu từ Database...</td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- KHU VỰC HIỂN THỊ TẤT CẢ DỮ LIỆU THÔ (JSON) & EXPORT -->
+      <!-- KHU VỰC HIỂN THỊ DỮ LIỆU THÔ JSON DẠNG CÂY (TẤT CẢ CÁC TÀI KHOẢN) -->
       <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 space-y-4">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h2 class="font-bold text-slate-900 flex items-center gap-2">
-              <i class="fa-solid fa-database text-blue-600"></i> Tất Cả Dữ Liệu Trong Cơ Sở Dữ Liệu
+              <i class="fa-solid fa-database text-blue-600"></i> Dữ Liệu Thô Đầy Đủ Trong Database (JSON)
             </h2>
-            <p class="text-xs text-slate-500 mt-1">Dữ liệu thô thực tế dạng JSON trực tiếp từ Firebase Database</p>
+            <p class="text-xs text-slate-500 mt-1">Đọc trực tiếp nút gốc `/attendance` chứa dữ liệu của tất cả tài khoản</p>
           </div>
           <div class="flex gap-2">
             <button id="btn-export-csv" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs py-2 px-3 rounded-lg shadow-sm transition flex items-center gap-1.5">
-              <i class="fa-solid fa-file-excel"></i> Xuất File Excel (CSV)
+              <i class="fa-solid fa-file-excel"></i> Xuất Tất Cả Ra Excel (CSV)
             </button>
             <button id="btn-toggle-json" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs py-2 px-3 rounded-lg transition flex items-center gap-1.5">
-              <i class="fa-solid fa-code"></i> Thu gọn / Mở rộng JSON
+              <i class="fa-solid fa-code"></i> Mở rộng / Thu gọn JSON
             </button>
           </div>
         </div>
 
         <div id="json-container" class="relative bg-slate-900 rounded-xl p-4 overflow-hidden border border-slate-800">
-          <pre id="json-viewer" class="text-emerald-400 text-xs overflow-x-auto max-h-96 leading-relaxed">{\n  "status": "Đang tải dữ liệu..."\n}</pre>
+          <pre id="json-viewer" class="text-emerald-400 text-xs overflow-x-auto max-h-96 leading-relaxed">{\n  "status": "Đang đọc tất cả dữ liệu..."\n}</pre>
         </div>
       </div>
 
@@ -266,59 +184,17 @@
 
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-6 px-6 mt-12 text-center text-xs text-slate-400">
-      <div class="max-w-5xl mx-auto">
-        &copy; 2026 Hệ thống nội bộ Security Guard Check-in Pro. Bảo lưu mọi quyền.
+      <div class="max-w-6xl mx-auto">
+        &copy; 2026 Hệ thống Quản Lý Chấm Công Bảo Vệ Toàn Hệ Thống.
       </div>
     </footer>
   </div>
 
-  <!-- ================= POPUP CHỈNH SỬA CA TRỰC (EDIT MODAL) ================= -->
-  <div id="edit-modal" class="hidden fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full overflow-hidden border border-slate-100">
-      <div class="bg-blue-600 text-white p-4 flex justify-between items-center">
-        <h3 class="font-bold flex items-center gap-2"><i class="fa-solid fa-edit"></i> Chỉnh sửa ca trực</h3>
-        <button id="close-modal" class="text-white/80 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
-      </div>
-      
-      <form id="form-edit-attendance" class="p-6 space-y-4">
-        <input type="hidden" id="edit-key">
-        
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1">Ngày Trực</label>
-          <input type="date" id="edit-date" required class="w-full border border-slate-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-        </div>
-        
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1">Chọn Ca Trực</label>
-          <select id="edit-shift" required class="w-full border border-slate-200 rounded-xl px-4 py-2.5 bg-white focus:ring-2 focus:ring-blue-500 focus:outline-none">
-            <option value="Ca Ngày (06:00 - 18:00)">Ca Ngày (06:00 - 18:00)</option>
-            <option value="Ca Đêm (18:00 - 06:00)">Ca Đêm (18:00 - 06:00)</option>
-          </select>
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1">Giờ Vào Ca</label>
-          <input type="time" id="edit-time-in" required class="w-full border border-slate-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-        </div>
-
-        <div>
-          <label class="block text-xs font-semibold text-slate-500 mb-1">Giờ Ra Ca</label>
-          <input type="time" id="edit-time-out" required class="w-full border border-slate-200 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-        </div>
-
-        <div class="pt-2 flex gap-3">
-          <button type="button" id="btn-cancel-edit" class="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold py-2.5 rounded-xl transition">Hủy</button>
-          <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-xl transition">Lưu Thay Đổi</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <!-- FIREBASE SDK VÀ LOGIC HOẠT ĐỘNG CHÍNH -->
+  <!-- FIREBASE SDK VÀ LOGIC ĐỌC TOÀN BỘ DỮ LIỆU & GỬI MAIL -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getDatabase, ref, set, push, onValue, update, remove, get } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
     // Cấu hình Firebase
     const firebaseConfig = {
@@ -337,6 +213,11 @@
     const db = getDatabase(app);
     const googleProvider = new GoogleAuthProvider();
 
+    // Khởi tạo EmailJS (Bạn có thể dùng tài khoản EmailJS riêng của mình nếu cần)
+    (function(){
+      emailjs.init("YOUR_PUBLIC_KEY"); // Thay bằng Public Key EmailJS của bạn nếu cần
+    })();
+
     // DOM Elements
     const loginScreen = document.getElementById('login-screen');
     const appScreen = document.getElementById('app-screen');
@@ -346,46 +227,28 @@
     const userName = document.getElementById('user-name');
     const userEmail = document.getElementById('user-email');
     const userAvatar = document.getElementById('user-avatar');
+    const emailRecipient = document.getElementById('email-recipient');
     
     const liveClock = document.getElementById('live-clock');
     const liveDate = document.getElementById('live-date');
     
-    const btnCheckIn = document.getElementById('btn-checkin');
-    const btnCheckOut = document.getElementById('btn-checkout');
-    const statusIn = document.getElementById('live-status-in');
-    const statusOut = document.getElementById('live-status-out');
-    
-    const statToday = document.getElementById('stat-today');
-    const statWeek = document.getElementById('stat-week');
-    const statMonth = document.getElementById('stat-month');
+    const statUsers = document.getElementById('stat-users');
+    const statRecords = document.getElementById('stat-records');
+    const statHours = document.getElementById('stat-hours');
     
     const historyTableBody = document.getElementById('history-table-body');
-    const historyCount = document.getElementById('history-count');
-    
-    const formManual = document.getElementById('form-manual-attendance');
-    const editModal = document.getElementById('edit-modal');
-    const formEdit = document.getElementById('form-edit-attendance');
+    const allHistoryCount = document.getElementById('all-history-count');
 
     const jsonViewer = document.getElementById('json-viewer');
     const btnToggleJson = document.getElementById('btn-toggle-json');
     const btnExportCsv = document.getElementById('btn-export-csv');
-
-    const shiftRadios = document.querySelectorAll('input[name="shift"]');
-    shiftRadios.forEach(radio => {
-      radio.addEventListener('change', (e) => {
-        document.getElementById('label-shift-day').className = "relative flex items-center p-3 rounded-xl border border-slate-200 hover:border-slate-300 cursor-pointer transition";
-        document.getElementById('label-shift-night').className = "relative flex items-center p-3 rounded-xl border border-slate-200 hover:border-slate-300 cursor-pointer transition";
-        
-        const targetId = e.target.value.includes('Ngày') ? 'label-shift-day' : 'label-shift-night';
-        document.getElementById(targetId).className = "relative flex items-center p-3 rounded-xl border-2 border-blue-500 bg-blue-50/40 cursor-pointer transition";
-      });
-    });
+    const btnSendEmail = document.getElementById('btn-send-email');
 
     let currentUser = null;
-    let currentActiveKey = null;
-    let currentRawData = null; // Lưu lại dữ liệu thô để phục vụ xuất CSV
+    let fullSystemData = null; // Chứa toàn bộ dữ liệu của TẤT CẢ người dùng
+    let flattenedRecords = []; // Dữ liệu đã phẳng hóa để hiển thị và xuất file
 
-    // Đăng nhập / Đăng xuất hệ thống
+    // Trạng thái đăng nhập
     onAuthStateChanged(auth, (user) => {
       if (user) {
         currentUser = user;
@@ -395,8 +258,9 @@
         userName.textContent = user.displayName;
         userEmail.textContent = user.email;
         userAvatar.src = user.photoURL || 'https://via.placeholder.com/150';
+        emailRecipient.value = user.email; // Đặt sẵn email người đăng nhập
 
-        loadDashboardData(user.uid);
+        loadAllDataFromDatabase();
       } else {
         currentUser = null;
         loginScreen.classList.remove('hidden');
@@ -407,7 +271,7 @@
     btnLogin.addEventListener('click', () => signInWithPopup(auth, googleProvider));
     btnLogout.addEventListener('click', () => confirm("Bạn muốn đăng xuất không?") && signOut(auth));
 
-    // Đồng hồ chạy thời gian thực
+    // Đồng hồ thời gian thực
     function runClock() {
       const now = new Date();
       liveClock.textContent = now.toLocaleTimeString('vi-VN', { hour12: false });
@@ -416,310 +280,153 @@
     setInterval(runClock, 1000);
     runClock();
 
-    // ================= CHẤM CÔNG THỜI GIAN THỰC =================
-    btnCheckIn.addEventListener('click', () => {
-      if (!currentUser) return;
-      const now = new Date();
-      const selectedShift = document.querySelector('input[name="shift"]:checked').value;
-      const dateStr = now.toLocaleDateString('vi-VN', { year: 'numeric', month: '2-digit', day: '2-digit' }).split('/').reverse().join('-'); 
-      const timeStr = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', hour12: false });
-
-      const newRef = push(ref(db, `attendance/${currentUser.uid}`));
-      set(newRef, {
-        date: dateStr,
-        shift: selectedShift,
-        checkInTime: timeStr,
-        checkInTimestamp: now.getTime(),
-        checkOutTime: "",
-        checkOutTimestamp: "",
-        totalHours: 0,
-        timestamp: now.getTime()
-      }).then(() => alert("Đã Check-in thành công!"));
-    });
-
-    btnCheckOut.addEventListener('click', () => {
-      if (!currentUser || !currentActiveKey) return;
-      const now = new Date();
-      const timeStr = now.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', hour12: false });
-      const outTs = now.getTime();
-
-      const recordRef = ref(db, `attendance/${currentUser.uid}/${currentActiveKey}`);
-      get(recordRef).then((snapshot) => {
-        const record = snapshot.val();
-        if (record) {
-          const hours = parseFloat(((outTs - record.checkInTimestamp) / (1000 * 60 * 60)).toFixed(2));
-          update(recordRef, {
-            checkOutTime: timeStr,
-            checkOutTimestamp: outTs,
-            totalHours: hours
-          }).then(() => alert(`Đã Check-out thành công! Bạn đã làm: ${hours} giờ.`));
-        }
-      });
-    });
-
-    // ================= CHẤM CÔNG THỦ CÔNG =================
-    formManual.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (!currentUser) return;
-
-      const mDate = document.getElementById('manual-date').value;
-      const mShift = document.getElementById('manual-shift').value;
-      const mIn = document.getElementById('manual-time-in').value;
-      const mOut = document.getElementById('manual-time-out').value;
-
-      let inDateTime = new Date(mDate + 'T' + mIn);
-      let outDateTime = new Date(mDate + 'T' + mOut);
-
-      if (outDateTime <= inDateTime) {
-        outDateTime.setDate(outDateTime.getDate() + 1);
-      }
-
-      const diffHours = parseFloat(((outDateTime - inDateTime) / (1000 * 60 * 60)).toFixed(2));
-
-      const newRef = push(ref(db, `attendance/${currentUser.uid}`));
-      set(newRef, {
-        date: mDate,
-        shift: mShift,
-        checkInTime: mIn,
-        checkInTimestamp: inDateTime.getTime(),
-        checkOutTime: mOut,
-        checkOutTimestamp: outDateTime.getTime(),
-        totalHours: diffHours,
-        timestamp: inDateTime.getTime()
-      }).then(() => {
-        alert("Thêm ca trực thủ công thành công!");
-        formManual.reset();
-      });
-    });
-
-    // ================= LOAD VÀ HIỂN THỊ TẤT CẢ DỮ LIỆU =================
-    function loadDashboardData(userId) {
-      const dbRef = ref(db, `attendance/${userId}`);
+    // ================= ĐỌC TẤT CẢ DỮ LIỆU TỪ HỆ THỐNG =================
+    function loadAllDataFromDatabase() {
+      // Đọc toàn bộ nút gốc `/attendance`
+      const rootDbRef = ref(db, 'attendance');
       
-      onValue(dbRef, (snapshot) => {
+      onValue(rootDbRef, (snapshot) => {
         const data = snapshot.val();
-        currentRawData = data;
-
-        // HIỂN THỊ TẤT CẢ DỮ LIỆU THÔ JSON
-        if (data) {
-          jsonViewer.textContent = JSON.stringify(data, null, 2);
-        } else {
-          jsonViewer.textContent = "{\n  \"info\": \"Chưa có dữ liệu nào trong Database\"\n}";
-        }
+        fullSystemData = data;
 
         if (!data) {
-          historyTableBody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400">Không có lịch sử chấm công nào.</td></tr>`;
-          historyCount.textContent = "0 ca trực";
-          statToday.textContent = "0.00 h";
-          statWeek.textContent = "0.00 h";
-          statMonth.textContent = "0.00 h";
-          resetOnlineShiftState();
+          jsonViewer.textContent = "{\n  \"info\": \"Hiện tại không có dữ liệu nào trong toàn bộ Database\"\n}";
+          historyTableBody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400">Không có dữ liệu chấm công.</td></tr>`;
+          allHistoryCount.textContent = "0 ca";
+          statUsers.textContent = "0 NVKD";
+          statRecords.textContent = "0 Ca";
+          statHours.textContent = "0.00 h";
           return;
         }
 
-        const list = [];
-        let activeKey = null;
-        let activeSession = null;
+        // 1. Hiển thị dữ liệu JSON thô của toàn bộ tài khoản
+        jsonViewer.textContent = JSON.stringify(data, null, 2);
 
-        Object.keys(data).forEach(key => {
-          const item = data[key];
-          item.id = key;
-          list.push(item);
+        // 2. Phẳng hóa dữ liệu từ các User ID khác nhau
+        flattenedRecords = [];
+        let totalUsers = Object.keys(data).length;
+        let totalSystemHours = 0;
 
-          if (!item.checkOutTime) {
-            activeKey = key;
-            activeSession = item;
+        Object.keys(data).forEach(userId => {
+          const userShiftList = data[userId];
+          if (userShiftList && typeof userShiftList === 'object') {
+            Object.keys(userShiftList).forEach(shiftKey => {
+              const record = userShiftList[shiftKey];
+              const hours = parseFloat(record.totalHours) || 0;
+              totalSystemHours += hours;
+
+              flattenedRecords.push({
+                userId: userId,
+                shiftKey: shiftKey,
+                date: record.date || "N/A",
+                shift: record.shift || "N/A",
+                checkInTime: record.checkInTime || "N/A",
+                checkOutTime: record.checkOutTime || "Chưa Check-out",
+                totalHours: hours,
+                timestamp: record.timestamp || 0
+              });
+            });
           }
         });
 
-        list.sort((a, b) => b.timestamp - a.timestamp);
-        historyCount.textContent = `${list.length} ca trực`;
+        // Sắp xếp theo thứ tự mới nhất lên đầu
+        flattenedRecords.sort((a, b) => b.timestamp - a.timestamp);
 
+        // Cập nhật thống kê
+        statUsers.textContent = `${totalUsers} Nhân Viên`;
+        statRecords.textContent = `${flattenedRecords.length} Ca`;
+        statHours.textContent = `${totalSystemHours.toFixed(2)} h`;
+        allHistoryCount.textContent = `${flattenedRecords.length} ca`;
+
+        // Render ra bảng
         let htmlRows = "";
-        list.forEach(item => {
-          const rawDate = new Date(item.date);
-          const formattedDisplayDate = isNaN(rawDate.getTime()) ? item.date : rawDate.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
-          
+        flattenedRecords.forEach(item => {
           htmlRows += `
             <tr class="hover:bg-slate-50 transition">
-              <td class="py-4 px-6 font-semibold text-slate-900">${formattedDisplayDate}</td>
+              <td class="py-4 px-6 font-mono text-xs text-blue-600 font-medium">${item.userId.substring(0, 10)}...</td>
+              <td class="py-4 px-6 font-semibold text-slate-900">${item.date}</td>
               <td class="py-4 px-6">
                 <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${item.shift.includes('Ngày') ? 'bg-amber-50 text-amber-600' : 'bg-indigo-50 text-indigo-600'}">
                   <i class="fa-solid ${item.shift.includes('Ngày') ? 'fa-sun' : 'fa-moon'}"></i> ${item.shift.split(' (')[0]}
                 </span>
               </td>
               <td class="py-4 px-6 font-mono text-slate-500">${item.checkInTime}</td>
-              <td class="py-4 px-6 font-mono text-slate-500">${item.checkOutTime || '<span class="text-amber-500 font-bold animate-pulse">Đang trực...</span>'}</td>
-              <td class="py-4 px-6 font-bold text-slate-800 text-center sm:text-left">${item.totalHours ? item.totalHours + ' giờ' : '--'}</td>
-              <td class="py-4 px-6 text-center">
-                <div class="inline-flex gap-2">
-                  <button onclick="openEditModal('${item.id}', '${item.date}', '${item.shift}', '${item.checkInTime}', '${item.checkOutTime || ''}')" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Chỉnh sửa ca">
-                    <i class="fa-solid fa-pen-to-square"></i>
-                  </button>
-                  <button onclick="deleteRecord('${item.id}')" class="p-2 text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Xóa ca này">
-                    <i class="fa-solid fa-trash-can"></i>
-                  </button>
-                </div>
-              </td>
+              <td class="py-4 px-6 font-mono text-slate-500">${item.checkOutTime}</td>
+              <td class="py-4 px-6 font-bold text-slate-800">${item.totalHours} h</td>
             </tr>
           `;
         });
         historyTableBody.innerHTML = htmlRows;
-
-        calculateHoursStats(list);
-
-        if (activeSession) {
-          currentActiveKey = activeKey;
-          statusIn.textContent = activeSession.checkInTime;
-          statusIn.className = "font-bold text-emerald-600 text-sm";
-          statusOut.textContent = "Đang trực";
-          statusOut.className = "font-bold text-amber-500 text-sm animate-pulse";
-
-          btnCheckIn.disabled = true;
-          btnCheckIn.className = "w-full bg-slate-100 text-slate-400 font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2 cursor-not-allowed";
-          btnCheckOut.disabled = false;
-          btnCheckOut.className = "w-full bg-rose-600 hover:bg-rose-700 active:bg-rose-800 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition duration-200 flex items-center justify-center gap-2";
-          
-          shiftRadios.forEach(radio => {
-            radio.disabled = true;
-            if (radio.value === activeSession.shift) {
-              radio.checked = true;
-            }
-          });
-        } else {
-          resetOnlineShiftState();
-        }
       });
     }
 
-    function resetOnlineShiftState() {
-      currentActiveKey = null;
-      statusIn.textContent = "--:--";
-      statusIn.className = "font-bold text-slate-400 text-sm";
-      statusOut.textContent = "--:--";
-      statusOut.className = "font-bold text-slate-400 text-sm";
-
-      btnCheckIn.disabled = false;
-      btnCheckIn.className = "w-full bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white font-semibold py-3 px-4 rounded-xl shadow-md transition duration-200 flex items-center justify-center gap-2";
-      btnCheckOut.disabled = true;
-      btnCheckOut.className = "w-full bg-slate-100 text-slate-400 font-semibold py-3 px-4 rounded-xl flex items-center justify-center gap-2 cursor-not-allowed";
-
-      shiftRadios.forEach(radio => radio.disabled = false);
-    }
-
-    function calculateHoursStats(records) {
-      const now = new Date();
-      
-      const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-      
-      const dayOfWeek = now.getDay(); 
-      const diffToMonday = now.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); 
-      const startOfWeek = new Date(now.setDate(diffToMonday));
-      startOfWeek.setHours(0,0,0,0);
-      const startOfWeekTime = startOfWeek.getTime();
-
-      const startOfMonthTime = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
-
-      let hoursToday = 0;
-      let hoursWeek = 0;
-      let hoursMonth = 0;
-
-      records.forEach(item => {
-        if (!item.totalHours) return;
-        const recordTs = item.timestamp;
-
-        if (recordTs >= startOfMonthTime) hoursMonth += item.totalHours;
-        if (recordTs >= startOfWeekTime) hoursWeek += item.totalHours;
-        if (recordTs >= startOfToday) hoursToday += item.totalHours;
-      });
-
-      statToday.textContent = hoursToday.toFixed(2) + " h";
-      statWeek.textContent = hoursWeek.toFixed(2) + " h";
-      statMonth.textContent = hoursMonth.toFixed(2) + " h";
-    }
-
-    // ================= SỬA / XÓA CA =================
-    window.openEditModal = function(id, date, shift, inTime, outTime) {
-      document.getElementById('edit-key').value = id;
-      document.getElementById('edit-date').value = date;
-      document.getElementById('edit-shift').value = shift;
-      document.getElementById('edit-time-in').value = inTime;
-      document.getElementById('edit-time-out').value = outTime;
-      editModal.classList.remove('hidden');
-    }
-
-    window.deleteRecord = function(id) {
-      if (!currentUser) return;
-      if (confirm("Bạn có chắc chắn muốn xóa bản ghi chấm công này?")) {
-        remove(ref(db, `attendance/${currentUser.uid}/${id}`))
-          .then(() => alert("Đã xóa ca trực thành công!"))
-          .catch(err => alert("Lỗi khi xóa: " + err.message));
-      }
-    }
-
-    formEdit.addEventListener('submit', (e) => {
-      e.preventDefault();
-      if (!currentUser) return;
-
-      const key = document.getElementById('edit-key').value;
-      const uDate = document.getElementById('edit-date').value;
-      const uShift = document.getElementById('edit-shift').value;
-      const uIn = document.getElementById('edit-time-in').value;
-      const uOut = document.getElementById('edit-time-out').value;
-
-      let inDateTime = new Date(uDate + 'T' + uIn);
-      let outDateTime = new Date(uDate + 'T' + uOut);
-      if (outDateTime <= inDateTime) {
-        outDateTime.setDate(outDateTime.getDate() + 1);
-      }
-      const diffHours = parseFloat(((outDateTime - inDateTime) / (1000 * 60 * 60)).toFixed(2));
-
-      update(ref(db, `attendance/${currentUser.uid}/${key}`), {
-        date: uDate,
-        shift: uShift,
-        checkInTime: uIn,
-        checkInTimestamp: inDateTime.getTime(),
-        checkOutTime: uOut,
-        checkOutTimestamp: outDateTime.getTime(),
-        totalHours: diffHours,
-        timestamp: inDateTime.getTime()
-      }).then(() => {
-        alert("Đã cập nhật ca trực thành công!");
-        editModal.classList.add('hidden');
-      }).catch(err => alert("Lỗi: " + err.message));
-    });
-
-    // XUẤT EXCEL CSV & BẬT TẮT KHU VỰC HIỂN THỊ DỮ LIỆU THÔ
-    btnToggleJson.addEventListener('click', () => {
-      jsonViewer.classList.toggle('max-h-96');
-      jsonViewer.classList.toggle('max-h-20');
-    });
-
+    // ================= XUẤT CSV TOÀN BỘ DỮ LIỆU =================
     btnExportCsv.addEventListener('click', () => {
-      if (!currentRawData) {
+      if (!flattenedRecords || flattenedRecords.length === 0) {
         alert("Không có dữ liệu để xuất!");
         return;
       }
 
-      let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // \uFEFF hỗ trợ hiển thị tiếng Việt UTF-8 trong Excel
-      csvContent += "ID Ca Trực,Ngày Trực,Tên Ca,Giờ Vào,Giờ Ra,Tổng Giờ Làm (Giờ)\n";
+      let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+      csvContent += "User UID,Ngày Trực,Tên Ca,Giờ Vào,Giờ Ra,Tổng Giờ Làm (Giờ)\n";
 
-      Object.keys(currentRawData).forEach(key => {
-        const row = currentRawData[key];
-        csvContent += `"${key}","${row.date}","${row.shift}","${row.checkInTime}","${row.checkOutTime || 'Chưa Check-out'}","${row.totalHours || 0}"\n`;
+      flattenedRecords.forEach(row => {
+        csvContent += `"${row.userId}","${row.date}","${row.shift}","${row.checkInTime}","${row.checkOutTime}","${row.totalHours}"\n`;
       });
 
       const encodedUri = encodeURI(csvContent);
       const link = document.createElement("a");
       link.setAttribute("href", encodedUri);
-      link.setAttribute("download", `ChamCong_BaoVe_${currentUser.displayName.replace(/\s+/g, '_')}.csv`);
+      link.setAttribute("download", `BaoCao_TongHop_ToanBo_BaoVe.csv`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     });
 
-    document.getElementById('close-modal').addEventListener('click', () => editModal.classList.add('hidden'));
-    document.getElementById('btn-cancel-edit').addEventListener('click', () => editModal.classList.add('hidden'));
+    // ================= GỬI BÁO CÁO QUA EMAIL =================
+    btnSendEmail.addEventListener('click', () => {
+      const recipient = emailRecipient.value.trim();
+      if (!recipient) {
+        alert("Vui lòng nhập email nhận báo cáo!");
+        return;
+      }
+
+      if (!flattenedRecords || flattenedRecords.length === 0) {
+        alert("Không có dữ liệu để gửi!");
+        return;
+      }
+
+      btnSendEmail.disabled = true;
+      btnSendEmail.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Đang gửi...`;
+
+      // Tạo tóm tắt nội dung mail
+      let summaryText = `Tổng số nhân viên: ${statUsers.textContent}\n`;
+      summaryText += `Tổng số ca trực: ${statRecords.textContent}\n`;
+      summaryText += `Tổng số giờ làm: ${statHours.textContent}\n\n`;
+      summaryText += `--- CHI TIẾT 5 CA TRỰC MỚI NHẤT ---\n`;
+
+      flattenedRecords.slice(0, 5).forEach((r, idx) => {
+        summaryText += `${idx + 1}. Ngày: ${r.date} | Ca: ${r.shift} | Vào: ${r.checkInTime} | Ra: ${r.checkOutTime} | Tổng: ${r.totalHours}h\n`;
+      });
+
+      // Mở trình soạn thảo email mặc định trên máy tính (Mail Client / Gmail) với dữ liệu đã được tổng hợp sẵn
+      const mailtoSubject = encodeURIComponent("Báo Cáo Tổng Hợp Chấm Công Bảo Vệ");
+      const mailtoBody = encodeURIComponent(`Kính gửi Quản lý,\n\nDưới đây là báo cáo chấm công toàn bộ hệ thống bảo vệ tính đến thời điểm hiện tại:\n\n${summaryText}\n\nXem chi tiết tại hệ thống.`);
+      
+      window.location.href = `mailto:${recipient}?subject=${mailtoSubject}&body=${mailtoBody}`;
+
+      setTimeout(() => {
+        btnSendEmail.disabled = false;
+        btnSendEmail.innerHTML = `<i class="fa-solid fa-envelope"></i> Gửi Mail Ngay`;
+        alert("Đã mở ứng dụng gửi Email với dữ liệu được tổng hợp sẵn!");
+      }, 1000);
+    });
+
+    // Bật tắt xem JSON
+    btnToggleJson.addEventListener('click', () => {
+      jsonViewer.classList.toggle('max-h-96');
+      jsonViewer.classList.toggle('max-h-20');
+    });
   </script>
 </body>
 </html>
