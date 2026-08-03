@@ -14,6 +14,8 @@
     .total-card {
       background: linear-gradient(135deg, #00d4ff, #0099cc);
     }
+    /* Style cho input month trên dark mode */
+    color-scheme: dark;
   </style>
 </head>
 <body class="bg-gray-950 text-white min-h-screen pb-12">
@@ -23,7 +25,7 @@
     <div class="bg-gray-900 border border-gray-800 p-8 rounded-3xl max-w-sm w-full text-center shadow-2xl">
       <i class="fa-solid fa-clock text-6xl text-cyan-400 mb-4 animate-pulse"></i>
       <h2 class="text-2xl font-bold mb-2">Giờ Trực</h2>
-      <p class="text-gray-400 text-sm mb-8">Vui lòng đăng nhập tài khoản Google.</p>
+      <p class="text-gray-400 text-sm mb-8">Vui lòng đăng nhập tài khoản Google để lưu trữ và quản lý giờ trực cá nhân của bạn.</p>
       <button id="btnLogin" class="w-full bg-white hover:bg-gray-100 text-gray-900 font-semibold py-4 px-6 rounded-2xl flex items-center justify-center gap-3 active:scale-95 transition">
         <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google">
         <span>Đăng nhập với Google</span>
@@ -44,7 +46,7 @@
           </div>
         </div>
         <div class="flex items-center gap-2">
-          <button id="btnRefresh" class="flex items-center justify-center w-10 h-10 bg-gray-800 hover:bg-gray-700 rounded-2xl text-sm font-medium transition">
+          <button id="btnRefresh" title="Làm mới" class="flex items-center justify-center w-10 h-10 bg-gray-800 hover:bg-gray-700 rounded-2xl text-sm font-medium transition">
             <i class="fa-solid fa-rotate"></i>
           </button>
           <button id="btnLogout" class="flex items-center gap-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 px-4 py-2 h-10 rounded-2xl text-sm font-medium transition">
@@ -56,20 +58,35 @@
     </div>
 
     <div class="max-w-4xl mx-auto px-4 pt-6">
+      
+      <!-- BỘ LỌC THÁNG / NĂM -->
+      <div class="bg-gray-900 border border-gray-800 rounded-2xl p-4 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center gap-2 text-gray-300 font-medium text-sm w-full sm:w-auto">
+          <i class="fa-solid fa-filter text-cyan-400"></i>
+          <span>Xem dữ liệu tháng:</span>
+        </div>
+        <div class="flex items-center gap-2 w-full sm:w-auto">
+          <input type="month" id="filterMonth" class="bg-gray-950 border border-gray-800 focus:border-cyan-400 rounded-xl px-4 py-2 text-white text-sm outline-none transition w-full sm:w-auto">
+          <button id="btnResetFilter" title="Xem tất cả lịch sử" class="px-3 py-2 bg-gray-800 hover:bg-gray-700 rounded-xl text-xs text-gray-300 whitespace-nowrap transition">
+            Tất cả
+          </button>
+        </div>
+      </div>
+
       <!-- TOTAL CARD -->
       <div class="total-card rounded-3xl p-6 mb-8 text-center shadow-2xl">
         <div class="flex justify-between items-center">
-          <div class="text-cyan-100 text-sm font-medium tracking-widest text-left">TỔNG THỜI GIAN TRỰC</div>
+          <div class="text-cyan-100 text-sm font-medium tracking-widest text-left uppercase" id="totalLabel">TỔNG THỜI GIAN TRỰC</div>
           <div id="totalHours" class="text-5xl sm:text-6xl font-bold text-white">0</div>
         </div>
         <div class="text-cyan-200 text-xl font-light text-right -mt-2">giờ</div>
         <div id="totalEntries" class="text-xs text-cyan-100 mt-4 opacity-75 text-left border-t border-cyan-300/20 pt-3"></div>
       </div>
 
-      <!-- FORM -->
+      <!-- FORM THÊM / SỬA -->
       <div class="bg-gray-900 border border-gray-800 rounded-3xl p-6 mb-8 shadow-xl">
         <h2 class="text-lg font-semibold mb-4 flex items-center gap-2">
-          <i class="fa-solid fa-plus text-cyan-400"></i>
+          <i class="fa-solid fa-plus text-cyan-400" id="formIcon"></i>
           <span id="formTitle">Thêm mới giờ trực</span>
         </h2>
         
@@ -84,7 +101,7 @@
           <div>
             <label class="block text-xs text-gray-400 mb-1">Số giờ trực</label>
             <div class="relative">
-              <input type="number" id="so_gio" min="0" max="24" step="0.5" placeholder="0"
+              <input type="number" id="so_gio" min="0.5" max="24" step="0.5" placeholder="0"
                      class="w-full bg-gray-950 border border-gray-800 focus:border-cyan-400 rounded-2xl px-4 py-3.5 text-white text-base outline-none transition">
               <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-sm">giờ</span>
             </div>
@@ -98,7 +115,7 @@
             <span id="saveBtnText">LƯU DỮ LIỆU</span>
           </button>
           
-          <button id="btnClear" 
+          <button id="btnClear" title="Đặt lại form"
                   class="px-5 bg-gray-800 hover:bg-gray-700 active:scale-95 text-white rounded-2xl transition">
             <i class="fa-solid fa-eraser"></i>
           </button>
@@ -107,7 +124,7 @@
 
       <!-- LIST CONTAINER -->
       <div class="flex justify-between items-baseline mb-4 px-1">
-        <h2 class="text-lg font-semibold">Lịch sử trực</h2>
+        <h2 class="text-lg font-semibold" id="listTitle">Lịch sử trực</h2>
         <div id="lastUpdated" class="text-xs text-gray-400"></div>
       </div>
 
@@ -171,13 +188,28 @@
     const mobileCards = document.getElementById("mobileCards");
     const totalHoursEl = document.getElementById("totalHours");
     const totalEntriesEl = document.getElementById("totalEntries");
+    const totalLabelEl = document.getElementById("totalLabel");
     const lastUpdatedEl = document.getElementById("lastUpdated");
+    const filterMonthInput = document.getElementById("filterMonth");
+    const btnResetFilter = document.getElementById("btnResetFilter");
     
     const inputKey = document.getElementById("editKey");
     const inputNgay = document.getElementById("ngay");
     const inputSoGio = document.getElementById("so_gio");
     const formTitle = document.getElementById("formTitle");
+    const formIcon = document.getElementById("formIcon");
     const saveBtnText = document.getElementById("saveBtnText");
+
+    // Khởi tạo ngày hiện tại cho Form & Filter Tháng
+    function initDefaultDates() {
+      const today = new Date();
+      const yyyy = today.getFullYear();
+      const mm = String(today.getMonth() + 1).padStart(2, '0');
+      const dd = String(today.getDate()).padStart(2, '0');
+
+      inputNgay.value = `${yyyy}-${mm}-${dd}`;
+      filterMonthInput.value = `${yyyy}-${mm}`;
+    }
 
     // --- Authentication ---
     document.getElementById("btnLogin").addEventListener("click", async () => {
@@ -200,6 +232,7 @@
         loginScreen.classList.add("hidden");
         mainApp.classList.remove("hidden");
         userEmail.textContent = user.email;
+        initDefaultDates();
         observeData();
       } else {
         currentUser = null;
@@ -212,7 +245,6 @@
     function observeData() {
       if (!currentUser) return;
       
-      // Đường dẫn cập nhật theo Security Rules: users/$user_id/gio-truc
       const userDbRef = ref(db, `users/${currentUser.uid}/gio-truc`);
       
       onValue(userDbRef, (snapshot) => {
@@ -227,16 +259,30 @@
     function renderUI() {
       let totalHours = 0;
       let count = 0;
-      const itemsArray = [];
+      let itemsArray = [];
+
+      const selectedMonth = filterMonthInput.value; // Dạng "YYYY-MM"
 
       Object.keys(currentData).forEach(key => {
         const item = currentData[key];
-        totalHours += parseFloat(item.so_gio) || 0;
-        count++;
-        itemsArray.push({ key, ...item });
+        // Lọc theo tháng nếu có chọn tháng
+        if (!selectedMonth || (item.ngay && item.ngay.startsWith(selectedMonth))) {
+          totalHours += parseFloat(item.so_gio) || 0;
+          count++;
+          itemsArray.push({ key, ...item });
+        }
       });
 
+      // Sắp xếp ngày mới nhất lên đầu
       itemsArray.sort((a, b) => b.ngay.localeCompare(a.ngay));
+
+      // Cập nhật nhãn tổng quan
+      if (selectedMonth) {
+        const [year, month] = selectedMonth.split('-');
+        totalLabelEl.textContent = `TỔNG GIỜ TRỰC THÁNG ${month}/${year}`;
+      } else {
+        totalLabelEl.textContent = `TỔNG GIỜ TRỰC (TẤT CẢ)`;
+      }
 
       totalHoursEl.textContent = totalHours.toLocaleString('vi-VN');
       totalEntriesEl.innerHTML = `
@@ -253,9 +299,12 @@
       mobileCards.innerHTML = "";
 
       if (itemsArray.length === 0) {
-        const emptyStateText = "Chưa có bản ghi giờ trực nào.";
-        desktopBody.innerHTML = `<tr><td colspan="4" class="text-center py-12 text-gray-400">${emptyStateText}</td></tr>`;
-        mobileCards.innerHTML = `<div class="text-center py-12 text-gray-400 text-sm">${emptyStateText}</div>`;
+        const emptyText = selectedMonth 
+          ? `Không có dữ liệu giờ trực nào trong tháng ${selectedMonth.split('-')[1]}/${selectedMonth.split('-')[0]}.`
+          : "Chưa có bản ghi giờ trực nào.";
+        
+        desktopBody.innerHTML = `<tr><td colspan="4" class="text-center py-12 text-gray-400">${emptyText}</td></tr>`;
+        mobileCards.innerHTML = `<div class="text-center py-12 text-gray-400 text-sm">${emptyText}</div>`;
         return;
       }
 
@@ -272,8 +321,8 @@
           <td class="px-6 py-4 text-xs text-gray-500">${timeFormatted}</td>
           <td class="px-6 py-4 text-center">
             <div class="flex justify-center gap-2">
-              <button data-key="${item.key}" class="btn-edit text-amber-400 hover:text-amber-300 p-2"><i class="fa-solid fa-pen"></i></button>
-              <button data-key="${item.key}" class="btn-delete text-red-400 hover:text-red-300 p-2"><i class="fa-solid fa-trash"></i></button>
+              <button data-key="${item.key}" class="btn-edit text-amber-400 hover:text-amber-300 p-2" title="Chỉnh sửa"><i class="fa-solid fa-pen"></i></button>
+              <button data-key="${item.key}" class="btn-delete text-red-400 hover:text-red-300 p-2" title="Xóa"><i class="fa-solid fa-trash"></i></button>
             </div>
           </td>
         `;
@@ -335,7 +384,6 @@
       const ngay = inputNgay.value;
       const so_gio = parseFloat(inputSoGio.value);
 
-      // Validate dữ liệu để tăng tính đúng đắn
       if (!ngay) {
         showToast("Vui lòng chọn ngày trực!", "error");
         return;
@@ -353,15 +401,18 @@
 
       try {
         if (key) {
-          // Update: users/$user_id/gio-truc/$key
           await update(ref(db, `users/${currentUser.uid}/gio-truc/${key}`), payload);
           showToast("Đã cập nhật giờ trực!", "success");
         } else {
-          // Push: users/$user_id/gio-truc
           const newListRef = push(ref(db, `users/${currentUser.uid}/gio-truc`));
           await set(newListRef, payload);
           showToast("Đã thêm mới giờ trực thành công!", "success");
         }
+
+        // Tự động chuyển bộ lọc về tháng của ngày vừa nhập để người dùng thấy ngay dữ liệu
+        const entryMonth = ngay.substring(0, 7);
+        filterMonthInput.value = entryMonth;
+
         clearForm();
       } catch (err) {
         showToast("Lỗi khi lưu dữ liệu: " + err.message, "error");
@@ -376,7 +427,8 @@
       inputNgay.value = item.ngay || "";
       inputSoGio.value = item.so_gio || "";
 
-      formTitle.innerHTML = `<i class="fa-solid fa-pen text-amber-400"></i> Chỉnh sửa giờ trực`;
+      formTitle.textContent = "Chỉnh sửa giờ trực";
+      formIcon.className = "fa-solid fa-pen text-amber-400";
       saveBtnText.textContent = "CẬP NHẬT";
       
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -396,9 +448,10 @@
 
     function clearForm() {
       inputKey.value = "";
-      inputNgay.value = "";
+      initDefaultDates();
       inputSoGio.value = "";
-      formTitle.innerHTML = `<i class="fa-solid fa-plus text-cyan-400"></i> Thêm mới giờ trực`;
+      formTitle.textContent = "Thêm mới giờ trực";
+      formIcon.className = "fa-solid fa-plus text-cyan-400";
       saveBtnText.textContent = "LƯU DỮ LIỆU";
     }
 
@@ -443,6 +496,12 @@
     document.getElementById("btnRefresh").addEventListener("click", () => {
       observeData();
       showToast("Đã đồng bộ lại dữ liệu!", "success");
+    });
+
+    filterMonthInput.addEventListener("change", renderUI);
+    btnResetFilter.addEventListener("click", () => {
+      filterMonthInput.value = "";
+      renderUI();
     });
   </script>
 </body>
