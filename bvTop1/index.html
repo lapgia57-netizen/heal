@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>QUANG CHAU</title>
+  <title>DATA CỨNG</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
@@ -209,10 +209,17 @@
       }
     });
 
+    // Helper hàm lấy reference tới đường dẫn node giờ trực theo uid
+    function getUserDutyRef(key = "") {
+      if (!currentUser) return null;
+      const basePath = `users/${currentUser.uid}/gio-truc`;
+      return key ? ref(db, `${basePath}/${key}`) : ref(db, basePath);
+    }
+
     // --- Real-time Database Operations ---
     function observeData() {
-      if (!currentUser) return;
-      const userDbRef = ref(db, `gio-truc/users/${currentUser.uid}`);
+      const userDbRef = getUserDutyRef();
+      if (!userDbRef) return;
       
       onValue(userDbRef, (snapshot) => {
         currentData = snapshot.val() || {};
@@ -224,7 +231,6 @@
 
     // --- UI Renderers ---
     function renderUI() {
-      // 1. Tính tổng số giờ
       let totalHours = 0;
       let count = 0;
       const itemsArray = [];
@@ -239,7 +245,7 @@
       // Sắp xếp dữ liệu theo ngày mới nhất lên đầu
       itemsArray.sort((a, b) => b.ngay.localeCompare(a.ngay));
 
-      // 2. Render Card tổng quan
+      // Render Card tổng quan
       totalHoursEl.textContent = totalHours.toLocaleString('vi-VN');
       totalEntriesEl.innerHTML = `
         Tổng số: <span class="font-semibold text-white">${count} lượt trực</span> • 
@@ -251,7 +257,7 @@
         Đồng bộ lúc ${new Date().toLocaleTimeString('vi-VN', {hour:'2-digit', minute:'2-digit', second:'2-digit'})}
       `;
 
-      // 3. Render Desktop Table & Mobile Card cùng lúc (Không trùng lặp ID)
+      // Render Desktop Table & Mobile Card
       desktopBody.innerHTML = "";
       mobileCards.innerHTML = "";
 
@@ -266,7 +272,7 @@
         const dateObj = item.timestamp ? new Date(item.timestamp) : null;
         const timeFormatted = dateObj ? dateObj.toLocaleString('vi-VN', {dateStyle: 'short', timeStyle: 'short'}) : '—';
 
-        // Tạo dòng cho Desktop Table
+        // Dòng cho Desktop Table
         const row = document.createElement("tr");
         row.className = "hover:bg-gray-800/30 transition";
         row.innerHTML = `
@@ -282,7 +288,7 @@
         `;
         desktopBody.appendChild(row);
 
-        // Tạo Card cho Mobile View
+        // Card cho Mobile View
         const card = document.createElement("div");
         card.className = "bg-gray-900 border border-gray-800 rounded-3xl p-5 shadow-md";
         card.innerHTML = `
@@ -311,7 +317,6 @@
         mobileCards.appendChild(card);
       });
 
-      // Đăng ký sự kiện click cho các nút động (sử dụng Event Delegation để tránh lỗi mất handler)
       setupActionButtons();
     }
 
@@ -353,12 +358,12 @@
 
       try {
         if (key) {
-          // Cập nhật dữ liệu cũ
-          await update(ref(db, `gio-truc/users/${currentUser.uid}/${key}`), payload);
+          // Cập nhật bản ghi tại users/{uid}/gio-truc/{key}
+          await update(getUserDutyRef(key), payload);
           showToast("Đã cập nhật giờ trực!", "success");
         } else {
-          // Tạo bản ghi mới
-          const newListRef = push(ref(db, `gio-truc/users/${currentUser.uid}`));
+          // Thêm mới bản ghi tại users/{uid}/gio-truc
+          const newListRef = push(getUserDutyRef());
           await set(newListRef, payload);
           showToast("Đã thêm mới giờ trực thành công!", "success");
         }
@@ -387,7 +392,7 @@
       if (!confirm("Bạn có chắc chắn muốn XÓA vĩnh viễn mục này?")) return;
 
       try {
-        await remove(ref(db, `gio-truc/users/${currentUser.uid}/${key}`));
+        await remove(getUserDutyRef(key));
         showToast("Đã xóa bản ghi giờ trực!", "success");
       } catch (err) {
         showToast("Lỗi khi xóa: " + err.message, "error");
@@ -407,7 +412,7 @@
       if (!dateStr) return "—";
       const parts = dateStr.split("-");
       if (parts.length !== 3) return dateStr;
-      return `${parts[2]}/${parts[1]}/${parts[0]}`; // Convert YYYY-MM-DD -> DD/MM/YYYY
+      return `${parts[2]}/${parts[1]}/${parts[0]}`;
     }
 
     function showToast(message, type) {
@@ -425,13 +430,11 @@
       `;
       document.body.appendChild(toast);
 
-      // Animation hiển thị mượt mà
       requestAnimationFrame(() => {
         toast.style.transform = "translateX(-50%) translateY(0)";
         toast.style.opacity = "1";
       });
 
-      // Tự động biến mất sau 3 giây
       setTimeout(() => {
         toast.style.transform = "translateX(-50%) translateY(20px)";
         toast.style.opacity = "0";
