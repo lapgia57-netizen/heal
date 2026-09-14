@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khả Năng Nhớ Mặt Con Người</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: rgba(15, 32, 39, 0.85);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 255, 255, 0.1);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a3a4a 0%, #0d1b2a 100%);
+            padding: 40px 30px;
+            border-bottom: 3px solid #00d9ff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 217, 255, 0.03) 2px,
+                rgba(0, 217, 255, 0.03) 4px
+            );
+            pointer-events: none;
+        }
+
+        h1 {
+            color: #00d9ff;
+            font-size: 2.2em;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
+            position: relative;
+        }
+
+        .security-badge {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.9em;
+            color: #00ff88;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 35px;
+            padding: 25px;
+            background: rgba(26, 58, 74, 0.4);
+            border-left: 4px solid #00d9ff;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            background: rgba(26, 58, 74, 0.6);
+            transform: translateX(5px);
+            box-shadow: -5px 0 15px rgba(0, 217, 255, 0.2);
+        }
+
+        h2 {
+            color: #00d9ff;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::before {
+            content: '⬢';
+            color: #00ff88;
+            font-size: 1.2em;
+        }
+
+        p {
+            margin-bottom: 15px;
+            color: #b8d4e0;
+        }
+
+        .highlight {
+            color: #00ff88;
+            font-weight: 600;
+        }
+
+        .info-box {
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid rgba(0, 217, 255, 0.3);
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background: rgba(0, 217, 255, 0.05);
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            background: rgba(0, 217, 255, 0.15);
+            border-color: #00d9ff;
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 2em;
+            color: #00ff88;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        li {
+            padding: 10px 0 10px 30px;
+            position: relative;
+            color: #b8d4e0;
+        }
+
+        li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: #00ff88;
+            font-size: 1.2em;
+        }
+
+        .cta {
+            background: linear-gradient(135deg, #00d9ff 0%, #00ff88 100%);
+            color: #0d1b2a;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 217, 255, 0.3);
+        }
+
+        .footer {
+            background: rgba(13, 27, 42, 0.9);
+            padding: 20px;
+            text-align: center;
+            color: #00d9ff;
+            font-size: 0.9em;
+            border-top: 2px solid rgba(0, 217, 255, 0.3);
+        }
+
+        @keyframes scan {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        .scan-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00d9ff, transparent);
+            animation: scan 2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Khả Năng Nhớ Mặt Con Người</h1>
+            <div class="security-badge">◈ Biometric Recognition System ◈</div>
+            <div class="scan-line"></div>
+        </div>
+
+        <div class="content">
+            <div class="section">
+                <h2>Cơ Chế Hoạt Động</h2>
+                <p>Não bộ có vùng chuyên biệt gọi là <span class="highlight">"khu vực nhận diện khuôn mặt"</span> (fusiform face area - FFA) trong vùng thái dương và chẩm. Khu vực này xử lý các đặc điểm khuôn mặt như:</p>
+                <div class="info-box">
+                    <ul>
+                        <li>Khoảng cách giữa hai mắt</li>
+                        <li>Hình dạng mũi</li>
+                        <li>Đường viền khuôn mặt</li>
+                        <li>Tổng thể cấu trúc</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Sự Khác Biệt Giữa Mọi Người</h2>
+                <p>Khả năng nhớ mặt rất khác nhau giữa các cá nhân:</p>
+                
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <span class="stat-number">∞</span>
+                        <p><strong>Super-Recognizers</strong><br>Nhớ hàng nghìn khuôn mặt trong nhiều năm</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-number">2-3%</span>
+                        <p><strong>Prosopagnosia</strong><br>Dân số mắc chứng mù mặt</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>Các Yếu Tố Ảnh Hưởng</h2>
+                
+                <p><span class="highlight">→ Độ tuổi:</span> Khả năng nhớ mặt đỉnh cao ở tuổi 30-34, sau đó giảm dần</p>
+                
+                <p><span class="highlight">→ Chủng tộc:</span> Người ta nhớ mặt người cùng chủng tộc tốt hơn (hiệu ứng "cross-race effect")</p>
+                
+                <p><span class="highlight">→ Cảm xúc:</span> Khuôn mặt gắn với cảm xúc mạnh được nhớ lâu hơn</p>
+                
+                <p><span class="highlight">→ Thời gian tiếp xúc:</span> Gặp nhiều lần giúp ghi nhớ tốt hơn</p>
+            </div>
+
+            <div class="cta">
+                Bạn có muốn tìm hiểu sâu hơn về khía cạnh nào của khả năng nhớ mặt không?
+            </div>
+        </div>
+
+        <div class="footer">
+            ⬡ Neural Biometric Recognition Research ⬡
+        </div>
+    </div>
+</body>
+</html>

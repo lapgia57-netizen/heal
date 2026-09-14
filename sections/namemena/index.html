@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh sách tên người Việt</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+       .container {
+            width: 100%;
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 24px;
+            font-weight: 700;
+            font-size: 28px;
+        }
+       .add-btn {
+            width: 100%;
+            padding: 14px;
+            margin-bottom: 20px;
+            background: white;
+            color: #667eea;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+       .add-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 255, 255, 0.3);
+        }
+       .add-btn:active {
+            transform: translateY(0);
+        }
+       .form-popup {
+            display: none;
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            animation: slideDown 0.3s ease;
+        }
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+       .form-group {
+            margin-bottom: 12px;
+        }
+       .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: border 0.2s;
+        }
+       .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+       .form-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 16px;
+        }
+       .form-actions button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+       .btn-submit {
+            background: #667eea;
+            color: white;
+        }
+       .btn-submit:hover {
+            background: #5a6fd8;
+        }
+       .btn-cancel {
+            background: #f1f1f1;
+            color: #666;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        th {
+            background: rgba(102, 126, 234, 0.9);
+            color: white;
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        tbody tr {
+            transition: background 0.2s;
+        }
+        tbody tr:hover {
+            background: rgba(102, 126, 234, 0.08);
+        }
+       .delete-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+       .delete-btn:hover {
+            background: #e8413e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📝 Danh sách tên người Việt</h1>
+
+        <button class="add-btn" onclick="showForm()">
+            <span>+</span> Thêm người mới
+        </button>
+
+        <div class="form-popup" id="formPopup">
+            <div class="form-group">
+                <input type="text" id="hoInput" placeholder="Nhập Họ: Nguyễn, Trần, Lê...">
+            </div>
+            <div class="form-group">
+                <input type="text" id="tenDemInput" placeholder="Nhập Tên đệm: Văn, Thị...">
+            </div>
+            <div class="form-group">
+                <input type="text" id="tenInput" placeholder="Nhập Tên: An, Lan, Hùng...">
+            </div>
+            <div class="form-actions">
+                <button class="btn-cancel" onclick="hideForm()">Hủy</button>
+                <button class="btn-submit" onclick="addPerson()">Thêm vào danh sách</button>
+            </div>
+        </div>
+
+        <table id="nameTable">
+            <thead>
+                <tr>
+                    <th>STT</th>
+                    <th>Họ và Tên</th>
+                    <th>Họ</th>
+                    <th>Tên</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr><td>1</td><td>Đặng Minh Khoa</td><td>Đặng</td><td>Khoa</td><td><button class="delete-btn" onclick="deleteRow(this)">Xóa</button></td></tr>
+                <tr><td>2</td><td>Hoàng Văn Dũng</td><td>Hoàng</td><td>Dũng</td><td><button class="delete-btn" onclick="deleteRow(this)">Xóa</button></td></tr>
+                <tr><td>3</td><td>Lê Thị Mai</td><td>Lê</td><td>Mai</td><td><button class="delete-btn" onclick="deleteRow(this)">Xóa</button></td></tr>
+                <tr><td>4</td><td>Nguyễn Văn An</td><td>Nguyễn</td><td>An</td><td><button class="delete-btn" onclick="deleteRow(this)">Xóa</button></td></tr>
+                <tr><td>5</td><td>Trần Thị Hương</td><td>Trần</td><td>Hương</td><td><button class="delete-btn" onclick="deleteRow(this)">Xóa</button></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function showForm() {
+            document.getElementById('formPopup').style.display = 'block';
+            document.getElementById('hoInput').focus();
+        }
+
+        function hideForm() {
+            document.getElementById('formPopup').style.display = 'none';
+            document.getElementById('hoInput').value = '';
+            document.getElementById('tenDemInput').value = '';
+            document.getElementById('tenInput').value = '';
+        }
+
+        function addPerson() {
+            const ho = document.getElementById('hoInput').value.trim();
+            const tenDem = document.getElementById('tenDemInput').value.trim();
+            const ten = document.getElementById('tenInput').value.trim();
+
+            if (!ho ||!ten) {
+                alert('Vui lòng nhập ít nhất Họ và Tên');
+                return;
+            }
+
+            const hoVaTen = tenDem? `${ho} ${tenDem} ${ten}` : `${ho} ${ten}`;
+            const tbody = document.getElementById('tableBody');
+            const rowCount = tbody.rows.length + 1;
+
+            const newRow = tbody.insertRow();
+            newRow.innerHTML = `
+                <td>${rowCount}</td>
+                <td>${hoVaTen}</td>
+                <td>${ho}</td>
+                <td>${ten}</td>
+                <td><button class="delete-btn" onclick="deleteRow(this)">Xóa</button></td>
+            `;
+
+            hideForm();
+            sortTable();
+        }
+
+        function deleteRow(btn) {
+            const row = btn.parentNode.parentNode;
+            row.parentNode.removeChild(row);
+            updateSTT();
+        }
+
+        function updateSTT() {
+            const tbody = document.getElementById('tableBody');
+            for (let i = 0; i < tbody.rows.length; i++) {
+                tbody.rows[i].cells[0].innerHTML = i + 1;
+            }
+        }
+
+        function sortTable() {
+            const tbody = document.getElementById('tableBody');
+            const rows = Array.from(tbody.rows);
+
+            rows.sort((a, b) => {
+                const hoA = a.cells[2].innerText;
+                const hoB = b.cells[2].innerText;
+                if (hoA!== hoB) return hoA.localeCompare(hoB, 'vi');
+
+                const tenA = a.cells[3].innerText;
+                const tenB = b.cells[3].innerText;
+                return tenA.localeCompare(tenB, 'vi');
+            });
+
+            tbody.innerHTML = '';
+            rows.forEach(row => tbody.appendChild(row));
+            updateSTT();
+        }
+
+        // Sort lần đầu khi load trang
+        sortTable();
+    </script>
+</body>
+</html>

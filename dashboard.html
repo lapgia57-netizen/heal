@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>UnityVina Care – Dashboard | Heal</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root {
+      --primary: #00a86b;
+      --primary-dark: #008f5a;
+      --secondary: #007bff;
+      --dark: #1e293b;
+      --card-bg: #ffffff;
+      --border: #e2e8f0;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 40%, #f0fdf4 100%);
+      color: #1e293b;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 2.5rem 1.5rem;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+    }
+    header h1 { font-size: 2.3rem; margin-bottom: 0.4rem; font-weight: 700; }
+    header p { font-size: 1.1rem; opacity: 0.95; }
+    nav.top {
+      background: var(--dark);
+      padding: 0.8rem 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    nav.top a {
+      color: #e2e8f0;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: color 0.2s;
+    }
+    nav.top a:hover { color: #4ade80; }
+    .container { max-width: 1180px; margin: 0 auto; padding: 2rem 1.2rem; }
+    .section { margin-bottom: 2.8rem; }
+    .section-title {
+      font-size: 1.45rem;
+      color: var(--dark);
+      margin-bottom: 1.1rem;
+      padding-bottom: 0.45rem;
+      border-bottom: 3px solid var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.1rem;
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 1.25rem;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+      transition: all 0.22s ease;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 22px rgba(0,168,107,0.14);
+      border-color: var(--primary);
+    }
+    .card i { font-size: 1.65rem; color: var(--primary); }
+    .card h3 { font-size: 1.08rem; font-weight: 600; }
+    .card p { font-size: 0.88rem; color: #64748b; }
+    .badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      background: #dcfce7;
+      color: #166534;
+      font-weight: 600;
+      margin-top: 0.25rem;
+      width: fit-content;
+    }
+    .badge.fun { background: #fef3c7; color: #92400e; }
+    .badge.misc { background: #e0e7ff; color: #3730a3; }
+    .badge.section { background: #fce7f3; color: #9d174d; }
+    footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: #64748b;
+      font-size: 0.92rem;
+      border-top: 1px solid #e2e8f0;
+      margin-top: 1rem;
+    }
+    @media (max-width: 600px) {
+      header h1 { font-size: 1.7rem; }
+      .grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1><i class="fas fa-heartbeat"></i> UnityVina Care – Heal</h1>
+    <p>Dashboard trung tâm · Liên kết tất cả trang & thư mục trong repo</p>
+  </header>
+
+  <nav class="top">
+    <a href="index.html"><i class="fas fa-home"></i> Trang chủ</a>
+    <a href="admin.html"><i class="fas fa-user-shield"></i> Admin</a>
+    <a href="dashboard.html"><i class="fas fa-th-large"></i> Dashboard</a>
+    <a href="pages/health/nanomedicine-2026.html"><i class="fas fa-flask"></i> Nano 2026</a>
+  </nav>
+
+  <div class="container">
+
+    <!-- Core -->
+    <div class="section">
+      <h2 class="section-title"><i class="fas fa-stethoscope"></i> Trang chính – Sức khỏe</h2>
+      <div class="grid">
+        <a href="index.html" class="card">
+          <i class="fas fa-home"></i>
+          <h3>Trang chủ</h3>
+          <p>Giới thiệu UnityVina Care & đặt lịch khám tại nhà</p>
+          <span class="badge">Core</span>
+        </a>
+        <a href="admin.html" class="card">
+          <i class="fas fa-user-shield"></i>
+          <h3>Quản trị lịch hẹn</h3>
+          <p>Xem & quản lý các cuộc hẹn từ Firebase</p>
+          <span class="badge">Admin</span>
+        </a>
+        <a href="pages/health/nanomedicine-2026.html" class="card">
+          <i class="fas fa-flask"></i>
+          <h3>Nano Y học 2026</h3>
+          <p>Công nghệ nano trong tế bào người</p>
+          <span class="badge">Kiến thức</span>
+        </a>
+        <a href="pages/health/kienthucyte.html" class="card">
+          <i class="fas fa-book-medical"></i>
+          <h3>Kiến thức Y tế</h3>
+          <p>Thông tin y tế tổng hợp</p>
+          <span class="badge">Kiến thức</span>
+        </a>
+        <a href="pages/health/BHYT.html" class="card">
+          <i class="fas fa-id-card"></i>
+          <h3>BHYT</h3>
+          <p>Thông tin Bảo hiểm Y tế</p>
+          <span class="badge">Thông tin</span>
+        </a>
+        <a href="pages/health/ycbv.html" class="card">
+          <i class="fas fa-hospital"></i>
+          <h3>Yêu cầu Bảo vệ</h3>
+          <p>Trang liên quan bảo vệ / yêu cầu</p>
+          <span class="badge">Khác</span>
+        </a>
+        <a href="pages/health/Security.html" class="card">
+          <i class="fas fa-shield-alt"></i>
+          <h3>Security</h3>
+          <p>Trang bảo mật</p>
+          <span class="badge">Khác</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Fun -->
+    <div class="section">
+      <h2 class="section-title"><i class="fas fa-smile"></i> Giải trí & Thư giãn</h2>
+      <div class="grid">
+        <a href="pages/fun/haha.html" class="card">
+          <i class="fas fa-laugh"></i>
+          <h3>Haha</h3>
+          <p>Trang vui vui để thư giãn</p>
+          <span class="badge fun">Fun</span>
+        </a>
+        <a href="pages/fun/TokyoGhoul.html" class="card">
+          <i class="fas fa-mask"></i>
+          <h3>Tokyo Ghoul</h3>
+          <p>Nội dung liên quan Tokyo Ghoul</p>
+          <span class="badge fun">Anime</span>
+        </a>
+        <a href="pages/fun/Hallyu.html" class="card">
+          <i class="fas fa-music"></i>
+          <h3>Hallyu</h3>
+          <p>Làn sóng Hàn Quốc</p>
+          <span class="badge fun">K-Culture</span>
+        </a>
+        <a href="pages/fun/hanquoc.html" class="card">
+          <i class="fas fa-flag"></i>
+          <h3>Hàn Quốc</h3>
+          <p>Thông tin về Hàn Quốc</p>
+          <span class="badge fun">K-Culture</span>
+        </a>
+        <a href="pages/fun/leesin.html" class="card">
+          <i class="fas fa-fist-raised"></i>
+          <h3>Lee Sin</h3>
+          <p>Trang liên quan Lee Sin</p>
+          <span class="badge fun">Game</span>
+        </a>
+        <a href="pages/fun/pithaman.html" class="card">
+          <i class="fas fa-dragon"></i>
+          <h3>Pithaman</h3>
+          <p>Nội dung Pithaman</p>
+          <span class="badge fun">Fun</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Misc -->
+    <div class="section">
+      <h2 class="section-title"><i class="fas fa-folder-open"></i> Trang khác</h2>
+      <div class="grid">
+        <a href="pages/misc/ba.html" class="card"><i class="fas fa-file-alt"></i><h3>ba.html</h3><p>Trang ba</p><span class="badge misc">Misc</span></a>
+        <a href="pages/misc/build.html" class="card"><i class="fas fa-tools"></i><h3>Build</h3><p>Trang build / xây dựng</p><span class="badge misc">Misc</span></a>
+        <a href="pages/misc/huu.html" class="card"><i class="fas fa-file-alt"></i><h3>huu.html</h3><p>Trang huu</p><span class="badge misc">Misc</span></a>
+        <a href="pages/misc/money.html" class="card"><i class="fas fa-money-bill-wave"></i><h3>Money</h3><p>Nội dung liên quan tiền bạc</p><span class="badge misc">Misc</span></a>
+        <a href="pages/misc/ntxcvn.html" class="card"><i class="fas fa-file-alt"></i><h3>ntxcvn.html</h3><p>Trang ntxcvn</p><span class="badge misc">Misc</span></a>
+        <a href="pages/misc/tebichantay.html" class="card"><i class="fas fa-file-alt"></i><h3>tebichantay.html</h3><p>Trang tebichantay</p><span class="badge misc">Misc</span></a>
+        <a href="pages/misc/thamdu.html" class="card"><i class="fas fa-file-alt"></i><h3>thamdu.html</h3><p>Trang thamdu</p><span class="badge misc">Misc</span></a>
+        <a href="pages/misc/tt.html" class="card"><i class="fas fa-file-alt"></i><h3>tt.html</h3><p>Trang tt</p><span class="badge misc">Misc</span></a>
+        <a href="404.html" class="card"><i class="fas fa-exclamation-triangle"></i><h3>404</h3><p>Trang lỗi 404</p><span class="badge misc">System</span></a>
+      </div>
+    </div>
+
+    <!-- Sections -->
+    <div class="section">
+      <h2 class="section-title"><i class="fas fa-sitemap"></i> Các section / thư mục chuyên đề</h2>
+      <div class="grid">
+        <a href="sections/Anninh/" class="card"><i class="fas fa-folder"></i><h3>Anninh</h3><p>hello, mode, khacniem, temporal-memory…</p><span class="badge section">Section</span></a>
+        <a href="sections/Burnout/" class="card"><i class="fas fa-folder"></i><h3>Burnout</h3><p>tienkiep, toadikhapnga, trinhsat…</p><span class="badge section">Section</span></a>
+        <a href="sections/Baove/" class="card"><i class="fas fa-folder"></i><h3>Baove (Bảovệ)</h3><p>index + phep/</p><span class="badge section">Section</span></a>
+        <a href="sections/One/" class="card"><i class="fas fa-folder"></i><h3>One</h3><p>Hihe, cocauctybaove, vnttv…</p><span class="badge section">Section</span></a>
+        <a href="sections/Up/" class="card"><i class="fas fa-folder"></i><h3>Up</h3><p>198, 219, 270, TN, lam, vietcombank…</p><span class="badge section">Section</span></a>
+        <a href="sections/bvTop1/" class="card"><i class="fas fa-folder"></i><h3>bvTop1</h3><p>index.html</p><span class="badge section">Section</span></a>
+        <a href="sections/namemena/" class="card"><i class="fas fa-folder"></i><h3>namemena</h3><p>index.html</p><span class="badge section">Section</span></a>
+        <a href="sections/tamlinh/" class="card"><i class="fas fa-folder"></i><h3>tamlinh</h3><p>index, ngay-tet, nuocngot, 131error…</p><span class="badge section">Section</span></a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>© 2025–2026 UnityVina Care · Repo <strong>heal</strong> (đã cấu trúc lại)</p>
+    <p>Domain: so1lafirst.lck.io.vn · Mọi trang đều có thể truy cập từ Dashboard này</p>
+  </footer>
+</body>
+</html>

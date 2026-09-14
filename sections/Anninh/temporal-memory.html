@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tại sao chúng ta dễ lẫn lộn thứ tự trước – sau của các sự kiện?</title>
+  <style>
+    :root {
+      --primary: #2c5282;
+      --primary-dark: #1a365d;
+      --text: #2d3748;
+      --light-bg: #f7fafc;
+      --gray: #718096;
+      --border: #e2e8f0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.7;
+      color: var(--text);
+      background-color: var(--light-bg);
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    h1 {
+      color: var(--primary-dark);
+      font-size: 2.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      color: var(--gray);
+      font-size: 1.1rem;
+    }
+
+    h2 {
+      color: var(--primary);
+      font-size: 1.6rem;
+      margin: 2.5rem 0 1rem;
+      border-left: 5px solid var(--primary);
+      padding-left: 1rem;
+    }
+
+    h3 {
+      color: var(--primary-dark);
+      font-size: 1.35rem;
+      margin: 2rem 0 0.8rem;
+    }
+
+    p {
+      margin: 1.1rem 0;
+    }
+
+    ul, ol {
+      margin: 1rem 0 1.5rem 1.8rem;
+      padding-left: 0;
+    }
+
+    li {
+      margin-bottom: 0.7rem;
+    }
+
+    .highlight {
+      background-color: #ebf8ff;
+      padding: 1.2rem 1.5rem;
+      border-left: 5px solid #4299e1;
+      border-radius: 6px;
+      margin: 1.5rem 0;
+    }
+
+    .warning {
+      background-color: #fff5f5;
+      border-left: 5px solid #e53e3e;
+      padding: 1.2rem 1.5rem;
+      border-radius: 6px;
+      margin: 1.8rem 0;
+    }
+
+    .tip-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    .tip-list li {
+      position: relative;
+      padding-left: 2.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .tip-list li::before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: var(--primary);
+      font-weight: bold;
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      color: var(--gray);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.8rem; }
+      h2 { font-size: 1.45rem; }
+      .container { padding: 1.5rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <h1>Tại sao chúng ta dễ lẫn lộn thứ tự trước – sau của các sự kiện?</h1>
+    <div class="subtitle">Khả năng ghi nhớ thứ tự thời gian (temporal order memory) và những nguyên nhân phổ biến</div>
+  </header>
+
+  <p><strong>Vấn đề bạn đang hỏi</strong> liên quan đến khả năng ghi nhớ thứ tự thời gian của các sự kiện (temporal order memory), tức là nhớ được cái gì xảy ra trước và cái gì xảy ra sau trong chuỗi sự kiện. Đây là một khía cạnh rất quan trọng của trí nhớ episodic (trí nhớ sự kiện cá nhân), và nhiều người gặp khó khăn ở điểm này ở các mức độ khác nhau.</p>
+
+  <h2>Tại sao não bộ lại dễ gặp vấn đề ở phần "trước – sau"?</h2>
+  <p>NÃO không lưu trữ ký ức như một đoạn video tuyến tính hoàn hảo. Thay vào đó:</p>
+  <ul>
+    <li>Trí nhớ thứ tự thời gian phụ thuộc nhiều vào <strong>hồi hải mã (hippocampus)</strong> và <strong>vùng vỏ não trước trán (prefrontal cortex)</strong>.</li>
+    <li>Khi hai sự kiện xảy ra gần nhau về thời gian, não dễ "dính" chúng lại với nhau (temporal proximity binding), nhưng nếu khoảng cách thời gian xa hơn hoặc có nhiều sự kiện xen kẽ, thứ tự dễ bị lẫn lộn.</li>
+    <li>Trẻ nhỏ (4–5 tuổi) thường nhớ rất tốt chi tiết "cái gì" xảy ra, nhưng lại kém về "khi nào" và "thứ tự ra sao". Khả năng này phát triển dần đến tuổi thiếu niên và trưởng thành.</li>
+    <li>Ở người lớn, vấn đề này có thể tăng lên do:
+      <ul>
+        <li>Stress, thiếu ngủ, lo âu → làm suy giảm chức năng prefrontal.</li>
+        <li>Tuổi tác (não lão hóa dần vùng xử lý temporal context).</li>
+        <li>Một số tình trạng bệnh lý.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h2>Các trường hợp phổ biến gây khó nhớ thứ tự trước – sau</h2>
+
+  <h3>Tình trạng bình thường / không bệnh lý</h3>
+  <p>Nhiều người khỏe mạnh vẫn hay lẫn lộn thứ tự (ví dụ: "Chuyến đi Đà Lạt là trước hay sau đám cưới bạn?"). Điều này xảy ra vì não ưu tiên ghi nhớ nội dung hơn là thời gian tương đối.</p>
+
+  <h3>Rối loạn chú ý hoặc ADHD</h3>
+  <p>Người có ADHD thường gặp khó khăn lớn trong việc nhớ thứ tự sự kiện, vì họ khó duy trì "dòng thời gian tinh thần" (mental timeline). Mọi thứ dễ bị gom thành "khoảng một tuần trước" hoặc "tháng nào đó".</p>
+
+  <h3>Tổn thương não hoặc bệnh lý</h3>
+  <ul>
+    <li><strong>Tổn thương vùng frontal lobe</strong>: Giữ được nội dung sự kiện (item memory) nhưng rất kém về thứ tự thời gian.</li>
+    <li><strong>Bệnh Alzheimer hoặc sa sút trí tuệ</strong>: Ban đầu hay quên sự kiện mới (quên thuận chiều), sau đó lẫn lộn thứ tự, thậm chí "time-shifting".</li>
+    <li><strong>Amnesia</strong> (đặc biệt anterograde amnesia) hoặc sau chấn thương sọ não: thường mất khả năng nhớ thứ tự sự kiện mới.</li>
+    <li><strong>Korsakoff syndrome</strong> (thường do thiếu vitamin B1 ở người nghiện rượu lâu năm): Rất đặc trưng là confabulation + kém temporal order cực kỳ.</li>
+  </ul>
+
+  <div class="warning">
+    <strong>Vấn đề gần đây / hàng ngày</strong><br>
+    Nếu bạn hay quên chi tiết sự việc hôm trước (ngay cả việc lớn cũng chỉ mang máng), có thể liên quan đến:<br>
+    • Stress/mệt mỏi kéo dài<br>
+    • Rối loạn giấc ngủ<br>
+    • Thiếu tập trung khi sự kiện xảy ra (attention là yếu tố then chốt để mã hóa thứ tự)<br>
+    • Một số vấn đề thần kinh nhẹ (nên khám nội thần kinh nếu kéo dài)
+  </div>
+
+  <h2>Cách cải thiện khả năng nhớ thứ tự trước – sau</h2>
+  <ul class="tip-list">
+    <li>Ghi chép thời gian ngay: Dùng nhật ký, note điện thoại với timestamp (ngày giờ cụ thể).</li>
+    <li>Tạo mốc neo: Liên kết sự kiện với mốc lớn (sinh nhật, Tết, sự kiện công cộng) để dễ định vị "trước/sau".</li>
+    <li>Kể chuyện tuyến tính: Khi ôn lại, cố gắng kể theo trình tự thời gian thay vì nhảy lung tung.</li>
+    <li>Active recall + spaced repetition: Tự hỏi "Cái này xảy ra trước hay sau cái kia?" và ôn lại nhiều lần.</li>
+    <li>Thiền chánh niệm hoặc tập thể dục: Giúp cải thiện chức năng prefrontal và hippocampus.</li>
+  </ul>
+
+  <div class="highlight">
+    <strong>Lời khuyên quan trọng:</strong> Nếu vấn đề này mới xuất hiện gần đây, ảnh hưởng nhiều đến công việc/học tập, hoặc kèm theo các dấu hiệu khác (nhức đầu, chóng mặt, thay đổi tính cách), bạn nên đi khám bác sĩ nội thần kinh để loại trừ nguyên nhân bệnh lý (có thể chụp MRI nếu cần).
+  </div>
+
+  <p>Bạn có thể mô tả cụ thể hơn không? Ví dụ: Bạn hay lẫn thứ tự sự kiện trong ngày hôm trước, hay là các sự kiện cách nhau vài tháng/năm? Hoặc có kèm theo quên tên người, quên đường về nhà không? Mình sẽ giải thích chi tiết hơn.</p>
+
+  <footer>
+    Bài viết được biên soạn để cung cấp thông tin tham khảo. Không thay thế tư vấn y khoa chuyên nghiệp.
+  </footer>
+
+</div>
+
+</body>
+</html>

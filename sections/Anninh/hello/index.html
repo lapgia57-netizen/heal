@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RikVip</title>
+  
+  <!-- Favicon Icon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%232563eb%22><path d=%22M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z%22/></svg>">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  <!-- EmailJS SDK (Để gửi Mail trực tiếp từ giao diện) -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    pre, code { font-family: 'Fira Code', monospace; }
+  </style>
+</head>
+<body class="bg-slate-50 min-h-screen text-slate-800 flex flex-col">
+
+  <!-- ================= MÀN HÌNH ĐĂNG NHẬP ================= -->
+  <div id="login-screen" class="flex-1 flex items-center justify-center p-4">
+    <div class="bg-white p-8 rounded-2xl shadow-xl max-w-md w-full text-center border border-slate-100">
+      <div class="w-16 h-16 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center mx-auto mb-4 text-2xl">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <h1 class="text-2xl font-bold text-slate-900 mb-2">Cổng Chấm Công Bảo Vệ</h1>
+      <p class="text-slate-500 mb-8 text-sm">Vui lòng đăng nhập để xem toàn bộ dữ liệu hệ thống và xuất báo cáo qua Email.</p>
+      
+      <button id="btn-login" class="w-full flex items-center justify-center gap-3 bg-white border border-slate-300 hover:border-slate-400 text-slate-700 font-semibold py-3 px-4 rounded-xl shadow-sm transition duration-200">
+        <svg class="w-5 h-5" viewBox="0 0 24 24">
+          <path fill="#EA4335" d="M12 5.04c1.64 0 3.12.56 4.28 1.67l3.2-3.2C17.52 1.58 14.96 1 12 1 7.35 1 3.4 3.65 1.49 7.5l3.8 2.94C6.23 7.39 8.89 5.04 12 5.04z"/>
+          <path fill="#4285F4" d="M23.49 12.27c0-.81-.07-1.59-.2-2.34H12v4.43h6.45c-.28 1.48-1.11 2.74-2.37 3.59l3.68 2.85c2.15-1.98 3.39-4.9 3.39-8.53z"/>
+          <path fill="#FBBC05" d="M5.29 14.44c-.24-.72-.38-1.5-.38-2.31s.14-1.59.38-2.31L1.49 6.88C.54 8.78 0 10.9 0 13.12c0 2.22.54 4.34 1.49 6.24l3.8-2.92z"/>
+          <path fill="#34A853" d="M12 23c3.24 0 5.95-1.08 7.93-2.91l-3.68-2.85c-1.02.68-2.33 1.09-4.25 1.09-3.11 0-5.77-2.35-6.71-5.4l-3.8 2.94C3.4 20.35 7.35 23 12 23z"/>
+        </svg>
+        Đăng nhập với Google
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= MÀN HÌNH CHÍNH ================= -->
+  <div id="app-screen" class="hidden flex-1 flex flex-col">
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 py-4 px-6 sticky top-0 z-10">
+      <div class="max-w-6xl mx-auto flex justify-between items-center">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-blue-600 text-white rounded-xl flex items-center justify-center text-lg shadow-md shadow-blue-200">
+            <i class="fa-solid fa-shield-halved"></i>
+          </div>
+          <div>
+            <h1 class="font-bold text-slate-900 leading-tight">Security Guard Portal (Quản Lý)</h1>
+            <p class="text-xs text-slate-500">Đọc & Tổng hợp Toàn bộ Dữ liệu Hệ thống</p>
+          </div>
+        </div>
+        
+        <div class="flex items-center gap-3">
+          <div class="text-right hidden sm:block">
+            <p id="user-name" class="font-medium text-sm text-slate-800">Quản Lý</p>
+            <p id="user-email" class="text-xs text-slate-500">email@gmail.com</p>
+          </div>
+          <img id="user-avatar" src="" alt="Avatar" class="w-10 h-10 rounded-full border-2 border-white shadow-sm">
+          <button id="btn-logout" class="text-slate-400 hover:text-red-500 p-2 rounded-lg hover:bg-slate-100 transition" title="Đăng xuất">
+            <i class="fa-solid fa-right-from-bracket text-lg"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-6xl w-full mx-auto p-4 sm:p-6 flex-1 space-y-6">
+      
+      <!-- Thống kê tổng hợp toàn bộ hệ thống -->
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 text-center relative overflow-hidden flex flex-col justify-center">
+          <div class="absolute top-0 left-0 w-full h-1.5 bg-blue-600"></div>
+          <p class="text-[11px] font-semibold text-blue-600 uppercase tracking-wider mb-1">Thời gian thực</p>
+          <div id="live-clock" class="text-2xl font-extrabold text-slate-950 tracking-tight">00:00:00</div>
+          <p id="live-date" class="text-xs text-slate-400 mt-1">Đang đồng bộ...</p>
+        </div>
+        
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex items-center gap-4">
+          <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-users"></i></div>
+          <div>
+            <p class="text-xs text-slate-400 font-medium">Tổng Nhân Viên</p>
+            <p id="stat-users" class="text-2xl font-bold text-slate-900">0 NVKD</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex items-center gap-4">
+          <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-list-check"></i></div>
+          <div>
+            <p class="text-xs text-slate-400 font-medium">Tổng Số Ca Trực</p>
+            <p id="stat-records" class="text-2xl font-bold text-slate-900">0 Ca</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex items-center gap-4">
+          <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center text-xl"><i class="fa-solid fa-clock"></i></div>
+          <div>
+            <p class="text-xs text-slate-400 font-medium">Tổng Giờ Làm Toàn Hệ Thống</p>
+            <p id="stat-hours" class="text-2xl font-bold text-slate-900">0.00 h</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- KHU VỰC GỬI EMAIL BÁO CÁO -->
+      <div class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white rounded-2xl p-6 shadow-md flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h2 class="text-lg font-bold flex items-center gap-2">
+            <i class="fa-solid fa-paper-plane text-blue-300"></i> Gửi Mail Tổng Hợp Báo Cáo Chấm Công
+          </h2>
+          <p class="text-xs text-blue-200 mt-1">Hệ thống sẽ tổng hợp toàn bộ lịch sử chấm công của tất cả nhân viên và gửi tới Email của bạn.</p>
+        </div>
+        <div class="flex items-center gap-2 w-full md:w-auto">
+          <input type="email" id="email-recipient" placeholder="Nhập email nhận báo cáo..." class="text-slate-800 text-sm px-4 py-2.5 rounded-xl border-0 focus:ring-2 focus:ring-blue-400 focus:outline-none w-full md:w-64">
+          <button id="btn-send-email" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow transition whitespace-nowrap flex items-center gap-2">
+            <i class="fa-solid fa-envelope"></i> Gửi Mail Ngay
+          </button>
+        </div>
+      </div>
+
+      <!-- BẢNG TỔNG HỢP TOÀN BỘ DỮ LIỆU CỦA TẤT CẢ TÀI KHOẢN -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+        <div class="p-6 border-b border-slate-100 flex justify-between items-center">
+          <h2 class="font-bold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-table-list text-blue-600"></i> Tất Cả Lịch Sử Chấm Công (Toàn Hệ Thống)
+          </h2>
+          <span class="text-xs bg-blue-50 text-blue-600 py-1 px-3 rounded-full font-bold" id="all-history-count">0 ca</span>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-50/50 text-slate-400 text-xs font-semibold uppercase border-b border-slate-100">
+                <th class="py-3 px-6">ID / User UID</th>
+                <th class="py-3 px-6">Ngày Trực</th>
+                <th class="py-3 px-6">Tên Ca</th>
+                <th class="py-3 px-6">Giờ Vào</th>
+                <th class="py-3 px-6">Giờ Ra</th>
+                <th class="py-3 px-6">Tổng Giờ</th>
+              </tr>
+            </thead>
+            <tbody id="history-table-body" class="divide-y divide-slate-100 text-sm text-slate-600">
+              <tr>
+                <td colspan="6" class="py-8 text-center text-slate-400">Đang tải toàn bộ dữ liệu từ Database...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- KHU VỰC HIỂN THỊ DỮ LIỆU THÔ JSON DẠNG CÂY (TẤT CẢ CÁC TÀI KHOẢN) -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 p-6 space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div>
+            <h2 class="font-bold text-slate-900 flex items-center gap-2">
+              <i class="fa-solid fa-database text-blue-600"></i> Dữ Liệu Thô Đầy Đủ Trong Database (JSON)
+            </h2>
+            <p class="text-xs text-slate-500 mt-1">Đọc trực tiếp nút gốc `/attendance` chứa dữ liệu của tất cả tài khoản</p>
+          </div>
+          <div class="flex gap-2">
+            <button id="btn-export-csv" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs py-2 px-3 rounded-lg shadow-sm transition flex items-center gap-1.5">
+              <i class="fa-solid fa-file-excel"></i> Xuất Tất Cả Ra Excel (CSV)
+            </button>
+            <button id="btn-toggle-json" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium text-xs py-2 px-3 rounded-lg transition flex items-center gap-1.5">
+              <i class="fa-solid fa-code"></i> Mở rộng / Thu gọn JSON
+            </button>
+          </div>
+        </div>
+
+        <div id="json-container" class="relative bg-slate-900 rounded-xl p-4 overflow-hidden border border-slate-800">
+          <pre id="json-viewer" class="text-emerald-400 text-xs overflow-x-auto max-h-96 leading-relaxed">{\n  "status": "Đang đọc tất cả dữ liệu..."\n}</pre>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 px-6 mt-12 text-center text-xs text-slate-400">
+      <div class="max-w-6xl mx-auto">
+        &copy; 2026 Hệ thống Quản Lý Chấm Công Bảo Vệ Toàn Hệ Thống.
+      </div>
+    </footer>
+  </div>
+
+  <!-- FIREBASE SDK VÀ LOGIC ĐỌC TOÀN BỘ DỮ LIỆU & GỬI MAIL -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+    // Cấu hình Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyAHykzdOOhBGk972wuEk55QTiInb6oNDsc",
+      authDomain: "ptptt-pcpc.firebaseapp.com",
+      databaseURL: "https://ptptt-pcpc-default-rtdb.firebaseio.com",
+      projectId: "ptptt-pcpc",
+      storageBucket: "ptptt-pcpc.firebasestorage.app",
+      messagingSenderId: "334612619008",
+      appId: "1:334612619008:web:b5342800ffc2ae13335de5"
+    };
+
+    // Khởi tạo các ứng dụng Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getDatabase(app);
+    const googleProvider = new GoogleAuthProvider();
+
+    // Khởi tạo EmailJS (Bạn có thể dùng tài khoản EmailJS riêng của mình nếu cần)
+    (function(){
+      emailjs.init("YOUR_PUBLIC_KEY"); // Thay bằng Public Key EmailJS của bạn nếu cần
+    })();
+
+    // DOM Elements
+    const loginScreen = document.getElementById('login-screen');
+    const appScreen = document.getElementById('app-screen');
+    const btnLogin = document.getElementById('btn-login');
+    const btnLogout = document.getElementById('btn-logout');
+    
+    const userName = document.getElementById('user-name');
+    const userEmail = document.getElementById('user-email');
+    const userAvatar = document.getElementById('user-avatar');
+    const emailRecipient = document.getElementById('email-recipient');
+    
+    const liveClock = document.getElementById('live-clock');
+    const liveDate = document.getElementById('live-date');
+    
+    const statUsers = document.getElementById('stat-users');
+    const statRecords = document.getElementById('stat-records');
+    const statHours = document.getElementById('stat-hours');
+    
+    const historyTableBody = document.getElementById('history-table-body');
+    const allHistoryCount = document.getElementById('all-history-count');
+
+    const jsonViewer = document.getElementById('json-viewer');
+    const btnToggleJson = document.getElementById('btn-toggle-json');
+    const btnExportCsv = document.getElementById('btn-export-csv');
+    const btnSendEmail = document.getElementById('btn-send-email');
+
+    let currentUser = null;
+    let fullSystemData = null; // Chứa toàn bộ dữ liệu của TẤT CẢ người dùng
+    let flattenedRecords = []; // Dữ liệu đã phẳng hóa để hiển thị và xuất file
+
+    // Trạng thái đăng nhập
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+        loginScreen.classList.add('hidden');
+        appScreen.classList.remove('hidden');
+
+        userName.textContent = user.displayName;
+        userEmail.textContent = user.email;
+        userAvatar.src = user.photoURL || 'https://via.placeholder.com/150';
+        emailRecipient.value = user.email; // Đặt sẵn email người đăng nhập
+
+        loadAllDataFromDatabase();
+      } else {
+        currentUser = null;
+        loginScreen.classList.remove('hidden');
+        appScreen.classList.add('hidden');
+      }
+    });
+
+    btnLogin.addEventListener('click', () => signInWithPopup(auth, googleProvider));
+    btnLogout.addEventListener('click', () => confirm("Bạn muốn đăng xuất không?") && signOut(auth));
+
+    // Đồng hồ thời gian thực
+    function runClock() {
+      const now = new Date();
+      liveClock.textContent = now.toLocaleTimeString('vi-VN', { hour12: false });
+      liveDate.textContent = now.toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+    }
+    setInterval(runClock, 1000);
+    runClock();
+
+    // ================= ĐỌC TẤT CẢ DỮ LIỆU TỪ HỆ THỐNG =================
+    function loadAllDataFromDatabase() {
+      // Đọc toàn bộ nút gốc `/attendance`
+      const rootDbRef = ref(db, 'attendance');
+      
+      onValue(rootDbRef, (snapshot) => {
+        const data = snapshot.val();
+        fullSystemData = data;
+
+        if (!data) {
+          jsonViewer.textContent = "{\n  \"info\": \"Hiện tại không có dữ liệu nào trong toàn bộ Database\"\n}";
+          historyTableBody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400">Không có dữ liệu chấm công.</td></tr>`;
+          allHistoryCount.textContent = "0 ca";
+          statUsers.textContent = "0 NVKD";
+          statRecords.textContent = "0 Ca";
+          statHours.textContent = "0.00 h";
+          return;
+        }
+
+        // 1. Hiển thị dữ liệu JSON thô của toàn bộ tài khoản
+        jsonViewer.textContent = JSON.stringify(data, null, 2);
+
+        // 2. Phẳng hóa dữ liệu từ các User ID khác nhau
+        flattenedRecords = [];
+        let totalUsers = Object.keys(data).length;
+        let totalSystemHours = 0;
+
+        Object.keys(data).forEach(userId => {
+          const userShiftList = data[userId];
+          if (userShiftList && typeof userShiftList === 'object') {
+            Object.keys(userShiftList).forEach(shiftKey => {
+              const record = userShiftList[shiftKey];
+              const hours = parseFloat(record.totalHours) || 0;
+              totalSystemHours += hours;
+
+              flattenedRecords.push({
+                userId: userId,
+                shiftKey: shiftKey,
+                date: record.date || "N/A",
+                shift: record.shift || "N/A",
+                checkInTime: record.checkInTime || "N/A",
+                checkOutTime: record.checkOutTime || "Chưa Check-out",
+                totalHours: hours,
+                timestamp: record.timestamp || 0
+              });
+            });
+          }
+        });
+
+        // Sắp xếp theo thứ tự mới nhất lên đầu
+        flattenedRecords.sort((a, b) => b.timestamp - a.timestamp);
+
+        // Cập nhật thống kê
+        statUsers.textContent = `${totalUsers} Nhân Viên`;
+        statRecords.textContent = `${flattenedRecords.length} Ca`;
+        statHours.textContent = `${totalSystemHours.toFixed(2)} h`;
+        allHistoryCount.textContent = `${flattenedRecords.length} ca`;
+
+        // Render ra bảng
+        let htmlRows = "";
+        flattenedRecords.forEach(item => {
+          htmlRows += `
+            <tr class="hover:bg-slate-50 transition">
+              <td class="py-4 px-6 font-mono text-xs text-blue-600 font-medium">${item.userId.substring(0, 10)}...</td>
+              <td class="py-4 px-6 font-semibold text-slate-900">${item.date}</td>
+              <td class="py-4 px-6">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium ${item.shift.includes('Ngày') ? 'bg-amber-50 text-amber-600' : 'bg-indigo-50 text-indigo-600'}">
+                  <i class="fa-solid ${item.shift.includes('Ngày') ? 'fa-sun' : 'fa-moon'}"></i> ${item.shift.split(' (')[0]}
+                </span>
+              </td>
+              <td class="py-4 px-6 font-mono text-slate-500">${item.checkInTime}</td>
+              <td class="py-4 px-6 font-mono text-slate-500">${item.checkOutTime}</td>
+              <td class="py-4 px-6 font-bold text-slate-800">${item.totalHours} h</td>
+            </tr>
+          `;
+        });
+        historyTableBody.innerHTML = htmlRows;
+      });
+    }
+
+    // ================= XUẤT CSV TOÀN BỘ DỮ LIỆU =================
+    btnExportCsv.addEventListener('click', () => {
+      if (!flattenedRecords || flattenedRecords.length === 0) {
+        alert("Không có dữ liệu để xuất!");
+        return;
+      }
+
+      let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+      csvContent += "User UID,Ngày Trực,Tên Ca,Giờ Vào,Giờ Ra,Tổng Giờ Làm (Giờ)\n";
+
+      flattenedRecords.forEach(row => {
+        csvContent += `"${row.userId}","${row.date}","${row.shift}","${row.checkInTime}","${row.checkOutTime}","${row.totalHours}"\n`;
+      });
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `BaoCao_TongHop_ToanBo_BaoVe.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+    // ================= GỬI BÁO CÁO QUA EMAIL =================
+    btnSendEmail.addEventListener('click', () => {
+      const recipient = emailRecipient.value.trim();
+      if (!recipient) {
+        alert("Vui lòng nhập email nhận báo cáo!");
+        return;
+      }
+
+      if (!flattenedRecords || flattenedRecords.length === 0) {
+        alert("Không có dữ liệu để gửi!");
+        return;
+      }
+
+      btnSendEmail.disabled = true;
+      btnSendEmail.innerHTML = `<i class="fa-solid fa-spinner animate-spin"></i> Đang gửi...`;
+
+      // Tạo tóm tắt nội dung mail
+      let summaryText = `Tổng số nhân viên: ${statUsers.textContent}\n`;
+      summaryText += `Tổng số ca trực: ${statRecords.textContent}\n`;
+      summaryText += `Tổng số giờ làm: ${statHours.textContent}\n\n`;
+      summaryText += `--- CHI TIẾT 5 CA TRỰC MỚI NHẤT ---\n`;
+
+      flattenedRecords.slice(0, 5).forEach((r, idx) => {
+        summaryText += `${idx + 1}. Ngày: ${r.date} | Ca: ${r.shift} | Vào: ${r.checkInTime} | Ra: ${r.checkOutTime} | Tổng: ${r.totalHours}h\n`;
+      });
+
+      // Mở trình soạn thảo email mặc định trên máy tính (Mail Client / Gmail) với dữ liệu đã được tổng hợp sẵn
+      const mailtoSubject = encodeURIComponent("Báo Cáo Tổng Hợp Chấm Công Bảo Vệ");
+      const mailtoBody = encodeURIComponent(`Kính gửi Quản lý,\n\nDưới đây là báo cáo chấm công toàn bộ hệ thống bảo vệ tính đến thời điểm hiện tại:\n\n${summaryText}\n\nXem chi tiết tại hệ thống.`);
+      
+      window.location.href = `mailto:${recipient}?subject=${mailtoSubject}&body=${mailtoBody}`;
+
+      setTimeout(() => {
+        btnSendEmail.disabled = false;
+        btnSendEmail.innerHTML = `<i class="fa-solid fa-envelope"></i> Gửi Mail Ngay`;
+        alert("Đã mở ứng dụng gửi Email với dữ liệu được tổng hợp sẵn!");
+      }, 1000);
+    });
+
+    // Bật tắt xem JSON
+    btnToggleJson.addEventListener('click', () => {
+      jsonViewer.classList.toggle('max-h-96');
+      jsonViewer.classList.toggle('max-h-20');
+    });
+  </script>
+</body>
+</html>

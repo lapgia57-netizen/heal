@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tâm Linh Trùng Cổ • Bí Ẩn Nhân Loại</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap');
+        
+        :root {
+            --gold: #d4af37;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .heading-font {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .hero-bg {
+            background-image: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.85)), 
+                            url('https://source.unsplash.com/random/2000x1200/?ancient-mystical-temple');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 25px 50px -12px rgb(212 175 55 / 0.25);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: var(--gold);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="bg-[#0a0503] text-amber-100 min-h-screen">
+
+    <!-- HEADER / HERO -->
+    <header class="hero-bg h-screen flex items-center justify-center relative">
+        <div class="absolute top-6 left-6 right-6 flex justify-between items-center z-50">
+            <h1 class="text-2xl font-bold tracking-widest heading-font text-amber-300">TRÙNG CỔ</h1>
+            
+            <!-- Hamburger -->
+            <button id="menu-btn" class="text-3xl md:hidden z-50">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            
+            <!-- Desktop Nav -->
+            <nav class="hidden md:flex gap-8 text-lg">
+                <a href="#explore" class="nav-link">Khám phá</a>
+                <a href="#parallels" class="nav-link">Trùng hợp</a>
+                <a href="#theory" class="nav-link">Lý thuyết</a>
+            </nav>
+        </div>
+
+        <div class="text-center px-6 z-10 max-w-2xl">
+            <h1 class="text-6xl md:text-7xl heading-font font-bold mb-4 tracking-tighter">
+                TÂM LINH<br>TRÙNG CỔ
+            </h1>
+            <p class="text-xl md:text-2xl text-amber-200/90 mb-8">
+                Những bí ẩn kết nối các nền văn minh cách xa nhau hàng nghìn năm
+            </p>
+            <button onclick="document.getElementById('explore').scrollIntoView({behavior:'smooth'})"
+                    class="bg-amber-400 hover:bg-amber-300 transition-colors text-black font-semibold px-10 py-4 rounded-full text-lg flex items-center gap-3 mx-auto">
+                <span>Bắt đầu hành trình</span>
+                <i class="fa-solid fa-arrow-down"></i>
+            </button>
+        </div>
+
+        <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
+            <i class="fa-solid fa-chevron-down text-4xl text-amber-400/70"></i>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-5xl mx-auto px-5 pb-20">
+
+        <!-- SECTION 1 -->
+        <section id="explore" class="py-20">
+            <h2 class="text-4xl heading-font text-center mb-12">Những Trùng Hợp Kỳ Bí</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Card 1 -->
+                <div class="card-hover bg-gradient-to-br from-amber-950/80 to-black border border-amber-400/30 rounded-3xl p-8">
+                    <div class="text-5xl mb-6">🐍</div>
+                    <h3 class="text-2xl font-semibold mb-3">Thần Rắn Bay</h3>
+                    <p class="text-amber-200/80 leading-relaxed">
+                        Quetzalcoatl (Maya/Aztec) • Kukulkan • Thần rắn Ai Cập • Pourangahua (New Zealand)
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="card-hover bg-gradient-to-br from-amber-950/80 to-black border border-amber-400/30 rounded-3xl p-8">
+                    <div class="text-5xl mb-6">🌊</div>
+                    <h3 class="text-2xl font-semibold mb-3">Đại Hồng Thủy</h3>
+                    <p class="text-amber-200/80 leading-relaxed">
+                        Noah • Manu • Utnapishtim • Deucalion • Nuh • Gilgamesh
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 2 -->
+        <section id="parallels" class="py-20 bg-black/50 rounded-3xl">
+            <h2 class="text-4xl heading-font text-center mb-12">Thần Mặt Trời &amp; Chu Kỳ Tái Sinh</h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-center">
+                <div class="p-6">Ra (Ai Cập)</div>
+                <div class="p-6">Surya (Ấn Độ)</div>
+                <div class="p-6">Inti (Inca)</div>
+                <div class="p-6">Amaterasu (Nhật)</div>
+                <div class="p-6">Apollo (Hy Lạp)</div>
+                <div class="p-6">Lugh (Celtic)</div>
+            </div>
+        </section>
+
+        <!-- Lý Thuyết -->
+        <section id="theory" class="py-20">
+            <h2 class="text-4xl heading-font text-center mb-12">Tại Sao Lại Trùng Hợp?</h2>
+            <div class="space-y-8">
+                <div class="flex gap-6">
+                    <div class="text-4xl">🧠</div>
+                    <div>
+                        <h3 class="text-xl font-semibold">Archetypes – Carl Jung</h3>
+                        <p class="text-amber-200/70">Hình mẫu vô thức tập thể tồn tại trong tâm trí loài người.</p>
+                    </div>
+                </div>
+                <div class="flex gap-6">
+                    <div class="text-4xl">🌍</div>
+                    <div>
+                        <h3 class="text-xl font-semibold">Nguồn Gốc Chung</h3>
+                        <p class="text-amber-200/70">Di cư từ châu Phi mang theo những motif tâm linh cổ xưa.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-black py-12 text-center text-amber-400/60 text-sm">
+        <p>© 2026 Tâm Linh Trùng Cổ • Made with modern web technologies</p>
+    </footer>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-[#0a0503] z-[100] pt-20 px-6">
+        <div class="flex flex-col gap-8 text-2xl">
+            <a href="#explore" class="mobile-link">Khám phá</a>
+            <a href="#parallels" class="mobile-link">Trùng hợp</a>
+            <a href="#theory" class="mobile-link">Lý thuyết</a>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script
+        tailwind.config = {
+            content: [],
+            theme: {
+                extend: {}
+            }
+        }
+
+        // Mobile Menu
+        const menuBtn = document.getElementById('menu-btn')
+        const mobileMenu = document.getElementById('mobile-menu')
+        let isOpen = false
+
+        menuBtn.addEventListener('click', () => {
+            isOpen = !isOpen
+            mobileMenu.classList.toggle('hidden')
+            menuBtn.innerHTML = isOpen 
+                ? '<i class="fa-solid fa-xmark"></i>' 
+                : '<i class="fa-solid fa-bars"></i>'
+        })
+
+        // Close menu when clicking links
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden')
+                menuBtn.innerHTML = '<i class="fa-solid fa-bars"></i>'
+                isOpen = false
+            })
+        })
+
+        // Lazy loading & Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = 1
+                }
+            })
+        }, { threshold: 0.1 })
+
+        document.querySelectorAll('.card-hover').forEach(card => {
+            card.style.opacity = 0
+            observer.observe(card)
+        })
+    </script>
+</body>
+</html>

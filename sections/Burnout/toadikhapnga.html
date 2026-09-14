@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hướng Dẫn Phỏng Vấn Bảo Vệ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #0f0f0f;
+            color: #f1f1f1;
+            line-height: 1.6;
+        }
+
+        .header {
+            background-color: #212121;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            border-bottom: 1px solid #3f3f3f;
+        }
+
+        .logo {
+            width: 32px;
+            height: 32px;
+            background-color: #ff0000;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        .video-container {
+            background-color: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .thumbnail {
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+        }
+
+        .video-info {
+            padding: 16px 0;
+        }
+
+        .video-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #f1f1f1;
+        }
+
+        .video-meta {
+            display: flex;
+            gap: 8px;
+            font-size: 14px;
+            color: #aaa;
+            margin-bottom: 16px;
+        }
+
+        .channel-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .channel-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: white;
+        }
+
+        .channel-name {
+            font-weight: 500;
+        }
+
+        .subscribe-btn {
+            margin-left: auto;
+            background-color: #cc0000;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 18px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .subscribe-btn:hover {
+            background-color: #ff0000;
+        }
+
+        .content-section {
+            background-color: #212121;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: #f1f1f1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .icon {
+            color: #ff0000;
+        }
+
+        .note-card {
+            background-color: #3f3f3f;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            border-left: 4px solid #ff0000;
+        }
+
+        .note-title {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .note-content {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .steps-list {
+            list-style: none;
+        }
+
+        .step-item {
+            background-color: #3f3f3f;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            gap: 12px;
+        }
+
+        .step-number {
+            width: 32px;
+            height: 32px;
+            background-color: #ff0000;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .step-content h3 {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .step-content p {
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        .warning-box {
+            background-color: #3f1f1f;
+            border: 1px solid #ff0000;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 24px;
+        }
+
+        .warning-box h3 {
+            color: #ff6b6b;
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 12px;
+            }
+
+            .video-title {
+                font-size: 18px;
+            }
+
+            .channel-info {
+                flex-wrap: wrap;
+            }
+
+            .subscribe-btn {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="logo">▶</div>
+        <div class="header-title">Hướng Dẫn Nghề Nghiệp</div>
+    </div>
+
+    <div class="container">
+        <div class="video-container">
+            <div class="thumbnail">🛡️</div>
+        </div>
+
+        <div class="video-info">
+            <h1 class="video-title">Lưu Ý Khi Phỏng Vấn Vị Trí Bảo Vệ - Chỉ Ký Một Tờ Đơn?</h1>
+            <div class="video-meta">
+                <span>1.2K lượt xem</span>
+                <span>•</span>
+                <span>2 giờ trước</span>
+            </div>
+
+            <div class="channel-info">
+                <div class="channel-avatar">HN</div>
+                <div class="channel-name">Hướng Nghiệp Việc Làm</div>
+                <button class="subscribe-btn">ĐĂNG KÝ</button>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">
+                <span class="icon">📋</span>
+                Những Điều Cần Lưu Ý
+            </h2>
+            
+            <div class="note-card">
+                <div class="note-content">
+                    Khi đi phỏng vấn vị trí bảo vệ, thông thường bạn sẽ cần ký nhiều loại giấy tờ khác nhau như đơn xin việc, cam kết bảo mật, hợp đồng thử việc/chính thức, v.v. Nếu chỉ yêu cầu ký một tờ đơn duy nhất, bạn nên thận trọng!
+                </div>
+            </div>
+        </div>
+
+        <div class="content-section">
+            <h2 class="section-title">
+                <span class="icon">✅</span>
+                4 Bước Quan Trọng
+            </h2>
+
+            <ul class="steps-list">
+                <li class="step-item">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Đọc Kỹ Nội Dung</h3>
+                        <p>Đảm bảo hiểu rõ những gì bạn đang ký, bao gồm điều khoản về lương, giờ làm việc, trách nhiệm công việc</p>
+                    </div>
+                </li>
+
+                <li class="step-item">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Kiểm Tra Tính Hợp Pháp</h3>
+                        <p>Xác minh công ty có đăng ký kinh doanh hợp pháp không, địa chỉ rõ ràng không</p>
+                    </div>
+                </li>
+
+                <li class="step-item">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Giữ Bản Sao</h3>
+                        <p>Yêu cầu giữ một bản sao của tờ đơn bạn đã ký để đối chiếu sau này</p>
+                    </div>
+                </li>
+
+                <li class="step-item">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Thận Trọng Với Các Cam Kết Tài Chính</h3>
+                        <p>Không ký vào các giấy tờ yêu cầu đặt cọc tiền hoặc mua đồng phục với giá cao</p>
+                    </div>
+                </li>
+            </ul>
+
+            <div class="warning-box">
+                <h3>⚠️ Cảnh Báo Quan Trọng</h3>
+                <p style="color: #aaa;">Bạn có thể cho tôi biết thêm về tờ đơn đó có nội dung gì không? Hoặc bạn đang lo ngại điều gì cụ thể về việc ký giấy tờ này?</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nhân Tài Xuất Chúng Của Việt Nam</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #c62828;
+      --primary-dark: #8e0000;
+      --text: #1a1a1a;
+      --light-bg: #fdfdfd;
+      --gray: #555;
+      --gold: #d4af37;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(to bottom, #f8f1f1 0%, #fdfdfd 100%);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    header {
+      text-align: center;
+      padding: 80px 20px 60px;
+      background: linear-gradient(135deg, #c62828 0%, #b71c1c 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: "Hiền tài là nguyên khí quốc gia";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-15deg);
+      font-size: 4.5rem;
+      font-family: 'Playfair Display', serif;
+      color: rgba(255,255,255,0.12);
+      font-weight: bold;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.6rem;
+      margin-bottom: 0.4rem;
+      text-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    .subtitle {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    section {
+      padding: 70px 0;
+    }
+
+    h2 {
+      font-family: 'Playfair Display', serif;
+      color: var(--primary);
+      text-align: center;
+      font-size: 2.8rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    h2::after {
+      content: "";
+      width: 120px;
+      height: 4px;
+      background: var(--gold);
+      position: absolute;
+      bottom: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 28px;
+      margin-top: 2.5rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      transition: all 0.35s ease;
+      border-top: 4px solid var(--primary);
+    }
+
+    .card:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 50px rgba(198,40,40,0.18);
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, #c62828, #b71c1c);
+      color: white;
+      padding: 20px 24px;
+      font-weight: 700;
+      font-size: 1.3rem;
+    }
+
+    .card-body {
+      padding: 24px;
+    }
+
+    .card-body ul {
+      list-style: none;
+    }
+
+    .card-body li {
+      margin-bottom: 1.1rem;
+      position: relative;
+      padding-left: 28px;
+    }
+
+    .card-body li::before {
+      content: "★";
+      color: var(--gold);
+      position: absolute;
+      left: 0;
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+
+    .highlight {
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .conclusion {
+      background: #fff5f5;
+      border-left: 6px solid var(--primary);
+      padding: 40px;
+      margin: 60px 0;
+      border-radius: 8px;
+      font-style: italic;
+      font-size: 1.15rem;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.8rem; }
+      h2 { font-size: 2.3rem; }
+      header { padding: 60px 20px 50px; }
+      header::before { font-size: 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <h1>Nhân Tài Xuất Chúng<br>Của Việt Nam</h1>
+      <p class="subtitle">Từ truyền thống "Hiền tài là nguyên khí quốc gia" đến những kỳ tích trên trường quốc tế</p>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- LỊCH SỬ -->
+    <section>
+      <h2>Nhân tài lịch sử – Danh nhân văn hóa thế giới</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="card-header">Nguyễn Trãi (1380–1442)</div>
+          <div class="card-body">
+            Nhà quân sự, chính trị, văn học thiên tài • Tác giả <span class="highlight">Bình Ngô đại cáo</span> • Linh hồn của cuộc kháng chiến chống Minh.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">Nguyễn Du (1765–1820)</div>
+          <div class="card-body">
+            Đại thi hào dân tộc • Tác phẩm <span class="highlight">Truyện Kiều</span> – kiệt tác văn học hàng đầu châu Á.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">Hồ Chí Minh (1890–1969)</div>
+          <div class="card-body">
+            Lãnh tụ vĩ đại • Nhà cách mạng • Nhà văn hóa với tầm nhìn toàn cầu.
+          </div>
+        </div>
+      </div>
+      <p style="text-align:center; margin-top:2rem; font-style:italic; color:#555;">
+        Ngoài ra còn có: Hồ Xuân Hương, Chu Văn An, Hải Thượng Lãn Ông Lê Hữu Trác, Nguyễn Đình Chiểu…
+      </p>
+    </section>
+
+    <!-- HIỆN ĐẠI KHOA HỌC -->
+    <section>
+      <h2>Nhân tài hiện đại – Khoa học, Toán học & Công nghệ</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="card-header">Ngô Bảo Châu</div>
+          <div class="card-body">
+            Người Việt Nam đầu tiên và duy nhất đoạt <span class="highlight">Huy chương Fields</span> (Nobel Toán học) năm 2010.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">Đàm Thanh Sơn</div>
+          <div class="card-body">
+            Nhà vật lý lý thuyết hàng đầu thế giới về lý thuyết dây và vật lý hạt nhân.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">Võ Đình Tuấn</div>
+          <div class="card-body">
+            Nhà khoa học sinh học y khoa • Từng lọt top 100 thiên tài sống thế giới (2007).
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DOANH NHÂN -->
+    <section>
+      <h2>Doanh nhân & Lãnh đạo xuất sắc</h2>
+      <div class="grid">
+        <div class="card">
+          <div class="card-header">Phạm Nhật Vượng</div>
+          <div class="card-body">
+            Nhà sáng lập Vingroup • <span class="highlight">Tỷ phú USD đầu tiên</span> của Việt Nam.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">Nguyễn Thị Phương Thảo</div>
+          <div class="card-body">
+            CEO VietJet Air • Nữ tỷ phú tự thân duy nhất Việt Nam • Top phụ nữ quyền lực thế giới.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KẾT LUẬN -->
+    <section>
+      <div class="conclusion">
+        Việt Nam không bao giờ thiếu nhân tài – từ các danh nhân lịch sử được UNESCO vinh danh, đến các nhà khoa học đoạt giải thế giới, doanh nhân xây dựng đế chế tỷ đô, và thế hệ trẻ đầy triển vọng.<br><br>
+        <strong>Điều quan trọng nhất hiện nay</strong> là cần có chính sách phát hiện, trọng dụng và đãi ngộ xứng đáng để những khối óc ưu tú ấy được tỏa sáng, góp phần đưa đất nước vươn xa hơn nữa trên bản đồ thế giới.
+      </div>
+    </section>
+
+  </div>
+</body>
+</html>
