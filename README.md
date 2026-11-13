@@ -10,8 +10,9 @@ Nơi mọi người tìm thấy thông tin, đặt lịch khám, và cập nhậ
 
 | Trang | Mô tả |
 |-------|--------|
-| **[Dashboard](dashboard.html)** | **Trang trung tâm** – liên kết **tất cả** trang & thư mục trong repo |
-| [Trang chủ](index.html) | Giới thiệu UnityVina Care + form đặt lịch |
+| **[Thư viện một file](index.html)** | Tìm kiếm và mở toàn bộ trang HTML được nhúng |
+| [Trang chủ đặt lịch (mã nguồn)](index.source.html) | Giới thiệu UnityVina Care + form đặt lịch; cũng có trong thư viện |
+| [Dashboard cũ](dashboard.html) | Trang liên kết tới các trang trong cấu trúc repo |
 | [Quản trị](admin.html) | Xem danh sách lịch hẹn (Firebase) |
 | [Nano Y học 2026](pages/health/nanomedicine-2026.html) | Kiến thức công nghệ nano trong y tế |
 
@@ -19,7 +20,9 @@ Nơi mọi người tìm thấy thông tin, đặt lịch khám, và cập nhậ
 
 ```
 heal/
-├── index.html              # Trang chủ chính
+├── index.html              # Thư viện độc lập, nhúng toàn bộ trang HTML
+├── index.source.html       # Mã nguồn trang chủ đặt lịch
+├── build-single-index.mjs  # Dựng lại index.html sau khi sửa nội dung
 ├── admin.html              # Quản trị lịch hẹn
 ├── dashboard.html          # ⭐ Dashboard trung tâm (mới)
 ├── 404.html
@@ -69,6 +72,18 @@ heal/
 - 🔬 **Nano Y học 2026** – Kiến thức tiên tiến
 - 😄 **Trang vui** – Thư giãn
 - 🧭 **Dashboard** – Liên kết toàn bộ repo
+
+## 📦 Gộp toàn bộ trang vào một file
+
+`index.html` là thư viện độc lập, nhúng nội dung của các trang HTML trong repo và có tìm kiếm, lọc danh mục, điều hướng nội bộ. Có thể mở trực tiếp file này hoặc triển khai riêng nó; các dịch vụ và tài nguyên bên ngoài (ví dụ Firebase, ảnh, font) vẫn cần Internet.
+
+Khi cập nhật hoặc thêm trang HTML, chạy lệnh sau bằng Node.js để tạo lại `index.html`:
+
+```sh
+node build-single-index.mjs
+```
+
+Trang chủ đặt lịch ban đầu được lưu tại `index.source.html` và cũng được nhúng vào thư viện. Các file HTML nguồn khác vẫn giữ nguyên để tiện chỉnh sửa.
 
 ## 🛠️ Công nghệ
 
